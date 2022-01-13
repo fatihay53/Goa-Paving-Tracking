@@ -16,7 +16,7 @@ import {
   FormControlLabel
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import LoginService from '../../services/LoginService';
+import LoginService from "../../../services/LoginService";
 
 // ----------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ export default function LoginForm() {
   useEffect(() => {
     const requestUrl = window.location.pathname;
     const loggedIn = localStorage.getItem('loggedin');
-    if (requestUrl === '/login') {
+    if (requestUrl === '/index.html') {
       if (loggedIn === 'true') {
         navigate('/dashboard', { replace: true });
       }

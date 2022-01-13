@@ -13,7 +13,8 @@ import NotFound from './pages/Page404';
 import Reports from './pages/Reports';
 import Forms from './pages/Forms';
 import Form1 from './pages/Form1';
-import NewClientForm from './pages/forms/NewClientForm';
+import NewClientForm from './pages/forms/new-client-form/NewClientForm';
+import NewClientFormList from "./pages/forms/new-client-form/NewClientFormList";
 
 // ----------------------------------------------------------------------
 
@@ -26,11 +27,23 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'forms', element: <Forms /> },
         { path: 'reports', element: <Reports /> },
-        { path: 'form1', element: <Form1 /> },
-        { path: 'newClientForm', element: <NewClientForm /> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> }
+      ]
+    },
+    {
+      path: '/dashboard/forms',
+      element: <DashboardLayout />,
+      children: [
+        { path: 'newClientForm', element: <NewClientForm /> }
+      ]
+    },
+    {
+      path: '/dashboard/savedForms',
+      element: <DashboardLayout />,
+      children: [
+        { path: 'newClientForm', element: <NewClientFormList /> }
       ]
     },
     {

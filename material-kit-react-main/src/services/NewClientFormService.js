@@ -5,4 +5,9 @@ export default class NewClientFormService {
   save(data) {
     return axios.post('http://wwww.localhost:8080/newClientForm/save', data);
   }
+
+  findAll(data) {
+    return axios.get('http://wwww.localhost:8080/newClientForm/findAll', data);
+  }
+
 }

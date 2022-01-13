@@ -30,12 +30,19 @@ export default class SideBarConfigService {
           children: [
             {
               title: 'New Client Form',
-              path: '/dashboard/newClientForm',
+              path: '/dashboard/forms/newClientForm',
               icon: getIcon(reportIcon)
-            },
+            }
+          ]
+        },
+        {
+          title: 'Saved Froms',
+          path: '/dashboard/savedForms',
+          icon: getIcon(formIcon),
+          children: [
             {
-              title: 'form2',
-              path: '/dashboard/form2',
+              title: 'New Client Form',
+              path: '/dashboard/savedForms/newClientForm',
               icon: getIcon(reportIcon)
             }
           ]
@@ -73,8 +80,8 @@ export default class SideBarConfigService {
           icon: getIcon(fileTextFill)
         },
         {
-          title: 'login',
-          path: '/login',
+          title: 'index.html',
+          path: '/index.html',
           icon: getIcon(lockFill)
         },
         {

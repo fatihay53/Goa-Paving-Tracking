@@ -34,7 +34,7 @@ const sidebarConfig = [
   },
   {
     title: 'login',
-    path: '/login',
+    path: '/index.html',
     icon: getIcon(lockFill)
   },
   {

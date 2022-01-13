@@ -39,7 +39,7 @@ export default function DashboardLayout() {
     const requestUrl = window.location.pathname;
     const loggedIn = localStorage.getItem('loggedin');
     if (!loggedIn) {
-      navigate('/login', { replace: true });
+      navigate('/index.html', { replace: true });
     }
   }, []);
   return (

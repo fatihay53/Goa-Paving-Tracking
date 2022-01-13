@@ -39,4 +39,15 @@ newClientFormRouter.post('/save', function (request, response) {
     });
 });
 
+newClientFormRouter.get('/findAll', function (request, response) {
+    var sql = `select * from new_client_form`;
+
+    connection.query(sql, function (error, result, fields) {
+        if (error) throw error;
+        response.json(result)
+        response.end();
+    });
+});
+
+
 module.exports = newClientFormRouter;
