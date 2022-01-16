@@ -32,6 +32,11 @@ export default class SideBarConfigService {
               title: 'New Client Form',
               path: '/dashboard/forms/newClientForm',
               icon: getIcon(reportIcon)
+            },
+            {
+              title: 'Tail Gate Talk Form',
+              path: '/dashboard/forms/tailGateTalkForm',
+              icon: getIcon(reportIcon)
             }
           ]
         },
@@ -41,8 +46,13 @@ export default class SideBarConfigService {
           icon: getIcon(formIcon),
           children: [
             {
-              title: 'New Client Form',
+              title: 'New Client Saved Form',
               path: '/dashboard/savedForms/newClientForm',
+              icon: getIcon(reportIcon)
+            },
+            {
+              title: 'Tail Gate Talk Saved Form',
+              path: '/dashboard/savedForms/tailGateTalkForm',
               icon: getIcon(reportIcon)
             }
           ]

@@ -24,6 +24,7 @@ authRouter.post('/login', function(request, response) {
                             username:user.username,
                             name:user.name,
                             surname:user.surname,
+                            userId:user.id
                         },
                         role:user.role
                     },

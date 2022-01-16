@@ -1,7 +1,6 @@
-import { Navigate, useRoutes, useNavigate } from 'react-router-dom';
+import {Navigate, useRoutes} from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
-import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -12,9 +11,12 @@ import User from './pages/User';
 import NotFound from './pages/Page404';
 import Reports from './pages/Reports';
 import Forms from './pages/Forms';
-import Form1 from './pages/Form1';
 import NewClientForm from './pages/forms/new-client-form/NewClientForm';
 import NewClientFormList from "./pages/forms/new-client-form/NewClientFormList";
+import TailGateTalkForm from "./pages/forms/tail-gate-talk/TailGateTalkForm";
+import SignatureConfirmPage from "./pages/forms/tail-gate-talk/SignatureConfirmPage";
+import TailGateTalkFormList from "./pages/forms/tail-gate-talk/TailGateFormList";
+import React from "react";
 
 // ----------------------------------------------------------------------
 
@@ -33,17 +35,26 @@ export default function Router() {
       ]
     },
     {
+      path: '/signatureConfirmPage',
+      element: <DashboardLayout />,
+      children: [
+        { path: '', element: <SignatureConfirmPage /> }
+      ]
+    },
+    {
       path: '/dashboard/forms',
       element: <DashboardLayout />,
       children: [
-        { path: 'newClientForm', element: <NewClientForm /> }
+        { path: 'newClientForm', element: <NewClientForm /> },
+        { path: 'tailGateTalkForm', element: <TailGateTalkForm /> }
       ]
     },
     {
       path: '/dashboard/savedForms',
       element: <DashboardLayout />,
       children: [
-        { path: 'newClientForm', element: <NewClientFormList /> }
+        { path: 'newClientForm', element: <NewClientFormList /> },
+        { path: 'tailGateTalkForm', element: <TailGateTalkFormList />}
       ]
     },
     {

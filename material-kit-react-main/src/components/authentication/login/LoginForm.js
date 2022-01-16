@@ -61,7 +61,12 @@ export default function LoginForm() {
             localStorage.setItem('loggedin', response.data.session.loggedin);
             localStorage.setItem('role', response.data.session.role);
             localStorage.setItem('user', JSON.stringify(response.data.session.user));
-            navigate(response.data.redirectUrl, { replace: true });
+            let signaturePath = localStorage.getItem('signatureConfirmPageRequest');
+            if (signaturePath != null && signaturePath != undefined){
+              navigate(signaturePath, { replace: true });
+            }else{
+              navigate(response.data.redirectUrl, { replace: true });
+            }
           }
         },
         (error) => {

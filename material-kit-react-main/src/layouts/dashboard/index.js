@@ -37,6 +37,13 @@ export default function DashboardLayout() {
   const navigate = useNavigate();
   useEffect(() => {
     const requestUrl = window.location.pathname;
+    const search = window.location.search;
+
+    if (requestUrl.includes('/signatureConfirmPage')){
+      localStorage.setItem('signatureConfirmPageRequest',requestUrl+search);
+    }else{
+      localStorage.setItem('signatureConfirmPageRequest','');
+    }
     const loggedIn = localStorage.getItem('loggedin');
     if (!loggedIn) {
       navigate('/index.html', { replace: true });
