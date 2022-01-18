@@ -58,6 +58,11 @@ export default class SideBarConfigService {
           ]
         },
         {
+          title: 'Talks',
+          path: '/dashboard/talks',
+          icon: getIcon(formIcon)
+        },
+        {
           title: 'reports',
           path: '/dashboard/reports',
           icon: getIcon(reportIcon),

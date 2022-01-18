@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
 });
 
 tailGateTalkFormRouter.post('/save', function (request, response) {
-    var sql = `INSERT INTO tail_gate_talk_form (date,location,firstNameForeman,lastNameForeman,signatureForeman,job,safetyTraining,employeeSuggestions,signature,title) VALUES (?,?,?,?,?,?,?,?,?,?)`;
+    var sql = `INSERT INTO tail_gate_talk_form (date,location,firstNameForeman,lastNameForeman,signatureForeman,job,safetyTraining,employeeSuggestions,signature,title,subject) VALUES (?,?,?,?,?,?,?,?,?,?,?)`;
     let date = request.body.date;
     let location = request.body.location;
     let firstNameForeman = request.body.firstNameForeman;
@@ -23,9 +23,9 @@ tailGateTalkFormRouter.post('/save', function (request, response) {
     let employeeSuggestions = request.body.employeeSuggestions;
     let signature = request.body.signature;
     let title = request.body.title;
+    let subject = request.body.subject;
 
-    console.log(signatureForeman)
-    connection.query(sql, [date, location, firstNameForeman, lastNameForeman, signatureForeman, job, safetyTraining, employeeSuggestions, signature, title], function (error, rows) {
+    connection.query(sql, [date, location, firstNameForeman, lastNameForeman, signatureForeman, job, safetyTraining, employeeSuggestions, signature, title,subject], function (error, rows) {
         if (error) throw error;
 
         console.log("Row inserted to tail_gate_talk_form. Id = "

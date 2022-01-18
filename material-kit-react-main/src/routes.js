@@ -17,6 +17,7 @@ import TailGateTalkForm from "./pages/forms/tail-gate-talk/TailGateTalkForm";
 import SignatureConfirmPage from "./pages/forms/tail-gate-talk/SignatureConfirmPage";
 import TailGateTalkFormList from "./pages/forms/tail-gate-talk/TailGateFormList";
 import React from "react";
+import Talks from "./pages/forms/talks/Talks";
 
 // ----------------------------------------------------------------------
 
@@ -29,6 +30,7 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'forms', element: <Forms /> },
         { path: 'reports', element: <Reports /> },
+        { path: 'talks', element: <Talks /> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> }

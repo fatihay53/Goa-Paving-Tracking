@@ -37,8 +37,9 @@ attendeesRouter.post('/updateSignature', function (request, response) {
     let formId = request.body.formId;
     let userId = request.body.userId;
     let signature = request.body.signature;
+    let isApproval = request.body.isApproval;
 
-    var sql = `update attendees set signature='${signature}' where form_id=`+formId+` and user_id=`+userId;
+    var sql = `update attendees set signature='${signature}', is_approval=${isApproval} where form_id=`+formId+` and user_id=`+userId;
 
     connection.query(sql, function (error, result, fields) {
         if (error) throw error;

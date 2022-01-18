@@ -9,13 +9,14 @@ import AttendeesService from "../../../services/AttendeesService";
 import MailService from "../../../services/MailService";
 import LoadingScreen from "react-loading-screen";
 import {Button} from "primereact/button";
+import SelectSubject from "../../../components/mcomponents/SelectSubject";
 
 export default function TailGateTalkForm({selectedData, isShow}) {
 
     const [showDialog, setShowDialog] = useState(false);
     const [attendees, setAttendees] = useState([]);
-    const [showedHtml, setShowedHtml] = useState(<SelectEmployee
-        setSelections={(selections) => setAttendees(selections)}/>);
+    const [showedHtml, setShowedHtml] = useState({});
+    const [subject, setSubject] = useState({});
     const tailGateTalkFormService = new TailGateTalkFormService();
     const attendeesService = new AttendeesService();
     const mailService = new MailService();
@@ -74,7 +75,8 @@ export default function TailGateTalkForm({selectedData, isShow}) {
             (form.firstNameForeman === null || form.firstNameForeman === '') ||
             (form.lastNameForeman === null || form.lastNameForeman === '') ||
             (form.job === null || form.job === '') ||
-            (form.title === null || form.title === '')
+            (form.title === null || form.title === '') ||
+            (subject.header === null || subject.header === '' || subject.header === undefined)
         ) {
             return toast.warning("Please check required fields!")
         }
@@ -84,7 +86,7 @@ export default function TailGateTalkForm({selectedData, isShow}) {
             return toast.warning("Please add crew!")
         }
         setSubmitted(true);
-        await tailGateTalkFormService.save({...form, signatureForeman: signatureForeman}).then(async res => {
+        await tailGateTalkFormService.save({...form, signatureForeman: signatureForeman,subject:subject.header}).then(async res => {
             let insertId = res.data.insertId;
             if (res.status == 200) {
                 await attendeesService.save({attendees: attendees, formId: res.data.insertId}).then(res => {
@@ -92,6 +94,8 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                     setTimeout(function () {
                         toast.success("Saved succesfully!");
                         setSubmitted(false);
+                        setAttendees([]);
+                        setSubject({});
                         setForm({
                             date: '',
                             location: '',
@@ -196,6 +200,13 @@ export default function TailGateTalkForm({selectedData, isShow}) {
 
     const addCrews = () => {
         setShowDialog(true);
+        setShowedHtml(<SelectEmployee
+        setSelections={(selections) => setAttendees(selections)}/>);
+    }
+
+    const selectSubject=()=>{
+        setShowDialog(true);
+        setShowedHtml(<SelectSubject setShowDialog={(showDialog)=>setShowDialog(showDialog)} setSelections={(selections) => setSubject(selections)}/>);
     }
 
     let formReturn = <form class="jotform-form" name="form_220115730197045" id="220115730197045" accept-charset="utf-8"
@@ -464,6 +475,26 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                                onChange={onChangeJob}
                                data-component="textbox" aria-labelledby="label_8" required=""/>
                     </div>
+                </li>
+                <li className="form-line fixed-width jf-required" data-type="control_textbox" id="id_8">
+                    <label className="form-label form-label-top form-label-auto" id="label_8" htmlFor="input_8">
+                        Talk Subject
+                        <span className="form-required">
+            *
+          </span>
+                    </label>
+                    <div id="cid_8" style={{display:'flex'}} className="form-input-wide jf-required" data-layout="half">
+                        <input type="text" id="input_8" name="q8_typeA8" data-type="input-textbox"
+                               className="form-textbox  " data-defaultvalue=""
+                               style={{width: '520px'}}
+                               disabled={true}
+                               size="520"
+                               value={subject.header ? subject.header :''}
+                               onChange={onChangeJob}
+                               data-component="textbox" aria-labelledby="label_8" required=""/>
+                        <Button  onClick={selectSubject} icon="pi pi-search" className="p-button-sm p-button-rounded p-button-text"/>
+
+        </div>
                 </li>
                 <li className="form-line jf-required" data-type="control_matrix" id="id_9">
 
