@@ -10,6 +10,7 @@ import MailService from "../../../services/MailService";
 import LoadingScreen from "react-loading-screen";
 import {Button} from "primereact/button";
 import SelectSubject from "../../../components/mcomponents/SelectSubject";
+import {JotFormConfig} from "../../JotFormConfig";
 
 export default function TailGateTalkForm({selectedData, isShow}) {
 
@@ -22,6 +23,7 @@ export default function TailGateTalkForm({selectedData, isShow}) {
     const mailService = new MailService();
 
     const [submitted, setSubmitted] = useState(false);
+    const [reload, setReload] = useState(false);
 
     let initialState = isShow ? selectedData : {
         date: '',
@@ -42,8 +44,9 @@ export default function TailGateTalkForm({selectedData, isShow}) {
     const [form, setForm] = useState(initialState);
 
     useEffect(() => {
+        JotFormConfig();
         getAttendees();
-    }, [])
+    }, []);
 
     const getAttendees =()=>{
         if (isShow) {

@@ -1,9 +1,10 @@
 import './new-client-form.css';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import LoadingScreen from 'react-loading-screen'
 import logo from '../../../goa_logo.png';
 import {toast} from "react-toastify";
 import NewClientFormService from "../../../services/NewClientFormService";
+import {JotFormConfig} from "../../JotFormConfig";
 
 export default function NewClientForm({selectedData,isShow}) {
     let initialState = isShow ? selectedData : {
@@ -27,6 +28,9 @@ export default function NewClientForm({selectedData,isShow}) {
 
     const newClientFormService = new NewClientFormService();
 
+    useEffect(()=>{
+        JotFormConfig();
+    },[])
 
     function saveForm() {
 
@@ -37,7 +41,7 @@ export default function NewClientForm({selectedData,isShow}) {
             (clientForm.email === null || clientForm.email ===  ''  ) ||
             (date === null || date === '')
         ){
-            return true;
+            return toast.warning("Please check required fields!")
         }
 
         setSubmitted(true);
@@ -121,6 +125,7 @@ export default function NewClientForm({selectedData,isShow}) {
         className="jotform-form"
         // action="https://submit.jotform.com/submit/220104272956249/"
         // method="post"
+        onSubmit={(event) => event.preventDefault()}
         name="form_220104272956249"
         id="220104272956249"
         acceptCharset="utf-8"
@@ -159,7 +164,7 @@ export default function NewClientForm({selectedData,isShow}) {
                             id="input_16"
                             name="q16_clientName"
                             data-type="input-textbox"
-                            className="form-textbox validate[required]"
+                            className="form-textbox"
                             data-defaultvalue=""
                             style={{width: '310px'}}
                             size="310"
@@ -190,7 +195,7 @@ export default function NewClientForm({selectedData,isShow}) {
                   <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
                     <input
                         type="tel"
-                        className="form-textbox validate[required, limitDate]"
+                        className="form-textbox"
                         id="month_18"
                         name="q18_date[month]"
                         size="2"
@@ -218,7 +223,7 @@ export default function NewClientForm({selectedData,isShow}) {
                                 <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
                     <input
                         type="tel"
-                        className="form-textbox validate[required, limitDate]"
+                        className="form-textbox validate[limitDate]"
                         id="day_18"
                         name="q18_date[day]"
                         size="2"
@@ -274,7 +279,7 @@ export default function NewClientForm({selectedData,isShow}) {
                             <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
                   <input
                       type="text"
-                      className="form-textbox validate[required, limitDate, validateLiteDate]"
+                      className="form-textbox"
                       id="lite_mode_18"
                       size="12"
                       data-maxlength="12"
@@ -401,7 +406,7 @@ export default function NewClientForm({selectedData,isShow}) {
                           type="text"
                           id="input_4_addr_line1"
                           name="q4_address4[addr_line1]"
-                          className="form-textbox validate[required] form-address-line"
+                          className="form-textbox form-address-line"
                           data-defaultvalue=""
                           autoComplete="section-input_4 address-line1"
                           value={clientForm.streetAddress}
@@ -458,7 +463,7 @@ export default function NewClientForm({selectedData,isShow}) {
                           type="text"
                           id="input_4_city"
                           name="q4_address4[city]"
-                          className="form-textbox validate[required] form-address-city"
+                          className="form-textbox  form-address-city"
                           data-defaultvalue=""
                           autoComplete="section-input_4 address-level2"
                           value={clientForm.city}
@@ -485,7 +490,7 @@ export default function NewClientForm({selectedData,isShow}) {
                           type="text"
                           id="input_4_state"
                           name="q4_address4[state]"
-                          className="form-textbox validate[required] form-address-state"
+                          className="form-textbox form-address-state"
                           data-defaultvalue=""
                           autoComplete="section-input_4 address-level1"
                           value={clientForm.province}
@@ -514,7 +519,7 @@ export default function NewClientForm({selectedData,isShow}) {
                           type="text"
                           id="input_4_postal"
                           name="q4_address4[postal]"
-                          className="form-textbox validate[required] form-address-postal"
+                          className="form-textbox  form-address-postal"
                           data-defaultvalue=""
                           autoComplete="section-input_4 postal-code"
                           value={clientForm.postalCode}
@@ -555,7 +560,7 @@ export default function NewClientForm({selectedData,isShow}) {
                     id="input_5_full"
                     name="q5_phoneNumber5[full]"
                     data-type="mask-number"
-                    className="mask-phone-number form-textbox validate[required, Fill Mask]"
+                    className="mask-phone-number form-textbox"
                     data-defaultvalue=""
                     autoComplete="section-input_5 tel-national"
                     style={{width: '310px'}}
@@ -594,7 +599,7 @@ export default function NewClientForm({selectedData,isShow}) {
                     type="email"
                     id="input_6"
                     name="q6_email6"
-                    className="form-textbox validate[required, Email]"
+                    className="form-textbox validate[Email]"
                     data-defaultvalue=""
                     style={{width: '310px'}}
                     size="310"
@@ -627,7 +632,7 @@ export default function NewClientForm({selectedData,isShow}) {
                             <button
                                 id="input_2"
                                 type="submit"
-                                className="form-submit-button submit-button jf-form-buttons jsTest-submitField"
+                                className="submit-button jf-form-buttons jsTest-submitField"
                                 data-component="button"
                                 data-content=""
                                 onClick={saveForm}
