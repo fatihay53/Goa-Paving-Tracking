@@ -8,7 +8,8 @@ export default function SelectEmployee({setSelections}) {
     const [dtLoading, setDtLoading] = useState(true);
 
     const columns = [
-        {field: "name_surname", header: "Name Surname"},
+        {field: "name", header: "Name"},
+        {field: "surname", header: "Surname"},
         {field: "email", header: "Email"}
     ]
 

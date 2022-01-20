@@ -532,7 +532,7 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                                                    className="form-textbox" size="5"
                                                    name="q9_crewAttending[0][]"
                                                    style={{width: '100%', boxSizing: 'border-box'}}
-                                                   value={elem.name_surname}
+                                                   value={elem.name+' '+elem.surname}
                                                    aria-labelledby="label_9_col_0 label_9_row_0"/>
                                         </td>
                                         <td className="form-matrix-values">
