@@ -10,7 +10,8 @@ export default function SelectEmployee({setSelections}) {
     const columns = [
         {field: "name", header: "Name"},
         {field: "surname", header: "Surname"},
-        {field: "email", header: "Email"}
+        {field: "email", header: "Email"},
+        {field: "employee_type", header: "Employee Type"},
     ]
 
     useEffect(() => {

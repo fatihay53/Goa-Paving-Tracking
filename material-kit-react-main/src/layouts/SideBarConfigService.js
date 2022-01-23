@@ -24,6 +24,18 @@ export default class SideBarConfigService {
           icon: getIcon(pieChart2Fill)
         },
         {
+          title: 'User Management',
+          path: '/dashboard/userManagement',
+          icon: getIcon(formIcon),
+          children: [
+            {
+              title: 'Create User',
+              path: '/dashboard/userManagement/createUser',
+              icon: getIcon(reportIcon)
+            }
+          ]
+        },
+        {
           title: 'forms',
           path: '/dashboard/forms',
           icon: getIcon(formIcon),
@@ -36,6 +48,18 @@ export default class SideBarConfigService {
             {
               title: 'Tail Gate Talk Form',
               path: '/dashboard/forms/tailGateTalkForm',
+              icon: getIcon(reportIcon)
+            }
+          ]
+        },
+        {
+          title: 'Charts',
+          path: '/dashboard/charts',
+          icon: getIcon(formIcon),
+          children: [
+            {
+              title: 'Bar Chart Ex',
+              path: '/dashboard/charts/barchart',
               icon: getIcon(reportIcon)
             }
           ]

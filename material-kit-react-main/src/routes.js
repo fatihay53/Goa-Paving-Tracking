@@ -18,6 +18,8 @@ import SignatureConfirmPage from "./pages/forms/tail-gate-talk/SignatureConfirmP
 import TailGateTalkFormList from "./pages/forms/tail-gate-talk/TailGateFormList";
 import React from "react";
 import Talks from "./pages/forms/talks/Talks";
+import BarChartEx from "./pages/charts/BarChartEx";
+import CreateUser from "./pages/user-management/CreateUser";
 
 // ----------------------------------------------------------------------
 
@@ -49,6 +51,20 @@ export default function Router() {
       children: [
         { path: 'newClientForm', element: <NewClientForm /> },
         { path: 'tailGateTalkForm', element: <TailGateTalkForm /> }
+      ]
+    },
+    {
+      path: '/dashboard/usermanagement',
+      element: <DashboardLayout />,
+      children: [
+        { path: 'createUser', element: <CreateUser /> }
+      ]
+    },
+    {
+      path: '/dashboard/charts',
+      element: <DashboardLayout />,
+      children: [
+        { path: 'barchart', element: <BarChartEx /> }
       ]
     },
     {

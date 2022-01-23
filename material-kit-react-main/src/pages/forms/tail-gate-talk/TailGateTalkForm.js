@@ -32,13 +32,11 @@ export default function TailGateTalkForm({selectedData, isShow}) {
         lastNameForeman: '',
         signatureForeman: '',
         job: '',
-        firstNameGuest: '',
-        lastNameGuest: '',
-        signatureGuest: '',
         safetyTraining: '',
         employeeSuggestions: '',
         signature: '',
         title: '',
+        subject : ''
     };
 
     const [form, setForm] = useState(initialState);
@@ -51,8 +49,8 @@ export default function TailGateTalkForm({selectedData, isShow}) {
     const getAttendees =()=>{
         if (isShow) {
             let formId = selectedData.id;
-            let userId = JSON.parse(localStorage.getItem('user')).userId;
-            attendeesService.findAttendees({formId: formId, userId: userId}).then(res => {
+            //let userId = JSON.parse(localStorage.getItem('user')).userId;
+            attendeesService.findAttendees({formId: formId}).then(res => {
                 if (res.status == 200) {
                     setAttendees(res.data);
                 }
@@ -93,30 +91,29 @@ export default function TailGateTalkForm({selectedData, isShow}) {
             let insertId = res.data.insertId;
             if (res.status == 200) {
                 await attendeesService.save({attendees: attendees, formId: res.data.insertId}).then(res => {
-                    var millisecondsToWait = 1000;
-                    setTimeout(function () {
-                        toast.success("Saved succesfully!");
-                        setSubmitted(false);
-                        setAttendees([]);
-                        setSubject({});
-                        setForm({
-                            date: '',
-                            location: '',
-                            firstNameForeman: '',
-                            lastNameForeman: '',
-                            signatureForeman: '',
-                            job: '',
-                            firstNameGuest: '',
-                            lastNameGuest: '',
-                            signatureGuest: '',
-                            safetyTraining: '',
-                            employeeSuggestions: '',
-                            signature: '',
-                            title: '',
-                        });
-                    }, millisecondsToWait);
+                    if (res.status == 200) {
+                        var millisecondsToWait = 1000;
+                        setTimeout(function () {
+                            toast.success("Saved succesfully!");
+                            setSubmitted(false);
+                            setAttendees([]);
+                            setSubject({});
+                            setForm({
+                                date: '',
+                                location: '',
+                                firstNameForeman: '',
+                                lastNameForeman: '',
+                                signatureForeman: '',
+                                job: '',
+                                safetyTraining: '',
+                                employeeSuggestions: '',
+                                signature: '',
+                                title: '',
+                            });
+                        }, millisecondsToWait);
 
-                    mailService.sendMail({attendees: attendees, formId: insertId})
+                        mailService.sendMail({attendees: attendees, formId: insertId});
+                    }
                 })
             }
         })
@@ -125,80 +122,56 @@ export default function TailGateTalkForm({selectedData, isShow}) {
     function onChangeLocation(e) {
         const date = document.getElementById('lite_mode_18').value;
         const signatureForeman = document.getElementById('input_7').value;
-        const signatureGuest = document.getElementById('input_24').value;
         const signature = document.getElementById('input_14').value;
-        setForm({...form, location: e.target.value, date, signatureForeman, signatureGuest, signature});
+        setForm({...form, location: e.target.value, date, signatureForeman, signature});
     }
 
     function onChangeSignatureForeman(e) {
         const date = document.getElementById('lite_mode_18').value;
-        const signatureGuest = document.getElementById('input_24').value;
         const signature = document.getElementById('input_14').value;
-        setForm({...form, signatureForeman: e.target.value, date, signatureGuest, signature});
+        setForm({...form, signatureForeman: e.target.value, date, signature});
     }
 
     function onChangeFirstNameForeman(e) {
         const date = document.getElementById('lite_mode_18').value;
         const signatureForeman = document.getElementById('input_7').value;
-        const signatureGuest = document.getElementById('input_24').value;
         const signature = document.getElementById('input_14').value;
-        setForm({...form, firstNameForeman: e.target.value, date, signatureForeman, signatureGuest, signature});
+        setForm({...form, firstNameForeman: e.target.value, date, signatureForeman, signature});
     }
 
     function onChangeLastNameForeman(e) {
         const date = document.getElementById('lite_mode_18').value;
         const signatureForeman = document.getElementById('input_7').value;
-        const signatureGuest = document.getElementById('input_24').value;
         const signature = document.getElementById('input_14').value;
-        setForm({...form, lastNameForeman: e.target.value, date, signatureForeman, signatureGuest, signature});
+        setForm({...form, lastNameForeman: e.target.value, date, signatureForeman, signature});
     }
 
     function onChangeJob(e) {
         const date = document.getElementById('lite_mode_18').value;
         const signatureForeman = document.getElementById('input_7').value;
-        const signatureGuest = document.getElementById('input_24').value;
         const signature = document.getElementById('input_14').value;
-        setForm({...form, job: e.target.value, date, signatureForeman, signatureGuest, signature});
-    }
-
-    function onChangeFirstNameGuest(e) {
-        const date = document.getElementById('lite_mode_18').value;
-        const signatureForeman = document.getElementById('input_7').value;
-        const signatureGuest = document.getElementById('input_24').value;
-        const signature = document.getElementById('input_14').value;
-        setForm({...form, firstNameGuest: e.target.value, date, signatureForeman, signatureGuest, signature});
-    }
-
-    function onChangeLastNameGuest(e) {
-        const date = document.getElementById('lite_mode_18').value;
-        const signatureForeman = document.getElementById('input_7').value;
-        const signatureGuest = document.getElementById('input_24').value;
-        const signature = document.getElementById('input_14').value;
-        setForm({...form, lastNameGuest: e.target.value, date, signatureForeman, signatureGuest, signature});
+        setForm({...form, job: e.target.value, date, signatureForeman, signature});
     }
 
     function onChangeSafetyTraining(e) {
         const date = document.getElementById('lite_mode_18').value;
         const signatureForeman = document.getElementById('input_7').value;
-        const signatureGuest = document.getElementById('input_24').value;
         const signature = document.getElementById('input_14').value;
-        setForm({...form, safetyTraining: e.target.value, date, signatureForeman, signatureGuest, signature});
+        setForm({...form, safetyTraining: e.target.value, date, signatureForeman, signature});
     }
 
     function onChangeEmployeeSuggestions(e) {
         const date = document.getElementById('lite_mode_18').value;
         const signatureForeman = document.getElementById('input_7').value;
-        const signatureGuest = document.getElementById('input_24').value;
         const signature = document.getElementById('input_14').value;
-        setForm({...form, employeeSuggestions: e.target.value, date, signatureForeman, signatureGuest, signature});
+        setForm({...form, employeeSuggestions: e.target.value, date, signatureForeman, signature});
     }
 
     function onChangeTitle(e) {
         const date = document.getElementById('lite_mode_18').value;
         const signatureForeman = document.getElementById('input_7').value;
-        const signatureGuest = document.getElementById('input_24').value;
         const signature = document.getElementById('input_14').value;
-        setForm({...form, title: e.target.value, date, signatureForeman, signatureGuest, signature});
+        setForm({...form, title: e.target.value, date, signatureForeman, signature});
     }
 
     const addCrews = () => {
@@ -492,17 +465,17 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                                style={{width: '520px'}}
                                disabled={true}
                                size="520"
-                               value={subject.header ? subject.header :''}
+                               value={subject.header ? subject.header : selectedData?.subject ? selectedData?.subject : ''}
                                onChange={onChangeJob}
                                data-component="textbox" aria-labelledby="label_8" required=""/>
-                        <Button  onClick={selectSubject} icon="pi pi-search" className="p-button-sm p-button-rounded p-button-text"/>
+                        {!isShow&&<Button  onClick={selectSubject} icon="pi pi-search" className="p-button-sm p-button-rounded p-button-text"/>}
 
         </div>
                 </li>
                 <li className="form-line jf-required" data-type="control_matrix" id="id_9">
 
                     <label className="form-label form-label-top form-label-auto" id="label_9" htmlFor="input_9">
-                       Crew Attending
+                        Attending
                         <span className="form-required">
                         *
                       </span>
@@ -515,6 +488,10 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                                 <th scope="col"
                                     className="form-matrix-headers form-matrix-column-headers form-matrix-column_0">
                                     <label id="label_9_col_0"> Full Name </label>
+                                </th>
+                                <th scope="col"
+                                    className="form-matrix-headers form-matrix-column-headers form-matrix-column_0">
+                                    <label id="label_9_col_0"> Employee Type </label>
                                 </th>
                                 <th scope="col"
                                     className="form-matrix-headers form-matrix-column-headers form-matrix-column_1">
@@ -536,6 +513,14 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                                                    aria-labelledby="label_9_col_0 label_9_row_0"/>
                                         </td>
                                         <td className="form-matrix-values">
+                                            <input type="text"
+                                                   disabled={true}
+                                                   className="form-textbox" size="5"
+                                                   style={{width: '100%', boxSizing: 'border-box'}}
+                                                   value={elem?.employee_type}
+                                                   aria-labelledby="label_9_col_0 label_9_row_0"/>
+                                        </td>
+                                        <td className="form-matrix-values">
                                             <img height={50} src={arrayBufferToBase64(elem.signature?.data)}/>
                                         </td>
                                     </tr>
@@ -553,88 +538,10 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                                     onClick={addCrews}
                                     className="form-submit-button-simple_orange submit-button jf-form-buttons jsTest-submitField"
                                     data-component="button" data-content="">
-                                Add Crews
+                                Add Attendee
                             </button>
                         </div>
                     </div>}
-                </li>
-                <li id="cid_19" className="form-input-wide" data-type="control_head">
-                    <div className="form-header-group  header-default">
-                        <div className="header-text httal htvam">
-                            <h2 id="header_19" className="form-header" data-component="header">
-                                Guest Attending
-                            </h2>
-                        </div>
-                    </div>
-                </li>
-                <li className="form-line" data-type="control_fullname" id="id_22">
-                    <label className="form-label form-label-top form-label-auto" id="label_22"
-                           htmlFor="first_22"> Name </label>
-                    <div id="cid_22" className="form-input-wide" data-layout="full">
-                        <div data-wrapper-react="true">
-            <span className="form-sub-label-container" style={{verticalAlign: 'top'}} data-input-type="first">
-              <input type="text" id="first_22" name="q22_name22[first]" className="form-textbox" data-defaultvalue=""
-                     autoComplete="section-input_22 given-name" size="10"
-                     value={form.firstNameGuest}
-                     onChange={onChangeFirstNameGuest}
-                     data-component="first"
-                     aria-labelledby="label_22 sublabel_22_first"/>
-              <label className="form-sub-label" htmlFor="first_22" id="sublabel_22_first" style={{minHeight: '13px'}}
-                     aria-hidden="false"> First Name </label>
-            </span>
-                            <span className="form-sub-label-container" style={{verticalAlign: 'top'}}
-                                  data-input-type="last">
-              <input type="text" id="last_22" name="q22_name22[last]" className="form-textbox" data-defaultvalue=""
-                     autoComplete="section-input_22 family-name" size="15"
-                     value={form.lastNameGuest}
-                     onChange={onChangeLastNameGuest}
-                     data-component="last"
-                     aria-labelledby="label_22 sublabel_22_last"/>
-              <label className="form-sub-label" htmlFor="last_22" id="sublabel_22_last" style={{minHeight: '13px'}}
-                     aria-hidden="false"> Last Name </label>
-            </span>
-                        </div>
-                    </div>
-                </li>
-                <li className="form-line" data-type="control_signature" id="id_24">
-                    <label className="form-label form-label-top form-label-auto" id="label_24"
-                           htmlFor="input_24"> Signature </label>
-                    <div id="cid_24" className="form-input-wide" data-layout="half">
-                        <div data-wrapper-react="true">
-                            <div id="signature_pad_24" className="signature-pad-wrapper"
-                                 style={{width: '312px', height: '116px'}}>
-                                <div data-wrapper-react="true">
-                                </div>
-                                <div className="signature-line signature-wrapper signature-placeholder"
-                                     data-component="signature" style={{width: '312px', height: '116px'}}>
-                                    <div id="sig_pad_24" data-width="310" data-height="114" data-id="24"
-                                         className="pad " aria-labelledby="label_24">
-                                    </div>
-                                    <input type="hidden" name="q24_signature24" className="output4" id="input_24"/>
-                                </div>
-                                <span className="clear-pad-btn clear-pad" role="button" tabIndex="0">
-                Clear
-              </span>
-                            </div>
-                            <div data-wrapper-react="true">
-                                <script type="text/javascript">
-                                    {window.signatureForm = true}
-                                </script>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li className="form-line" data-type="control_button" id="id_23">
-                    <div id="cid_23" className="form-input-wide" data-layout="full">
-                        <div data-align="center"
-                             className="form-buttons-wrapper form-buttons-center   jsTest-button-wrapperField">
-                            <button id="input_23" type="submit"
-                                    className="form-submit-button-simple_orange submit-button jf-form-buttons jsTest-submitField"
-                                    data-component="button" data-content="">
-                                Add Guest
-                            </button>
-                        </div>
-                    </div>
                 </li>
                 <li className="form-line" data-type="control_divider" id="id_25">
                     <div id="cid_25" className="form-input-wide" data-layout="full">

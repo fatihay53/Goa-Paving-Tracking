@@ -9,6 +9,7 @@ const employeeRouter = require('./controller/employee');
 const tailGateTalkFormRouter = require('./controller/tail_gate_talk_form');
 const attendeesRouter = require('./controller/attendees');
 const mailRouter = require('./controller/mail_sender');
+const userRouter = require('./controller/user');
 
 var app = express();
 app.use(cors())
@@ -25,6 +26,7 @@ app.use('/employee',employeeRouter);
 app.use('/tailGateTalkForm',tailGateTalkFormRouter);
 app.use('/attendees',attendeesRouter);
 app.use('/mail',mailRouter);
+app.use('/user',userRouter);
 
 app.get('/', function(request, response) {
     response.sendFile(path.join(__dirname + '/login.html'));

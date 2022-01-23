@@ -49,9 +49,8 @@ attendeesRouter.post('/updateSignature', function (request, response) {
 
 attendeesRouter.post('/findAttendees', function (request, response) {
     let formId = request.body.formId;
-    let userId = request.body.userId;
 
-    var sql = `select * from attendees a join users u on a.user_id=u.id join employee e on e.user_id=u.id where form_id=`+formId+` and a.user_id=`+userId;
+    var sql = `select * from attendees a join users u on a.user_id=u.id join employee e on e.user_id=u.id where form_id=`+formId;
 
     connection.query(sql, function (error, result, fields) {
         if (error) throw error;
