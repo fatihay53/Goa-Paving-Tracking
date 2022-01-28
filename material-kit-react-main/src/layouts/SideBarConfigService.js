@@ -1,13 +1,12 @@
 import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill';
 import peopleFill from '@iconify/icons-eva/people-fill';
-import shoppingBagFill from '@iconify/icons-eva/shopping-bag-fill';
-import fileTextFill from '@iconify/icons-eva/file-text-fill';
 import lockFill from '@iconify/icons-eva/lock-fill';
 import reportIcon from '@iconify/icons-eva/bar-chart-fill';
 import formIcon from '@iconify/icons-eva/file-fill';
 import personAddFill from '@iconify/icons-eva/person-add-fill';
-import alertTriangleFill from '@iconify/icons-eva/alert-triangle-fill';
-import { Icon } from '@iconify/react';
+import alertTriangleFill from '@iconify/icons-eva/sun-fill';
+import timeCardIcon from '@iconify/icons-eva/calendar-fill';
+import {Icon} from '@iconify/react';
 
 export default class SideBarConfigService {
   getConfig = () => {
@@ -26,15 +25,27 @@ export default class SideBarConfigService {
         {
           title: 'User Management',
           path: '/dashboard/userManagement',
-          icon: getIcon(formIcon),
+          icon: getIcon(peopleFill),
           children: [
             {
               title: 'Create User',
               path: '/dashboard/userManagement/createUser',
-              icon: getIcon(reportIcon)
+              icon: getIcon(personAddFill)
             }
           ]
         },
+          {
+              title: 'Project Operations',
+              path: '/dashboard/project',
+              icon: getIcon(lockFill),
+              children: [
+                  {
+                      title: 'Project Estimate Template',
+                      path: '/dashboard/project/estimateTemplate',
+                      icon: getIcon(reportIcon)
+                  }
+              ]
+          },
         {
           title: 'forms',
           path: '/dashboard/forms',
@@ -84,12 +95,12 @@ export default class SideBarConfigService {
         {
           title: 'Talks',
           path: '/dashboard/talks',
-          icon: getIcon(formIcon)
+          icon: getIcon(alertTriangleFill)
         },
         {
           title: 'Time Card',
           path: '/dashboard/timeCard',
-          icon: getIcon(formIcon),
+          icon: getIcon(timeCardIcon),
           children: [
             {
               title: 'Time Card Entering',
@@ -119,26 +130,9 @@ export default class SideBarConfigService {
     } else if (role === 'ROLE_USER') {
       sidebarConfig = [
         {
-          title: 'forms',
-          path: '/dashboard/forms',
-          icon: getIcon(formIcon),
-          children: [
-            {
-              title: 'newClientForm',
-              path: '/dashboard/newClientForm',
-              icon: getIcon(reportIcon)
-            },
-            {
-              title: 'form2',
-              path: '/dashboard/form2',
-              icon: getIcon(reportIcon)
-            }
-          ]
-        },
-        {
           title: 'Time Card',
           path: '/dashboard/timeCard',
-          icon: getIcon(formIcon),
+          icon: getIcon(timeCardIcon),
           children: [
             {
               title: 'Time Card Entering',

@@ -45,16 +45,17 @@ function toDate(date){
 }
 
 timeCardRouter.post('/save', function (request, response) {
-    var sql = `INSERT INTO time_card (date,start_hour,end_hour,total_hour,user_id,is_approved,signature,created_date) VALUES (?,?,?,?,?,?,?,?)`;
+    var sql = `INSERT INTO time_card (date,start_hour,end_hour,total_hour,user_id,is_approved,signature,created_date,board_allowance) VALUES (?,?,?,?,?,?,?,?,?)`;
     let date = toDate(request.body.date);
     let startHour = request.body.startHour;
     let endHour = request.body.endHour;
     let totalHour = request.body.totalHour;
     let userId = request.body.userId;
     let signature = request.body.signature;
+    let boardAllowance = request.body.boardAllowance;
     let created_date = new Date();
 
-    connection.query(sql, [date, startHour, endHour, totalHour, userId, false,signature,created_date], function (error, rows) {
+    connection.query(sql, [date, startHour, endHour, totalHour, userId, false,signature,created_date,boardAllowance], function (error, rows) {
         if (error) throw error;
 
         console.log("Row inserted to time_card. Id = "

@@ -1,7 +1,7 @@
 import './tail-gate-talk-form.css';
 import logo from '../../../goa_logo.png';
 import MDialog from "../../../components/mcomponents/MDialog";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import SelectEmployee from "../../../components/mcomponents/SelectEmployee";
 import TailGateTalkFormService from "../../../services/TailGateTalkFormService";
 import {toast} from "react-toastify";
@@ -11,6 +11,7 @@ import LoadingScreen from "react-loading-screen";
 import {Button} from "primereact/button";
 import SelectSubject from "../../../components/mcomponents/SelectSubject";
 import {JotFormConfig} from "../../JotFormConfig";
+import MSignaturePad from "../../../components/mcomponents/MSignaturePad";
 
 export default function TailGateTalkForm({selectedData, isShow}) {
 
@@ -23,7 +24,12 @@ export default function TailGateTalkForm({selectedData, isShow}) {
     const mailService = new MailService();
 
     const [submitted, setSubmitted] = useState(false);
-    const [reload, setReload] = useState(false);
+
+    const refSignaturePad = useRef();
+    const [touchedSignature, setTouchedSignature] = useState(false);
+
+    const refSignaturePadForeman = useRef();
+    const [touchedSignatureForeman, setTouchedSignatureForeman] = useState(false);
 
     let initialState = isShow ? selectedData : {
         date: '',
@@ -66,12 +72,12 @@ export default function TailGateTalkForm({selectedData, isShow}) {
 
     async function saveForm() {
         const date = document.getElementById('lite_mode_18').value;
-        let signatureForeman = document.getElementById('input_7').value;
-        const signature = document.getElementById('input_14').value;
+        //let signatureForeman = document.getElementById('input_7').value;
+        //const signature = document.getElementById('input_14').value;
 
         if ((date === null || date === '') ||
-            (signatureForeman === null || signatureForeman === '') ||
-            (signature === null || signature === '') ||
+            //(signatureForeman === null || signatureForeman === '') ||
+            //(signature === null || signature === '') ||
             (form.location === null || form.location === '') ||
             (form.firstNameForeman === null || form.firstNameForeman === '') ||
             (form.lastNameForeman === null || form.lastNameForeman === '') ||
@@ -82,12 +88,25 @@ export default function TailGateTalkForm({selectedData, isShow}) {
             return toast.warning("Please check required fields!")
         }
 
+        if (!touchedSignatureForeman){
+            return toast.warning("Please fill signature foreman.");
+        }
+
+        if (!touchedSignature){
+            return toast.warning("Please fill signature.");
+        }
 
         if (attendees.length == 0) {
             return toast.warning("Please add crew!")
         }
+
+        const signature = refSignaturePad.current.getSignature();
+        const signatureForeman = refSignaturePadForeman.current.getSignature();
+
         setSubmitted(true);
-        await tailGateTalkFormService.save({...form, signatureForeman: signatureForeman,subject:subject.header}).then(async res => {
+        refSignaturePadForeman.current.clearSignature();
+        refSignaturePad.current.clearSignature();
+        await tailGateTalkFormService.save({...form, signatureForeman: signatureForeman,signature:signature,subject:subject.header}).then(async res => {
             let insertId = res.data.insertId;
             if (res.status == 200) {
                 await attendeesService.save({attendees: attendees, formId: res.data.insertId}).then(res => {
@@ -121,56 +140,71 @@ export default function TailGateTalkForm({selectedData, isShow}) {
 
     function onChangeLocation(e) {
         const date = document.getElementById('lite_mode_18').value;
-        const signatureForeman = document.getElementById('input_7').value;
-        const signature = document.getElementById('input_14').value;
-        setForm({...form, location: e.target.value, date, signatureForeman, signature});
-    }
+        //const signatureForeman = document.getElementById('input_7').value;
+        //const signature = document.getElementById('input_14').value;
+        const signature = refSignaturePad.current.getSignature();
+        const signatureForeman = refSignaturePadForeman.current.getSignature();
 
-    function onChangeSignatureForeman(e) {
-        const date = document.getElementById('lite_mode_18').value;
-        const signature = document.getElementById('input_14').value;
-        setForm({...form, signatureForeman: e.target.value, date, signature});
+        setForm({...form, location: e.target.value, date, signatureForeman, signature});
     }
 
     function onChangeFirstNameForeman(e) {
         const date = document.getElementById('lite_mode_18').value;
-        const signatureForeman = document.getElementById('input_7').value;
-        const signature = document.getElementById('input_14').value;
+        //const signatureForeman = document.getElementById('input_7').value;
+        //const signature = document.getElementById('input_14').value;
+        const signature = refSignaturePad.current.getSignature();
+        const signatureForeman = refSignaturePadForeman.current.getSignature();
+
         setForm({...form, firstNameForeman: e.target.value, date, signatureForeman, signature});
     }
 
     function onChangeLastNameForeman(e) {
         const date = document.getElementById('lite_mode_18').value;
-        const signatureForeman = document.getElementById('input_7').value;
-        const signature = document.getElementById('input_14').value;
+        //const signatureForeman = document.getElementById('input_7').value;
+        //const signature = document.getElementById('input_14').value;
+        const signature = refSignaturePad.current.getSignature();
+        const signatureForeman = refSignaturePadForeman.current.getSignature();
+
         setForm({...form, lastNameForeman: e.target.value, date, signatureForeman, signature});
     }
 
     function onChangeJob(e) {
         const date = document.getElementById('lite_mode_18').value;
-        const signatureForeman = document.getElementById('input_7').value;
-        const signature = document.getElementById('input_14').value;
+        //const signatureForeman = document.getElementById('input_7').value;
+        //const signature = document.getElementById('input_14').value;
+        const signature = refSignaturePad.current.getSignature();
+        const signatureForeman = refSignaturePadForeman.current.getSignature();
+
         setForm({...form, job: e.target.value, date, signatureForeman, signature});
     }
 
     function onChangeSafetyTraining(e) {
         const date = document.getElementById('lite_mode_18').value;
-        const signatureForeman = document.getElementById('input_7').value;
-        const signature = document.getElementById('input_14').value;
+        //const signatureForeman = document.getElementById('input_7').value;
+        //const signature = document.getElementById('input_14').value;
+        const signature = refSignaturePad.current.getSignature();
+        const signatureForeman = refSignaturePadForeman.current.getSignature();
+
         setForm({...form, safetyTraining: e.target.value, date, signatureForeman, signature});
     }
 
     function onChangeEmployeeSuggestions(e) {
         const date = document.getElementById('lite_mode_18').value;
-        const signatureForeman = document.getElementById('input_7').value;
-        const signature = document.getElementById('input_14').value;
+        //const signatureForeman = document.getElementById('input_7').value;
+        //const signature = document.getElementById('input_14').value;
+        const signature = refSignaturePad.current.getSignature();
+        const signatureForeman = refSignaturePadForeman.current.getSignature();
+
         setForm({...form, employeeSuggestions: e.target.value, date, signatureForeman, signature});
     }
 
     function onChangeTitle(e) {
         const date = document.getElementById('lite_mode_18').value;
-        const signatureForeman = document.getElementById('input_7').value;
-        const signature = document.getElementById('input_14').value;
+        //const signatureForeman = document.getElementById('input_7').value;
+        //const signature = document.getElementById('input_14').value;
+        const signature = refSignaturePad.current.getSignature();
+        const signatureForeman = refSignaturePadForeman.current.getSignature();
+
         setForm({...form, title: e.target.value, date, signatureForeman, signature});
     }
 
@@ -402,37 +436,14 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                 <li className="form-line form-line-column form-col-4 jf-required" data-type="control_signature"
                     id="id_7">
                     <label className="form-label form-label-top form-label-auto" id="label_7" htmlFor="input_7">
-                        Signature
+                        Signature Foreman
                         <span className="form-required">
             *
           </span>
                     </label>
                     {isShow ? <img src={arrayBufferToBase64(selectedData.signatureForeman.data)}/> :
                         <div id="cid_7" className="form-input-wide jf-required" data-layout="half">
-                            <div data-wrapper-react="true">
-                                <div id="signature_pad_7" className="signature-pad-wrapper"
-                                     style={{width: '312px', height: '116px'}}>
-                                    <div data-wrapper-react="true">
-                                    </div>
-                                    <div className="signature-line signature-wrapper signature-placeholder"
-                                         data-component="signature" style={{width: '312px', height: '116px'}}>
-                                        <div id="sig_pad_7" data-width="310" data-height="114" data-id="7"
-                                             className="pad  "
-                                             aria-labelledby="label_7">
-                                        </div>
-                                        <input type="hidden"
-                                               name="q7_signature" className="output4" id="input_7"/>
-                                    </div>
-                                    <span className="clear-pad-btn clear-pad" role="button" tabIndex="0">
-                Clear
-              </span>
-                                </div>
-                                <div data-wrapper-react="true">
-                                    <script type="text/javascript">
-                                        {window.signatureForm = true}
-                                    </script>
-                                </div>
-                            </div>
+                            <MSignaturePad ref={refSignaturePadForeman} setTouchedSignature={setTouchedSignatureForeman}/>
                         </div>}
                 </li>
                 <li className="form-line fixed-width jf-required" data-type="control_textbox" id="id_8">
@@ -591,29 +602,8 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                     </label>
                     {isShow ? <img src={arrayBufferToBase64(selectedData.signature.data)}/> :
                         <div id="cid_14" className="form-input-wide jf-required" data-layout="half">
-                            <div data-wrapper-react="true">
-                                <div id="signature_pad_14" className="signature-pad-wrapper"
-                                     style={{width: '312px', height: '116px'}}>
-                                    <div data-wrapper-react="true">
-
-                                    </div>
-                                    <div className="signature-line signature-wrapper signature-placeholder"
-                                         data-component="signature" style={{width: '312px', height: '116px'}}>
-                                        <div id="sig_pad_14" data-width="310" data-height="114" data-id="14"
-                                             className="pad  "
-                                             aria-labelledby="label_14">
-                                        </div>
-                                        <input type="hidden" name="q14_signature14" className="output4" id="input_14"/>
-                                    </div>
-                                    <span className="clear-pad-btn clear-pad" role="button" tabIndex="0">
-                Clear
-              </span>
-                                </div>
-                                <div data-wrapper-react="true">
-                                    <script type="text/javascript">
-                                        {window.signatureForm = true}
-                                    </script>
-                                </div>
+                            <div id="cid_7" className="form-input-wide jf-required" data-layout="half">
+                                <MSignaturePad ref={refSignaturePad} setTouchedSignature={setTouchedSignature}/>
                             </div>
                         </div>}
                 </li>

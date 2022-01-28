@@ -4,8 +4,9 @@ import {JotFormConfig} from "../../JotFormConfig";
 import TimePicker from 'react-time-picker';
 import moment from 'moment';
 import {toast} from "react-toastify";
-import SignaturePad from 'react-signature-pad-wrapper'
 import TimeCardService from "../../../services/TimeCardService";
+import {Checkbox} from "primereact/checkbox";
+import MSignaturePad from "../../../components/mcomponents/MSignaturePad";
 
 export default function TimeCard() {
     const [form, setForm] = useState({
@@ -16,9 +17,10 @@ export default function TimeCard() {
 
     const [user, setUser] = useState({});
     const [div, setDiv] = useState(null);
-    const [touchedSignature, setTouchedSignature] = useState(false);
-    const refSignaturePad = useRef();
+    const [boardAllowance, setBoardAllowance] = useState(false);
     const timeCardService = new TimeCardService();
+    const refSignaturePad = useRef();
+    const [touchedSignature, setTouchedSignature] = useState(false);
 
     useEffect(() => {
         JotFormConfig();
@@ -51,23 +53,27 @@ export default function TimeCard() {
         return remaining < 10 ? div + ":" + "0" + remaining : div + ":" + remaining;
     }
 
-    const clearSignature=()=>{
-        refSignaturePad.current.clear();
-    }
-
     const saveForm = () => {
         const date = document.getElementById('lite_mode_5').value;
-        const signature = refSignaturePad.current.toDataURL();
         if (form.totalHour === "" || form.totalHour === null || form.totalHour == 0 || div < 0) {
             return toast.warning("Please enter time.");
         }
+
+        let totalParseMin = form.totalHour.split(":")[1];
+        if (totalParseMin !== "00" && totalParseMin !== "30"){
+            return toast.warning("Please fill total hour minute 00 or 30.");
+        }
+
         if (!touchedSignature){
             return toast.warning("Please fill signature.");
         }
 
-        timeCardService.save({...form, date, signature,userId : user.userId}).then(async res => {
+        const signature = refSignaturePad.current.getSignature();
+
+        timeCardService.save({...form, date, signature,userId : user.userId,boardAllowance}).then(async res => {
             if (res.status == 200) {
-                clearSignature();
+                refSignaturePad.current.clearSignature();
+                setBoardAllowance(false);
                 setForm({
                     startHour: '07:00',
                     endHour: '07:00',
@@ -80,15 +86,7 @@ export default function TimeCard() {
     }
 
     return (
-        <form className="jotform-form"
-            //action="https://submit.jotform.com/submit/220115543894051/"
-            //method="post"
-              name="form_220115543894051"
-              id="220115543894051"
-              accept-charset="utf-8" autoComplete="on" onSubmit={(event) => event.preventDefault()}>
-            <input type="hidden" name="formID" value="220115543894051"/>
-            <input type="hidden" id="JWTContainer" value=""/>
-            <input type="hidden" id="cardinalOrderNumber" value=""/>
+        <form onSubmit={(event) => event.preventDefault()}>
             <div role="main" className="form-all">
                 <ul className="form-section page-section">
 
@@ -218,16 +216,16 @@ export default function TimeCard() {
                             </div>
                         </div>
                     </li>
+                    <li className="form-input-wide jf-required" data-type="control_signature">
+                        <div className="p-field-checkbox">
+                            <Checkbox inputId="binary" checked={boardAllowance} onChange={e => setBoardAllowance(e.checked)} />
+                            <label htmlFor="binary">Board Allowance</label>
+                        </div>
+                    </li>
                     <li className="form-line" data-type="control_signature" id="id_6">
                         <label className="form-label form-label-top form-label-auto" id="label_6"
                                htmlFor="input_6"> Signature </label>
-                        <div style={{border: '1px solid black'}} onClick={()=>setTouchedSignature(true)}>
-                            <SignaturePad
-                                width={300} height={175}
-                                ref={refSignaturePad}
-                            />
-                            <button onClick={clearSignature}>clear</button>
-                        </div>
+                        <MSignaturePad ref={refSignaturePad} setTouchedSignature={setTouchedSignature}/>
                     </li>
                     <li className="form-line" data-type="control_button" id="id_2">
                         <div id="cid_2" className="form-input-wide" data-layout="full">

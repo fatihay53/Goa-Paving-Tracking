@@ -22,6 +22,7 @@ import BarChartEx from "./pages/charts/BarChartEx";
 import CreateUser from "./pages/user-management/CreateUser";
 import TimeCard from "./pages/forms/time-card/TimeCard";
 import TimeCardList from "./pages/forms/time-card/TimeCardList";
+import ProjectEstimateTemplate from "./pages/forms/project/ProjectEstimateTemplate";
 
 // ----------------------------------------------------------------------
 
@@ -60,6 +61,13 @@ export default function Router() {
       children: [
         { path: 'entering', element: <TimeCard /> },
         { path: 'timeCards', element: <TimeCardList /> }
+      ]
+    },
+    {
+      path: '/dashboard/project',
+      element: <DashboardLayout />,
+      children: [
+        { path: 'estimateTemplate', element: <ProjectEstimateTemplate /> }
       ]
     },
     {
