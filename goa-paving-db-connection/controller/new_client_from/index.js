@@ -12,9 +12,8 @@ var connection = mysql.createConnection({
 });
 
 newClientFormRouter.post('/save', function (request, response) {
-    var sql = `INSERT INTO new_client_form (clientName, date,firstName,lastName,streetAddress,streetAddress2,city,province,postalCode,phoneNumber,email) VALUES (?,?,?,?,?,?,?,?,?,?,?)`;
+    var sql = `INSERT INTO new_client_form (clientName,firstName,lastName,streetAddress,streetAddress2,city,province,postalCode,phoneNumber,email,created_date) VALUES (?,?,?,?,?,?,?,?,?,?,?)`;
     let clientName = request.body.clientName;
-    let date = request.body.date;
     let firstName = request.body.firstName;
     let lastName = request.body.lastName;
     let streetAddress = request.body.streetAddress;
@@ -24,9 +23,9 @@ newClientFormRouter.post('/save', function (request, response) {
     let postalCode = request.body.postalCode;
     let phoneNumber = request.body.phoneNumber;
     let email = request.body.email;
+    let createdDate = new Date();
 
-
-    connection.query(sql, [clientName, date, firstName, lastName, streetAddress, streetAddress2, city, province, postalCode, phoneNumber, email], function (error, rows) {
+    connection.query(sql, [clientName, firstName, lastName, streetAddress, streetAddress2, city, province, postalCode, phoneNumber, email,createdDate], function (error, rows) {
         if (error) throw error;
 
         console.log("Row inserted to new_client_from. Id = "
@@ -40,7 +39,7 @@ newClientFormRouter.post('/save', function (request, response) {
 });
 
 newClientFormRouter.get('/findAll', function (request, response) {
-    var sql = `select * from new_client_form`;
+    var sql = `select * from new_client_form order by created_date desc`;
 
     connection.query(sql, function (error, result, fields) {
         if (error) throw error;

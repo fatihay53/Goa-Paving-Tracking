@@ -9,7 +9,6 @@ import {JotFormConfig} from "../../JotFormConfig";
 export default function NewClientForm({selectedData,isShow}) {
     let initialState = isShow ? selectedData : {
         clientName: '',
-        date: '',
         firstName: '',
         lastName: '',
         streetAddress: '',
@@ -33,20 +32,17 @@ export default function NewClientForm({selectedData,isShow}) {
     },[])
 
     function saveForm() {
-
-        const date = document.getElementById('lite_mode_18').value;
         if ((clientForm.clientName === null || clientForm.clientName === ''  ) ||
             (clientForm.streetAddress === null || clientForm.streetAddress === ''  ) ||
             (clientForm.phoneNumber === null || clientForm.phoneNumber === ''  ) ||
-            (clientForm.email === null || clientForm.email ===  ''  ) ||
-            (date === null || date === '')
+            (clientForm.email === null || clientForm.email ===  ''  )
         ){
             return toast.warning("Please check required fields!")
         }
 
         setSubmitted(true);
 
-        newClientFormService.save({...clientForm, date}).then(res=>{
+        newClientFormService.save({...clientForm}).then(res=>{
             var millisecondsToWait = 1000;
             setTimeout(function() {
                 if (res.status === 200){
@@ -54,7 +50,6 @@ export default function NewClientForm({selectedData,isShow}) {
                     setSubmitted(false);
                     setClientForm({
                         clientName: '',
-                        date: '',
                         firstName: '',
                         lastName: '',
                         streetAddress: '',
@@ -65,60 +60,49 @@ export default function NewClientForm({selectedData,isShow}) {
                         phoneNumber: '',
                         email: ''
                     });
-                    document.getElementById('lite_mode_18').value ='';
                 }
             }, millisecondsToWait);
         });
     }
 
     function onChangeClientName(e) {
-        const date = document.getElementById('lite_mode_18').value;
-        setClientForm({...clientForm, clientName: e.target.value,date});
+        setClientForm({...clientForm, clientName: e.target.value});
     }
 
     function onChangeFirstName(e) {
-        const date = document.getElementById('lite_mode_18').value;
-        setClientForm({...clientForm, firstName: e.target.value,date});
+        setClientForm({...clientForm, firstName: e.target.value});
     }
 
     function onChangeLastName(e) {
-        const date = document.getElementById('lite_mode_18').value;
-        setClientForm({...clientForm, lastName: e.target.value,date});
+        setClientForm({...clientForm, lastName: e.target.value});
     }
 
     function onChangeStreetAddress(e) {
-        const date = document.getElementById('lite_mode_18').value;
-        setClientForm({...clientForm, streetAddress: e.target.value,date});
+        setClientForm({...clientForm, streetAddress: e.target.value});
     }
 
     function onChangeStreetAddress2(e) {
-        const date = document.getElementById('lite_mode_18').value;
-        setClientForm({...clientForm, streetAddress2: e.target.value,date});
+        setClientForm({...clientForm, streetAddress2: e.target.value});
     }
 
     function onChangeCity(e) {
-        const date = document.getElementById('lite_mode_18').value;
-        setClientForm({...clientForm, city: e.target.value},date);
+        setClientForm({...clientForm, city: e.target.value});
     }
 
     function onChangeProvince(e) {
-        const date = document.getElementById('lite_mode_18').value;
-        setClientForm({...clientForm, province: e.target.value,date});
+        setClientForm({...clientForm, province: e.target.value});
     }
 
     function onChangePostalCode(e) {
-        const date = document.getElementById('lite_mode_18').value;
-        setClientForm({...clientForm, postalCode: e.target.value,date});
+        setClientForm({...clientForm, postalCode: e.target.value});
     }
 
     function onChangePhoneNumber(e) {
-        const date = document.getElementById('lite_mode_18').value;
-        setClientForm({...clientForm, phoneNumber: e.target.value,date});
+        setClientForm({...clientForm, phoneNumber: e.target.value});
     }
 
     function onChangeEmail(e) {
-        const date = document.getElementById('lite_mode_18').value;
-        setClientForm({...clientForm, email: e.target.value,date});
+        setClientForm({...clientForm, email: e.target.value});
     }
 
     let form = <form
@@ -174,146 +158,6 @@ export default function NewClientForm({selectedData,isShow}) {
                             aria-labelledby="label_16"
                             required=""
                         />
-                    </div>
-                </li>
-                <li
-                    className="form-line form-line-column form-col-2 jf-required"
-                    data-type="control_datetime"
-                    id="id_18"
-                >
-                    <label
-                        className="form-label form-label-top form-label-auto"
-                        id="label_18"
-                        htmlFor="lite_mode_18"
-                    >
-                        Date
-                        <span className="form-required">*</span>
-                    </label>
-                    <div id="cid_18" className="form-input-wide jf-required" data-layout="half">
-                        <div data-wrapper-react="true">
-                            <div style={{display: 'none'}}>
-                  <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-                    <input
-                        type="tel"
-                        className="form-textbox"
-                        id="month_18"
-                        name="q18_date[month]"
-                        size="2"
-                        data-maxlength="2"
-                        data-age=""
-                        maxLength="2"
-                        required=""
-                        autoComplete="section-input_18 off"
-                        aria-labelledby="label_18 sublabel_18_month"
-                    />
-                    <span className="date-separate" aria-hidden="true">
-                       -
-                    </span>
-                    <label
-                        className="form-sub-label"
-                        htmlFor="month_18"
-                        id="sublabel_18_month"
-                        style={{minHeight: '13px'}}
-                        aria-hidden="false"
-                    >
-                      {' '}
-                        Month{' '}
-                    </label>
-                  </span>
-                                <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-                    <input
-                        type="tel"
-                        className="form-textbox validate[limitDate]"
-                        id="day_18"
-                        name="q18_date[day]"
-                        size="2"
-                        data-maxlength="2"
-                        data-age=""
-                        maxLength="2"
-                        value=""
-                        required=""
-                        autoComplete="section-input_18 off"
-                        aria-labelledby="label_18 sublabel_18_day"
-                    />
-                    <span className="date-separate" aria-hidden="true">
-                       -
-                    </span>
-                    <label
-                        className="form-sub-label"
-                        htmlFor="day_18"
-                        id="sublabel_18_day"
-                        style={{minHeight: '13px'}}
-                        aria-hidden="false"
-                    >
-                      {' '}
-                        Day{' '}
-                    </label>
-                  </span>
-                                <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-                    <input
-                        type="tel"
-                        className="form-textbox validate[required, limitDate]"
-                        id="year_18"
-                        name="q18_date[year]"
-                        size="4"
-                        data-maxlength="4"
-                        data-age=""
-                        maxLength="4"
-                        value=""
-                        required=""
-                        autoComplete="section-input_18 off"
-                        aria-labelledby="label_18 sublabel_18_year"
-                    />
-                    <label
-                        className="form-sub-label"
-                        htmlFor="year_18"
-                        id="sublabel_18_year"
-                        style={{minHeight: '13px'}}
-                        aria-hidden="false"
-                    >
-                      {' '}
-                        Year{' '}
-                    </label>
-                  </span>
-                            </div>
-                            <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-                  <input
-                      type="text"
-                      className="form-textbox"
-                      id="lite_mode_18"
-                      size="12"
-                      data-maxlength="12"
-                      maxLength="12"
-                      data-age=""
-                      value={clientForm.date}
-                      required=""
-                      data-format="mmddyyyy"
-                      data-seperator="-"
-                      placeholder="MM-DD-YYYY"
-                      autoComplete="section-input_18 off"
-                      aria-labelledby="label_18"
-                  />
-                  <img
-                      className=" newDefaultTheme-dateIcon icon-liteMode"
-                      alt="Pick a Date"
-                      id="input_18_pick"
-                      src="https://cdn.jotfor.ms/images/calendar.png"
-                      data-component="datetime"
-                      aria-hidden="true"
-                      data-allow-time="No"
-                      data-version="v2"
-                  />
-                  <label
-                      className="form-sub-label is-empty"
-                      htmlFor="lite_mode_18"
-                      id="sublabel_18_litemode"
-                      style={{minHeight: '13px'}}
-                      aria-hidden="false"
-                  >
-                    {' '}
-                  </label>
-                </span>
-                        </div>
                     </div>
                 </li>
                 <li className="form-line" data-type="control_fullname" id="id_19">
