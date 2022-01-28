@@ -14,7 +14,7 @@ authRouter.post('/login', function(request, response) {
     var username = request.body.username;
     var password = request.body.password;
     if (username && password) {
-        connection.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+        connection.query('SELECT * FROM users u left join employee e on u.id=e.user_id WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
             if (results.length > 0) {
                 let user = results[0];
                 response.json({
@@ -24,7 +24,8 @@ authRouter.post('/login', function(request, response) {
                             username:user.username,
                             name:user.name,
                             surname:user.surname,
-                            userId:user.id
+                            userId:user.id,
+                            role: user.role
                         },
                         role:user.role
                     },

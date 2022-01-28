@@ -20,6 +20,8 @@ import React from "react";
 import Talks from "./pages/forms/talks/Talks";
 import BarChartEx from "./pages/charts/BarChartEx";
 import CreateUser from "./pages/user-management/CreateUser";
+import TimeCard from "./pages/forms/time-card/TimeCard";
+import TimeCardList from "./pages/forms/time-card/TimeCardList";
 
 // ----------------------------------------------------------------------
 
@@ -31,7 +33,6 @@ export default function Router() {
       children: [
         { path: 'app', element: <DashboardApp /> },
         { path: 'forms', element: <Forms /> },
-        { path: 'reports', element: <Reports /> },
         { path: 'talks', element: <Talks /> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
@@ -51,6 +52,21 @@ export default function Router() {
       children: [
         { path: 'newClientForm', element: <NewClientForm /> },
         { path: 'tailGateTalkForm', element: <TailGateTalkForm /> }
+      ]
+    },
+    {
+      path: '/dashboard/timeCard',
+      element: <DashboardLayout />,
+      children: [
+        { path: 'entering', element: <TimeCard /> },
+        { path: 'timeCards', element: <TimeCardList /> }
+      ]
+    },
+    {
+      path: '/dashboard/reports',
+      element: <DashboardLayout />,
+      children: [
+        { path: 'timeCardReport', element: <TimeCard /> }
       ]
     },
     {

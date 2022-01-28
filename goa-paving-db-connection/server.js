@@ -10,6 +10,9 @@ const tailGateTalkFormRouter = require('./controller/tail_gate_talk_form');
 const attendeesRouter = require('./controller/attendees');
 const mailRouter = require('./controller/mail_sender');
 const userRouter = require('./controller/user');
+const timeCardRouter = require('./controller/time_card');
+const jobTypeRouter = require('./controller/job_type');
+const timeCardDetailRouter = require('./controller/time_card_detail');
 
 var app = express();
 app.use(cors())
@@ -27,6 +30,9 @@ app.use('/tailGateTalkForm',tailGateTalkFormRouter);
 app.use('/attendees',attendeesRouter);
 app.use('/mail',mailRouter);
 app.use('/user',userRouter);
+app.use('/timeCard',timeCardRouter);
+app.use('/jobType',jobTypeRouter);
+app.use('/timeCardDetail',timeCardDetailRouter);
 
 app.get('/', function(request, response) {
     response.sendFile(path.join(__dirname + '/login.html'));

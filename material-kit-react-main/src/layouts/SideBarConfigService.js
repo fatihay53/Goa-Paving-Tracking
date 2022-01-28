@@ -87,52 +87,34 @@ export default class SideBarConfigService {
           icon: getIcon(formIcon)
         },
         {
-          title: 'reports',
-          path: '/dashboard/reports',
-          icon: getIcon(reportIcon),
+          title: 'Time Card',
+          path: '/dashboard/timeCard',
+          icon: getIcon(formIcon),
           children: [
             {
-              title: 'report1',
-              path: '/dashboard/report1',
+              title: 'Time Card Entering',
+              path: '/dashboard/timeCard/entering',
               icon: getIcon(reportIcon)
             },
             {
-              title: 'report2',
-              path: '/dashboard/report2',
+              title: 'Time Cards',
+              path: '/dashboard/timeCard/timeCards',
               icon: getIcon(reportIcon)
             }
           ]
         },
         {
-          title: 'user',
-          path: '/dashboard/user',
-          icon: getIcon(peopleFill)
+          title: 'reports',
+          path: '/dashboard/reports',
+          icon: getIcon(reportIcon),
+          children: [
+            {
+              title: 'Time Card Report',
+              path: '/dashboard/reports/timeCardReport',
+              icon: getIcon(reportIcon)
+            }
+          ]
         },
-        {
-          title: 'product',
-          path: '/dashboard/products',
-          icon: getIcon(shoppingBagFill)
-        },
-        {
-          title: 'blog',
-          path: '/dashboard/blog',
-          icon: getIcon(fileTextFill)
-        },
-        {
-          title: 'index.html',
-          path: '/index.html',
-          icon: getIcon(lockFill)
-        },
-        {
-          title: 'register',
-          path: '/register',
-          icon: getIcon(personAddFill)
-        },
-        {
-          title: 'Not found',
-          path: '/404',
-          icon: getIcon(alertTriangleFill)
-        }
       ];
     } else if (role === 'ROLE_USER') {
       sidebarConfig = [
@@ -149,6 +131,23 @@ export default class SideBarConfigService {
             {
               title: 'form2',
               path: '/dashboard/form2',
+              icon: getIcon(reportIcon)
+            }
+          ]
+        },
+        {
+          title: 'Time Card',
+          path: '/dashboard/timeCard',
+          icon: getIcon(formIcon),
+          children: [
+            {
+              title: 'Time Card Entering',
+              path: '/dashboard/timeCard/entering',
+              icon: getIcon(reportIcon)
+            },
+            {
+              title: 'Time Cards',
+              path: '/dashboard/timeCard/timeCards',
               icon: getIcon(reportIcon)
             }
           ]

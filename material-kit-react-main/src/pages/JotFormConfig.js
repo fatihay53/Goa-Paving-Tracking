@@ -1,6 +1,9 @@
 import React from "react";
+import loadjs from 'loadjs';
 
 export function JotFormConfig(){
+
+
     JotForm.newDefaultTheme = true;
     JotForm.extendsNewTheme = false;
     JotForm.newPaymentUIForNewCreatedForms = true;
@@ -8,7 +11,7 @@ export function JotFormConfig(){
     JotForm.clearFieldOnHide="disable";
     JotForm.submitError="jumpToFirstError";
     JotForm.ownerView=true;
-    JotForm
+
 
     JotForm.init(function(){
         /*INIT-START*/
@@ -19,10 +22,16 @@ export function JotFormConfig(){
         JotForm.calendarOther = {"today":"Today"};
         var languageOptions = document.querySelectorAll('#langList li');
         for(var langIndex = 0; langIndex < languageOptions.length; langIndex++) {
-            languageOptions[langIndex].on('click', function(e) { setTimeout(function(){ JotForm.setCalendar("18", false, {"days":{"monday":true,"tuesday":true,"wednesday":true,"thursday":true,"friday":true,"saturday":true,"sunday":true},"future":true,"past":true,"custom":false,"ranges":false,"start":"","end":""}); }, 0); });
+            languageOptions[langIndex].on('click', function(e) { setTimeout(function(){
+            JotForm.setCalendar("18", false, {"days":{"monday":true,"tuesday":true,"wednesday":true,"thursday":true,"friday":true,"saturday":true,"sunday":true},"future":true,"past":true,"custom":false,"ranges":false,"start":"","end":""}); }, 0); });
         }
-        JotForm.onTranslationsFetch(function() { JotForm.setCalendar("18", false, {"days":{"monday":true,"tuesday":true,"wednesday":true,"thursday":true,"friday":true,"saturday":true,"sunday":true},"future":true,"past":true,"custom":false,"ranges":false,"start":"","end":""}); });
+        JotForm.onTranslationsFetch(function() {
+        JotForm.setCalendar("18", false, {"days":{"monday":true,"tuesday":true,"wednesday":true,"thursday":true,"friday":true,"saturday":true,"sunday":true},"future":true,"past":true,"custom":false,"ranges":false,"start":"","end":""}); });
         JotForm.setPhoneMaskingValidator( 'input_5_full', '(###) ###-####' );
+        JotForm.formatDate({date:(new Date()), dateField:$("id_"+5)});
+        JotForm.displayTimeRangeDuration(4);
+        JotForm.displayLocalTime("input_4_hourSelect", "input_4_minuteSelect","input_4_ampm", "input_4_timeInput", true);
+        JotForm.alterTexts(undefined);
         /*setTimeout(function() {
           $('input_6').hint('ex: email@yahoo.com');
         }, 20);*/

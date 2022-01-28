@@ -18,9 +18,8 @@ export default function MDialog({showedHtml,showDialog, setShowDialog}) {
     return (
         <div className="dialog-demo">
             <div className="card">
-                <h5>Responsive</h5>
                 <Dialog visible={showDialog} onHide={() => setShowDialog(false)}
-                        breakpoints={{'960px': '75vw'}} style={{width: '50vw'}}
+                        breakpoints={{'960px': '75vw'}} style={{minHeight:'30em', width: '50vw'}}
                         //footer={renderFooter('displayResponsive')}
                     >
                     {showedHtml}
