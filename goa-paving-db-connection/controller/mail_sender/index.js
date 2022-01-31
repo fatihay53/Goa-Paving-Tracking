@@ -8,7 +8,7 @@ const transporter = nodemailer.createTransport({
     port: 587,
     auth: {
         user: 'ozanboyukk@gmail.com',
-        pass: '',
+        pass: 'atgmBoyuk_9261',
     },
 });
 
@@ -25,7 +25,7 @@ mailRouter.post('/send', function(request, response) {
             text: "Please signature to attend form!",
             html: path,
         }).then(info => {
-            console.log({info});
+            console.log("Mail sended for ->"+elem.email);
         }).catch(console.error);
     })
 });

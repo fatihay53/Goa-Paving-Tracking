@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TailGateTalkFormService from "../../../services/TailGateTalkFormService";
 import AttendeesService from "../../../services/AttendeesService";
 import {toast} from "react-toastify";
@@ -6,6 +6,7 @@ import {useNavigate} from "react-router";
 import {talks} from '../talks/talk_list';
 import {Accordion, AccordionTab} from "primereact/accordion";
 import { Checkbox } from 'primereact/checkbox';
+import MSignaturePad from "../../../components/mcomponents/MSignaturePad";
 
 export default function SignatureConfirmPage() {
 
@@ -14,6 +15,8 @@ export default function SignatureConfirmPage() {
     const [tailGateForm, setTailGetForm] = useState({});
     const navigate = useNavigate();
     const [checked, setChecked] = useState(false);
+    const refSignaturePad = useRef();
+    const [touchedSignature, setTouchedSignature] = useState(false);
 
     let url = new URL(window.location.href);
     let formId = url.searchParams.get("formId");
@@ -31,14 +34,16 @@ export default function SignatureConfirmPage() {
     }, []);
 
     const updateSignature=()=>{
-        let signature = document.getElementById('input_7').value;
-        if (signature == null || signature == undefined || signature === ''){
-            return toast.warning("Please fill signature area!")
-        }
 
         if (checked == false){
             return toast.warning("Please confirm checkbox!")
         }
+
+        if (!touchedSignature){
+            return toast.warning("Please fill signature.");
+        }
+
+        const signature = refSignaturePad.current.getSignature();
 
         attendeesService.updateSignature({userId: userId,formId: formId,signature:signature,isApproval:checked}).then(res=>{
             if (res.status == 200){
@@ -84,41 +89,16 @@ export default function SignatureConfirmPage() {
                     <li className="form-line form-line-column form-col-4 jf-required" data-type="control_signature">
 
                     </li>
-                    <li className="form-line form-line-column form-col-4 jf-required" data-type="control_signature"
+                    {checked&&<li className="form-line form-line-column form-col-4 jf-required" data-type="control_signature"
                         id="id_7">
-                        <label className="form-label form-label-top form-label-auto" id="label_7" htmlFor="input_7">
+                        <label className="form-label form-label-top form-label-auto" id="label_7">
                             Signature
                             <span className="form-required">
             *
           </span>
                         </label>
-                        <div id="cid_7" className="form-input-wide jf-required" data-layout="half">
-                            <div data-wrapper-react="true">
-                                <div id="signature_pad_7" className="signature-pad-wrapper"
-                                     style={{width: '312px', height: '116px'}}>
-                                    <div data-wrapper-react="true">
-                                    </div>
-                                    <div className="signature-line signature-wrapper signature-placeholder"
-                                         data-component="signature" style={{width: '312px', height: '116px'}}>
-                                        <div id="sig_pad_7" data-width="310" data-height="114" data-id="7"
-                                             className="pad  "
-                                             aria-labelledby="label_7">
-                                        </div>
-                                        <input type="hidden"
-                                               name="q7_signature" className="output4" id="input_7"/>
-                                    </div>
-                                    <span className="clear-pad-btn clear-pad" role="button" tabIndex="0">
-                Clear
-              </span>
-                                </div>
-                                <div data-wrapper-react="true">
-                                    <script type="text/javascript">
-                                        {window.signatureForm = true}
-                                    </script>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+                        <MSignaturePad ref={refSignaturePad} setTouchedSignature={setTouchedSignature}/>
+                    </li>}
                     <li className="form-line" data-type="control_button" id="id_2">
                         <div id="cid_2" className="form-input-wide" data-layout="full">
                             <div data-align="auto"
