@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
 });
 
 tailGateTalkFormRouter.post('/save', function (request, response) {
-    var sql = `INSERT INTO tail_gate_talk_form (date,location,firstNameForeman,lastNameForeman,signatureForeman,job,safetyTraining,employeeSuggestions,signature,title,subject) VALUES (?,?,?,?,?,?,?,?,?,?,?)`;
+    var sql = `INSERT INTO tail_gate_talk_form (date,location,firstNameForeman,lastNameForeman,signatureForeman,job,safetyTraining,employeeSuggestions,signature,title,subject,created_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`;
     let date = request.body.date;
     let location = request.body.location;
     let firstNameForeman = request.body.firstNameForeman;
@@ -24,8 +24,9 @@ tailGateTalkFormRouter.post('/save', function (request, response) {
     let signature = request.body.signature;
     let title = request.body.title;
     let subject = request.body.subject;
+    let createdDate = new Date();
 
-    connection.query(sql, [date, location, firstNameForeman, lastNameForeman, signatureForeman, job, safetyTraining, employeeSuggestions, signature, title,subject], function (error, rows) {
+    connection.query(sql, [date, location, firstNameForeman, lastNameForeman, signatureForeman, job, safetyTraining, employeeSuggestions, signature, title,subject,createdDate], function (error, rows) {
         if (error) throw error;
 
         console.log("Row inserted to tail_gate_talk_form. Id = "
@@ -39,7 +40,7 @@ tailGateTalkFormRouter.post('/save', function (request, response) {
 });
 
 tailGateTalkFormRouter.get('/findAll', function (request, response) {
-    var sql = `select * from tail_gate_talk_form`;
+    var sql = `select * from tail_gate_talk_form order by created_date desc`;
 
     connection.query(sql, function (error, result, fields) {
         if (error) throw error;
