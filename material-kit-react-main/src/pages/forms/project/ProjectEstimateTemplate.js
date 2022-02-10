@@ -255,7 +255,7 @@ export default function ProjectEstimateTemplate({selectedData,updateDt}) {
                                        setEmployeeTotal={setEmployeeTotal}/>
                     </div>
                 </li>
-                {selectedData.employee_foreman_json&&<li
+                {selectedData?.employee_foreman_json&&<li
                     className="form-line form-line-column form-col-2 jf-required"
                     data-type="control_datetime"
                     id="id_18"
@@ -264,7 +264,7 @@ export default function ProjectEstimateTemplate({selectedData,updateDt}) {
 
                     </div>
                 </li>}
-                {selectedData.employee_foreman_json&&<li
+                {selectedData?.employee_foreman_json&&<li
                     className="form-line form-line-column form-col-2 jf-required"
                     data-type="control_datetime"
                     id="id_18"
