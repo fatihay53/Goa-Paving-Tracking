@@ -1,11 +1,29 @@
 import React, {useState} from "react";
+import GeneralUtils from "../../../../utils/GeneralUtils";
 
-export default function SubContractorTable() {
-    const [subContractor,setSubContractor] = useState({quantityHours:0,rateHours:0,quantityM2:0,rateM2:0});
+export default function SubContractorTable({selectedData,setSubContractorTotal,setSubContractorValue}) {
     const [totalAmount,setTotalAmount] = useState(0);
 
+    const getInitialData=()=>{
+        let data ;
+        if (!GeneralUtils.isNullOrEmpty(selectedData)){
+            data = {
+                ...JSON.parse(selectedData.subcontractor_json)
+            }
+        }else{
+            data = {quantityHours:0,rateHours:0,quantityM2:0,rateM2:0}
+        }
+        return data;
+    }
+
+    const [subContractor,setSubContractor] = useState(getInitialData());
+
+
     React.useEffect(() => {
-        setTotalAmount(subContractor.quantityHours*subContractor.rateHours + subContractor.quantityM2*subContractor.rateM2);
+        let totalAmount = subContractor.quantityHours*subContractor.rateHours + subContractor.quantityM2*subContractor.rateM2;
+        setTotalAmount(totalAmount);
+        setSubContractorTotal(totalAmount);
+        setSubContractorValue(subContractor);
     }, [subContractor.quantityHours,subContractor.rateHours,subContractor.quantityM2,subContractor.rateM2]);
 
     const onChangeQuantiyHours=(e)=> {
@@ -39,16 +57,16 @@ export default function SubContractorTable() {
                     <td>Hours</td>
                     <td><input type="numeric" value={subContractor.quantityHours} onChange={onChangeQuantiyHours}/></td>
                     <td><input type="numeric" value={subContractor.rateHours} onChange={onChangeRateHours}/></td>
-                    <td>$ {subContractor.quantityHours*subContractor.rateHours}</td>
+                    <td>$ {GeneralUtils.numberFormatter((subContractor.quantityHours*subContractor.rateHours).toFixed(2))}</td>
                 </tr>
                 <tr>
                     <td>M2</td>
                     <td><input type="numeric" value={subContractor.quantityM2} onChange={onChangeQuantityM2}/></td>
                     <td><input type="numeric" value={subContractor.rateM2} onChange={onChangeRateM2}/></td>
-                    <td>$ {subContractor.quantityM2*subContractor.rateM2}</td>
+                    <td>$ {GeneralUtils.numberFormatter((subContractor.quantityM2*subContractor.rateM2).toFixed(2))}</td>
                 </tr>
             </table>
-            <span style={{float:'right'}}>Total : $ {totalAmount}</span>
+            <span style={{float:'right'}}>Sum of Total Sub Contract : $ {GeneralUtils.numberFormatter(totalAmount.toFixed(2))}</span>
         </div>
     )
 

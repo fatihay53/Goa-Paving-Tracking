@@ -13,6 +13,9 @@ const userRouter = require('./controller/user');
 const timeCardRouter = require('./controller/time_card');
 const jobTypeRouter = require('./controller/job_type');
 const timeCardDetailRouter = require('./controller/time_card_detail');
+const materialsRouter = require('./controller/materials');
+const projectCategoryRouter = require('./controller/project_category');
+const estimateTemplateRouter = require('./controller/estimate_template');
 
 var app = express();
 app.use(cors())
@@ -33,6 +36,9 @@ app.use('/user',userRouter);
 app.use('/timeCard',timeCardRouter);
 app.use('/jobType',jobTypeRouter);
 app.use('/timeCardDetail',timeCardDetailRouter);
+app.use('/materials',materialsRouter);
+app.use('/projectCategory',projectCategoryRouter);
+app.use('/estimateTemplate',estimateTemplateRouter);
 
 app.get('/', function(request, response) {
     response.sendFile(path.join(__dirname + '/login.html'));

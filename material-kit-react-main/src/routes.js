@@ -23,6 +23,8 @@ import CreateUser from "./pages/user-management/CreateUser";
 import TimeCard from "./pages/forms/time-card/TimeCard";
 import TimeCardList from "./pages/forms/time-card/TimeCardList";
 import ProjectEstimateTemplate from "./pages/forms/project/ProjectEstimateTemplate";
+import TimeCardReport from "./pages/reports/time-card-report/TimeCardReport";
+import ProjectEstimateTemplateList from "./pages/forms/project/ProjectEstimateTemplateList";
 
 // ----------------------------------------------------------------------
 
@@ -67,14 +69,15 @@ export default function Router() {
       path: '/dashboard/project',
       element: <DashboardLayout />,
       children: [
-        { path: 'estimateTemplate', element: <ProjectEstimateTemplate /> }
+        { path: 'estimateTemplate', element: <ProjectEstimateTemplate /> },
+        { path: 'savedEstimateTemplate', element: <ProjectEstimateTemplateList /> }
       ]
     },
     {
       path: '/dashboard/reports',
       element: <DashboardLayout />,
       children: [
-        { path: 'timeCardReport', element: <TimeCard /> }
+        { path: 'timeCardReport', element: <TimeCardReport /> }
       ]
     },
     {

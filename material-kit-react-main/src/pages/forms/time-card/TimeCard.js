@@ -53,6 +53,14 @@ export default function TimeCard() {
         return remaining < 10 ? div + ":" + "0" + remaining : div + ":" + remaining;
     }
 
+    const getTotalHourDouble=()=>{
+        let totalHour = form.totalHour;
+        let totalHourArr = totalHour.split(":");
+        let hour = parseInt(totalHourArr[0]);
+        let minute = totalHourArr[1] === '00' ? 0 : totalHourArr[1] === '30' ? 0.5 : 0;
+        return hour + minute;
+    }
+
     const saveForm = () => {
         const date = document.getElementById('lite_mode_5').value;
         if (form.totalHour === "" || form.totalHour === null || form.totalHour == 0 || div < 0) {
@@ -69,8 +77,9 @@ export default function TimeCard() {
         }
 
         const signature = refSignaturePad.current.getSignature();
+        let totalHourDouble = getTotalHourDouble();
 
-        timeCardService.save({...form, date, signature,userId : user.userId,boardAllowance}).then(async res => {
+        timeCardService.save({...form, date, signature,userId : user.userId,boardAllowance,totalHourDouble:totalHourDouble}).then(async res => {
             if (res.status == 200) {
                 refSignaturePad.current.clearSignature();
                 setBoardAllowance(false);

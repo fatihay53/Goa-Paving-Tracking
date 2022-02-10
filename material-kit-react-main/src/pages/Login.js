@@ -40,7 +40,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function Login() {
   return (
-    <RootStyle title="Login | Minimal-UI">
+    <RootStyle title="Goa Paving">
       <Container maxWidth="sm">
         <ContentStyle>
           <Stack sx={{ mb: 5 }} style={{ display: 'flex', alignItems: 'center' }}>

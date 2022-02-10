@@ -1,5 +1,4 @@
 import React from "react";
-import loadjs from 'loadjs';
 
 export function JotFormConfig(){
 

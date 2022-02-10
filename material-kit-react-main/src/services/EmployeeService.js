@@ -5,6 +5,10 @@ export default class EmployeeService {
     return axios.get('http://wwww.localhost:8080/employee/findAll');
   }
 
+  findAllEmployees() {
+    return axios.get('http://wwww.localhost:8080/employee/findAllEmployees');
+  }
+
   save(data) {
     return axios.post('http://wwww.localhost:8080/employee/save', data);
   }

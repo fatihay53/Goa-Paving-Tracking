@@ -43,6 +43,11 @@ export default class SideBarConfigService {
                       title: 'Project Estimate Template',
                       path: '/dashboard/project/estimateTemplate',
                       icon: getIcon(reportIcon)
+                  },
+                {
+                      title: 'Saved Project Estimate Template',
+                      path: '/dashboard/project/savedEstimateTemplate',
+                      icon: getIcon(reportIcon)
                   }
               ]
           },

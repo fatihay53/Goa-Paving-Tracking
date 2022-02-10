@@ -33,7 +33,7 @@ export default function CreateUser() {
         email: Yup.string().email('Email must be a valid email address').required('Email is required'),
         password: Yup.string().required('Password is required'),
         passwordAgain: Yup.string().required('Password again is required'),
-        role: Yup.string().required('Role is required'),
+        role: Yup.string().required('Role is required')
     });
 
     const formik = useFormik({
@@ -44,7 +44,8 @@ export default function CreateUser() {
             email: '',
             password: '',
             passwordAgain: '',
-            role : ''
+            role : '',
+            hourly_cost:''
         },
         validationSchema: RegisterSchema,
         onSubmit: () => {
@@ -59,6 +60,14 @@ export default function CreateUser() {
            if (password != passwordAgain){
                formik.setSubmitting(false);
                return toast.warning("Password are not matches!");
+           }
+
+           let hourlyCost = getFieldProps('hourly_cost').value;
+
+           if (role === 'ROLE_USER'){
+                if (hourlyCost === null || hourlyCost === undefined || hourlyCost === ''){
+                    return toast.warning("Please enter hourly cost!");
+                }
            }
 
            userService.findByUserName({userName:userName}).then(res=>{
@@ -83,7 +92,8 @@ export default function CreateUser() {
                                         lastName : lastName,
                                         email : email,
                                         userId : userId,
-                                        employeeType : type
+                                        employeeType : type,
+                                        hourly_cost : hourlyCost
                                     }
                                     employeeService.save({...employee}).then(res=>{
                                         if (res.status == 200) {
@@ -98,9 +108,6 @@ export default function CreateUser() {
                     }
                 }
            })
-
-           console.log(formik.initialValues)
-            //navigate('/dashboard', {replace: true});
         }
     });
 
@@ -153,6 +160,13 @@ export default function CreateUser() {
                             ))}
                         </TextField>
                     </Stack>
+                    {getFieldProps('role').value==='ROLE_USER'&&<Stack direction={{xs: 'column', sm: 'row'}} spacing={2}>
+                        <TextField
+                            fullWidth
+                            label="Hourly Cost"
+                            {...getFieldProps('hourly_cost')}
+                        />
+                    </Stack>}
                     <TextField
                         fullWidth
                         autoComplete="username"
