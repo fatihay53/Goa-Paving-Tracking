@@ -13,12 +13,16 @@ export default class EstimateTemplateService {
         return axios.post('http://wwww.localhost:8080/estimateTemplate/update', data);
     }
 
+    updateForemanData(data) {
+        return axios.post('http://wwww.localhost:8080/estimateTemplate/updateForemanData', data);
+    }
+
     findById(data) {
         return axios.post('http://wwww.localhost:8080/estimateTemplate/findById', data);
     }
 
-    async findByProjectName(data) {
-        return await axios.post('http://wwww.localhost:8080/estimateTemplate/findByProjectName', data);
+    findByProjectName(data) {
+        return axios.post('http://wwww.localhost:8080/estimateTemplate/findByProjectName', data);
     }
 
 }

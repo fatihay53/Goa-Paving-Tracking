@@ -6,12 +6,14 @@ import EstimateTemplateService from "../../../services/EstimateTemplateService";
 import {Dialog} from "primereact/dialog";
 import ProjectEstimateTemplate from "./ProjectEstimateTemplate";
 import {toast} from "react-toastify";
+import EmployeeTableForeman from "./tables/EmployeeTableForeman";
 
 export default function ProjectEstimateTemplateList() {
     const estimateTemplateService = new EstimateTemplateService();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [showDialog, setShowDialog] = useState(false);
+    const [showDialogForeman, setShowDialogForeman] = useState(false);
     const [selectedData, setSelectedData] = useState({});
 
     useEffect(() => {
@@ -30,12 +32,18 @@ export default function ProjectEstimateTemplateList() {
                 setData(res.data);
                 setLoading(false);
                 setShowDialog(false);
+                setShowDialogForeman(false);
             }
         }).catch(err => toast.error("Error : ProjectEstimateTemplateList -> findAll()"))
     }
 
     const onEdit=(row)=>{
-        setShowDialog(true);
+        let role = localStorage.getItem('role');
+        if (role === 'ROLE_SUPERVISOR'){
+            setShowDialog(true);
+        }else  if (role === 'ROLE_FOREMAN'){
+            setShowDialogForeman(true);
+        }
         setSelectedData(row);
     }
 
@@ -63,6 +71,20 @@ export default function ProjectEstimateTemplateList() {
         )
     }
 
+    const renderForemanDialog=()=>{
+        return (
+            <div className="dialog-demo">
+                <div className="card">
+                    <Dialog visible={showDialogForeman} onHide={() => setShowDialogForeman(false)}
+                            breakpoints={{'960px': '75vw', '640px': '100vw'}} style={{width: '50vw'}} maximizable={true} baseZIndex={1501}
+                    >
+                        <EmployeeTableForeman selectedData={selectedData} updateDt={updateDt}/>
+                    </Dialog>
+                </div>
+            </div>
+        )
+    }
+
     let dt = <div>
         <div className="card">
             <DataTable value={data} paginator responsiveLayout="scroll"
@@ -80,6 +102,7 @@ export default function ProjectEstimateTemplateList() {
                 <Column field="estimate_project_hour" header="Estimate Project Hour"></Column>
             </DataTable>
             {renderDialog()}
+            {renderForemanDialog()}
         </div>
 
     </div>;

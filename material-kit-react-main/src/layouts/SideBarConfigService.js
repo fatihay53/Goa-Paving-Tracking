@@ -15,7 +15,7 @@ export default class SideBarConfigService {
     const role = localStorage.getItem('role');
     let sidebarConfig = [];
 
-    if (role === 'ROLE_ADMIN') {
+    if (role === 'ROLE_SUPERVISOR' || role === 'ROLE_FOREMAN') {
       sidebarConfig = [
         {
           title: 'dashboard',

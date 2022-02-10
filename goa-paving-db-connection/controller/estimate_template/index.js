@@ -71,6 +71,21 @@ estimateTemplateRouter.post('/update', function (request, response) {
     });
 });
 
+estimateTemplateRouter.post('/updateForemanData', function (request, response) {
+    let id = request.body.id;
+    let employeeForemanData = JSON.stringify(request.body.employeeForemanData);
+
+    var sql = `UPDATE estimate_template set employee_foreman_json = '${employeeForemanData}' where id =${id}`;
+
+    connection.query(sql, function (error, rows) {
+        if (error) throw error;
+
+        console.log("Row updated to estimate_template = " + id);
+
+        response.end();
+    });
+});
+
 estimateTemplateRouter.get('/findAll', function (request, response) {
     var sql = `select e.id as estimate_template_id,p.name as project_category_name,e.* from estimate_template e join project_category p on e.project_category_id=p.id order by created_date desc`;
 

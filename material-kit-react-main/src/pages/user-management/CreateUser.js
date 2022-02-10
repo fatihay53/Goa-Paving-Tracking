@@ -24,7 +24,7 @@ export default function CreateUser() {
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordAgain, setShowPasswordAgain] = useState(false);
 
-    const roles = [{role:"Select",value:''},{role:"ROLE_ADMIN",value:"ROLE_ADMIN"},{role:"ROLE_USER",value:"ROLE_USER"},{role:"ROLE_GUEST",value:"ROLE_GUEST"}];
+    const roles = [{role:"Select",value:''},{role:"ROLE_SUPERVISOR",value:"ROLE_SUPERVISOR"},{role:"ROLE_FOREMAN",value:"ROLE_FOREMAN"},{role:"ROLE_USER",value:"ROLE_USER"},{role:"ROLE_GUEST",value:"ROLE_GUEST"}];
 
     const RegisterSchema = Yup.object().shape({
         firstName: Yup.string().required('First name required'),
@@ -86,7 +86,7 @@ export default function CreateUser() {
                                 formik.setSubmitting(false);
                                 let userId = res.data.insertId;
                                 if (userId != null && userId != '' && userId != undefined){
-                                    let type = role === 'ROLE_ADMIN' ? 'ADMIN' : role === 'ROLE_USER' ? 'EMPLOYEE' : 'GUEST';
+                                    let type = role === 'ROLE_SUPERVISOR' ? 'SUPERVISOR' : role === 'ROLE_FOREMAN' ? 'FOREMAN' : role === 'ROLE_USER' ? 'EMPLOYEE' : 'GUEST';
                                     let employee = {
                                         firstName : firstName,
                                         lastName : lastName,

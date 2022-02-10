@@ -16,6 +16,7 @@ import ResultTable from "./tables/ResultTable";
 import EstimateTemplateService from "../../../services/EstimateTemplateService";
 import GeneralUtils from "../../../utils/GeneralUtils";
 import {toast} from "react-toastify";
+import EmployeeTableForeman from "./tables/EmployeeTableForeman";
 
 export default function ProjectEstimateTemplate({selectedData,updateDt}) {
 
@@ -45,7 +46,7 @@ export default function ProjectEstimateTemplate({selectedData,updateDt}) {
 
     const getInitialData=()=>{
         let data ;
-        if (!GeneralUtils.isNullOrEmpty(selectedData,updateDt)){
+        if (!GeneralUtils.isNullOrEmpty(selectedData)){
             data = {
                 id:selectedData.id,projectName: selectedData.project_name, category: selectedData.project_category_name,categoryId:selectedData.project_category_id, estimateProjectHour: selectedData.estimate_project_hour, totalM2: selectedData.total_m2
             }
@@ -110,7 +111,25 @@ export default function ProjectEstimateTemplate({selectedData,updateDt}) {
         if (GeneralUtils.isNullOrEmpty(project.id)){
             estimateTemplateService.save(request).then(res=>{
                 if (res.status == 200){
-                    updateDt();
+                    setProject({projectName: '', category: '',categoryId:'', estimateProjectHour: '', totalM2: 0});
+                    setMaterialsTotal({});
+                    setSubContractorTotal(0);
+                    setEmployeeTotal(0);
+                    setExternalCostTotal(0);
+                    setInternalRentTotal(0);
+                    setEquipmentCostTotal(0);
+                    setColdMillingTotal(0);
+                    setTrafficControlTotal(0);
+
+                    setMaterialsValue({});
+                    setSubContractorValue({});
+                    setEmployeeValue({});
+                    setExternalRentValue({});
+                    setInternalRentValue({});
+                    setEquipmentCostValue({});
+                    setColdMillingValue({});
+                    setTrafficControlValue({});
+                    toast.success("Operation success.");
                 }
             })
         }else{
@@ -236,6 +255,24 @@ export default function ProjectEstimateTemplate({selectedData,updateDt}) {
                                        setEmployeeTotal={setEmployeeTotal}/>
                     </div>
                 </li>
+                {selectedData.employee_foreman_json&&<li
+                    className="form-line form-line-column form-col-2 jf-required"
+                    data-type="control_datetime"
+                    id="id_18"
+                >
+                    <div id="cid_18" className="form-input-wide jf-required" data-layout="half">
+
+                    </div>
+                </li>}
+                {selectedData.employee_foreman_json&&<li
+                    className="form-line form-line-column form-col-2 jf-required"
+                    data-type="control_datetime"
+                    id="id_18"
+                >
+                    <div id="cid_18" className="form-input-wide jf-required" data-layout="half">
+                        <EmployeeTableForeman selectedData={selectedData}/>
+                    </div>
+                </li>}
                 <li
                     className="form-line form-line-column form-col-1 jf-required"
                     data-type="control_textbox"

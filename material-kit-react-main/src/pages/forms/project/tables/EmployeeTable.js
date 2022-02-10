@@ -103,7 +103,7 @@ export default function EmployeeTable({selectedData,estimateProjectHour,setEmplo
                     <th>Name</th>
                     <th>Surname</th>
                     <th>Hourly Cost</th>
-                    <th>Hour</th>
+                    <th>Estimate Hour</th>
                     <th>Total Cost</th>
                 </tr>}
                 {employees.length > 0 &&
