@@ -13,7 +13,7 @@ import { Button } from 'primereact/button';
 const DATE_FORMAT = 'yy-mm-dd';
 const DATE_FORMAT_MOMENT = 'YYYY-MM-DD';
 
-export default function TimeCardReport() {
+export default function PavingMillingReport() {
 
     const timeCardService = new TimeCardService();
     const [chartData, setChartData] = useState([]);
