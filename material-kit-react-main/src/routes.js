@@ -25,6 +25,9 @@ import TimeCardList from "./pages/forms/time-card/TimeCardList";
 import ProjectEstimateTemplate from "./pages/forms/project/ProjectEstimateTemplate";
 import TimeCardReport from "./pages/reports/time-card-report/TimeCardReport";
 import ProjectEstimateTemplateList from "./pages/forms/project/ProjectEstimateTemplateList";
+import PavingMillingReport from "./pages/reports/paving-milling-report/PavingMillingReport";
+import HomePage from "./home-page/HomePage";
+import UserList from "./pages/user-management/UserList";
 
 // ----------------------------------------------------------------------
 
@@ -77,14 +80,16 @@ export default function Router() {
       path: '/dashboard/reports',
       element: <DashboardLayout />,
       children: [
-        { path: 'timeCardReport', element: <TimeCardReport /> }
+        { path: 'timeCardReport', element: <TimeCardReport /> },
+        { path: 'pavingMillingReport', element: <PavingMillingReport /> }
       ]
     },
     {
       path: '/dashboard/usermanagement',
       element: <DashboardLayout />,
       children: [
-        { path: 'createUser', element: <CreateUser /> }
+        { path: 'createUser', element: <CreateUser /> },
+        { path: 'users', element: <UserList /> }
       ]
     },
     {
@@ -105,11 +110,11 @@ export default function Router() {
     {
       path: '/',
       children: [
-        { element: <Navigate to="/index.html" replace /> },
+        { element: <Navigate to="/home" replace /> },
+        { path: '/home', element: <HomePage/> },
         { path: 'index.html', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
-        { path: '/', element: <Navigate to="/dashboard" /> },
         { path: '*', element: <Navigate to="/404" /> }
       ]
     },
