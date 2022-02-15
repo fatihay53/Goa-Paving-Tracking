@@ -2,15 +2,8 @@
 
 const express = require('express');
 const estimateTemplateRouter = express.Router();
-var mysql = require('mysql');
 var moment = require('moment');
-
-var connection = mysql.createConnection({
-    host: '192.168.99.100',
-    user: 'root',
-    password: '123',
-    database: 'goa_paving'
-});
+const connection = require('../connection')
 
 const dateFormat = "YYYY-MM-DD HH:mm:ss";
 

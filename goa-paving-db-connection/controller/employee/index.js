@@ -39,6 +39,9 @@ employeeRouter.post('/save', function (request, response) {
     let email = request.body.email;
     let employeeType = request.body.employeeType;
     let hourlyCost = request.body.hourly_cost;
+    if (hourlyCost == null || hourlyCost == undefined || hourlyCost == ''){
+        hourlyCost = 0;
+    }
 
     connection.query(sql, [email, userId, name, surname,employeeType,hourlyCost], function (error, rows) {
         if (error) throw error;

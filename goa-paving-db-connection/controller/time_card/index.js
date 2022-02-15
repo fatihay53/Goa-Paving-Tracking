@@ -3,13 +3,8 @@
 const express = require('express');
 const timeCardRouter = express.Router();
 var mysql = require('mysql');
-
-var connection = mysql.createConnection({
-    host: '192.168.99.100',
-    user: 'root',
-    password: '123',
-    database: 'goa_paving'
-});
+const connection = require('../connection')
+const connectiongmt3 = require('../connectiongmt3')
 
 timeCardRouter.post('/getTimeCardReport', function (request, response) {
     let startDate = request.body.startDate;
@@ -17,16 +12,7 @@ timeCardRouter.post('/getTimeCardReport', function (request, response) {
     let sql = `select date,created_date,e.name,e.surname,total_hour_double,e.user_id from time_card t join employee e on t.user_id=e.user_id
  where date between Date('${startDate}') and Date('${endDate}') and is_approved=true  order by date asc`;
 
-    let connectionNew = mysql.createConnection({
-        host: '192.168.99.100',
-        user: 'root',
-        password: '123',
-        database: 'goa_paving',
-        timezone: 'GMT + 3'
-    });
-    console.log(sql)
-
-    connectionNew.query(sql, function (error, result, fields) {
+    connectiongmt3.query(sql, function (error, result, fields) {
         if (error) throw error;
         response.json(result)
         response.end();

@@ -2,14 +2,7 @@
 
 const express = require('express');
 const tailGateTalkFormRouter = express.Router();
-var mysql = require('mysql');
-
-var connection = mysql.createConnection({
-    host: '192.168.99.100',
-    user: 'root',
-    password: '123',
-    database: 'goa_paving'
-});
+const connection = require('../connection')
 
 tailGateTalkFormRouter.post('/save', function (request, response) {
     var sql = `INSERT INTO tail_gate_talk_form (date,location,firstNameForeman,lastNameForeman,signatureForeman,job,safetyTraining,employeeSuggestions,signature,title,subject,created_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`;
