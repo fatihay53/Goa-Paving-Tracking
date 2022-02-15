@@ -1,8 +1,9 @@
 import axios from 'axios';
+import GeneralUtils from "../utils/GeneralUtils";
 
 export default class LoginService {
   login(username, password) {
-    return axios.post('http://wwww.localhost:8080/auth/login', {
+    return axios.post(GeneralUtils.URL+'/auth/login', {
       username,
       password
     });

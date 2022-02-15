@@ -1,7 +1,8 @@
 import axios from 'axios';
+import GeneralUtils from "../utils/GeneralUtils";
 
 export default class LoginService {
     sendMail(data) {
-        return axios.post('http://wwww.localhost:8080/mail/send', data);
+        return axios.post(GeneralUtils.URL+'/mail/send', data);
     }
 }

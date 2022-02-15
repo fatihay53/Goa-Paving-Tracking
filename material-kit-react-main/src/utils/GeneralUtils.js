@@ -1,4 +1,7 @@
 export default class GeneralUtils{
+
+    static URL = 'http://wwww.localhost:8080';
+
     static changeDecimalSeperator (str,from,to) {
         return str.replace(from,to).replace(' ','');
     }
