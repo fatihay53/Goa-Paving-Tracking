@@ -25,4 +25,8 @@ export default class EstimateTemplateService {
         return axios.post('http://wwww.localhost:8080/estimateTemplate/findByProjectName', data);
     }
 
+    findUserTodayHours(data) {
+        return axios.post('http://wwww.localhost:8080/estimateTemplate/findUserTodayHours', data);
+    }
+
 }

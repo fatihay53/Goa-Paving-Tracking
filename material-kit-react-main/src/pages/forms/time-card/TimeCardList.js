@@ -1,15 +1,8 @@
 import './time-card.css'
-import React, {useEffect, useRef, useState} from "react";
-import {JotFormConfig} from "../../JotFormConfig";
-import TimePicker from 'react-time-picker';
-import moment from 'moment';
-import {toast} from "react-toastify";
-import SignaturePad from 'react-signature-pad-wrapper'
+import React, {useEffect, useState} from "react";
 import TimeCardService from "../../../services/TimeCardService";
 import MDataTable from "../../../components/mcomponents/dt/MDataTable";
-import EmployeeService from "../../../services/EmployeeService";
 import MDialog from "../../../components/mcomponents/MDialog";
-import SelectEmployee from "../../../components/mcomponents/SelectEmployee";
 import TimeCardApprove from "./TimeCardApprove";
 
 export default function TimeCardList() {

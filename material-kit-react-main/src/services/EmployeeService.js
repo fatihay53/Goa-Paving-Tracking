@@ -12,4 +12,9 @@ export default class EmployeeService {
   save(data) {
     return axios.post('http://wwww.localhost:8080/employee/save', data);
   }
+
+  update(data) {
+    return axios.post('http://wwww.localhost:8080/employee/update', data);
+  }
+
 }

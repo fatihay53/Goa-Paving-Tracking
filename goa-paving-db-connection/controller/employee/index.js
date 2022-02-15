@@ -53,4 +53,25 @@ employeeRouter.post('/save', function (request, response) {
     });
 });
 
+employeeRouter.post('/update', function (request, response) {
+    let id = request.body.id;
+    var sql = `UPDATE employee set email = ?, user_id = ?,name = ?,surname = ?,employee_type = ?,hourly_cost =? where id = ${id}`;
+    let userId = request.body.userId;
+    let name = request.body.firstName;
+    let surname = request.body.lastName;
+    let email = request.body.email;
+    let employeeType = request.body.employeeType;
+    let hourlyCost = request.body.hourly_cost;
+
+    connection.query(sql, [email, userId, name, surname,employeeType,hourlyCost], function (error, rows) {
+        if (error) throw error;
+
+        response.json({
+            ...rows
+        })
+
+        response.end();
+    });
+});
+
 module.exports = employeeRouter;

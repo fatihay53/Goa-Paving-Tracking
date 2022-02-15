@@ -11,9 +11,11 @@ var connection = mysql.createConnection({
     database: 'goa_paving'
 });
 
-timeCardRouter.get('/getTimeCardReport', function (request, response) {
+timeCardRouter.post('/getTimeCardReport', function (request, response) {
+    let startDate = request.body.startDate;
+    let endDate = request.body.endDate;
     let sql = `select date,created_date,e.name,e.surname,total_hour_double,e.user_id from time_card t join employee e on t.user_id=e.user_id
- where date between Date('2022-01-27') and Date('2022-02-01') and is_approved=true  order by date asc`;
+ where date between Date('${startDate}') and Date('${endDate}') and is_approved=true  order by date asc`;
 
     let connectionNew = mysql.createConnection({
         host: '192.168.99.100',
@@ -22,6 +24,7 @@ timeCardRouter.get('/getTimeCardReport', function (request, response) {
         database: 'goa_paving',
         timezone: 'GMT + 3'
     });
+    console.log(sql)
 
     connectionNew.query(sql, function (error, result, fields) {
         if (error) throw error;
@@ -30,10 +33,12 @@ timeCardRouter.get('/getTimeCardReport', function (request, response) {
     });
 });
 
-timeCardRouter.get('/getTimeCardReportTotal', function (request, response) {
+timeCardRouter.post('/getTimeCardReportTotal', function (request, response) {
+    let startDate = request.body.startDate;
+    let endDate = request.body.endDate;
     let sql = `select e.user_id,e.name,e.surname,sum(total_hour_double) as total from time_card t join employee e on t.user_id=e.user_id
- where date between Date('2022-01-27') and Date('2022-02-01') and is_approved=true
- group by e.user_id,e.name,e.surname`;
+     where date between Date('${startDate}') and Date('${endDate}') and is_approved=true
+     group by e.user_id,e.name,e.surname`;
 
     connection.query(sql, function (error, result, fields) {
         if (error) throw error;

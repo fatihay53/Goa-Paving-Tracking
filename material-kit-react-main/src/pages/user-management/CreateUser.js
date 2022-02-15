@@ -18,7 +18,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
     flexDirection: 'column',
     justifyContent: 'center'
 }));
-export default function CreateUser() {
+export default function CreateUser({isShow,selectedData,setShowSelectedData,findAll}) {
     const userService = new UserService();
     const employeeService = new EmployeeService();
     const [showPassword, setShowPassword] = useState(false);
@@ -37,7 +37,18 @@ export default function CreateUser() {
     });
 
     const formik = useFormik({
-        initialValues: {
+        initialValues: isShow ?
+            {
+                firstName: selectedData.name,
+                lastName: selectedData.surname,
+                userName: selectedData.username,
+                email: selectedData.email,
+                password: selectedData.password,
+                passwordAgain: selectedData.password,
+                role : selectedData.role,
+                hourly_cost: selectedData.hourly_cost
+            }
+            :{
             firstName: '',
             lastName: '',
             userName: '',
@@ -72,7 +83,7 @@ export default function CreateUser() {
 
            userService.findByUserName({userName:userName}).then(res=>{
                 if (res.status == 200){
-                    if (res.data.length > 0){
+                    if (res.data.length > 0 && !isShow){
                         formik.setSubmitting(false);
                         return toast.warning("Username is already in use!");
                     }else{
@@ -81,30 +92,58 @@ export default function CreateUser() {
                             "password":password,
                             "role": role
                         }
-                        userService.save({...user}).then(res=>{
-                            if (res.status == 200){
-                                formik.setSubmitting(false);
-                                let userId = res.data.insertId;
-                                if (userId != null && userId != '' && userId != undefined){
-                                    let type = role === 'ROLE_SUPERVISOR' ? 'SUPERVISOR' : role === 'ROLE_FOREMAN' ? 'FOREMAN' : role === 'ROLE_USER' ? 'EMPLOYEE' : 'GUEST';
-                                    let employee = {
-                                        firstName : firstName,
-                                        lastName : lastName,
-                                        email : email,
-                                        userId : userId,
-                                        employeeType : type,
-                                        hourly_cost : hourlyCost
-                                    }
-                                    employeeService.save({...employee}).then(res=>{
-                                        if (res.status == 200) {
-                                            formik.setValues(formik.initialValues);
-                                            formik.setValues(formik.initialValues);
-                                            toast.success("Saved succesfully!");
+                        if (!isShow){
+                            userService.save({...user}).then(res=>{
+                                if (res.status == 200){
+                                    formik.setSubmitting(false);
+                                    let userId = res.data.insertId;
+                                    if (userId != null && userId != '' && userId != undefined){
+                                        let type = role === 'ROLE_SUPERVISOR' ? 'SUPERVISOR' : role === 'ROLE_FOREMAN' ? 'FOREMAN' : role === 'ROLE_USER' ? 'EMPLOYEE' : 'GUEST';
+                                        let employee = {
+                                            firstName : firstName,
+                                            lastName : lastName,
+                                            email : email,
+                                            userId : userId,
+                                            employeeType : type,
+                                            hourly_cost : hourlyCost
                                         }
-                                    })
+                                        employeeService.save({...employee}).then(res=>{
+                                            if (res.status == 200) {
+                                                formik.setValues(formik.initialValues);
+                                                toast.success("Saved succesfully!");
+                                            }
+                                        })
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }else{
+                            userService.update({id:selectedData.user_id,...user}).then(res=>{
+                                if (res.status == 200){
+                                    formik.setSubmitting(false);
+                                    let affectedRows = res.data.affectedRows;
+                                    if (affectedRows == 1){
+                                        let type = role === 'ROLE_SUPERVISOR' ? 'SUPERVISOR' : role === 'ROLE_FOREMAN' ? 'FOREMAN' : role === 'ROLE_USER' ? 'EMPLOYEE' : 'GUEST';
+                                        let employee = {
+                                            id:selectedData.employee_id,
+                                            firstName : firstName,
+                                            lastName : lastName,
+                                            email : email,
+                                            userId : selectedData.user_id,
+                                            employeeType : type,
+                                            hourly_cost : hourlyCost
+                                        }
+                                        employeeService.update({...employee}).then(res=>{
+                                            if (res.status == 200) {
+                                                formik.setValues(formik.initialValues);
+                                                toast.success("Update succesfully!");
+                                                setShowSelectedData(false);
+                                                findAll();
+                                            }
+                                        })
+                                    }
+                                }
+                            });
+                        }
                     }
                 }
            })

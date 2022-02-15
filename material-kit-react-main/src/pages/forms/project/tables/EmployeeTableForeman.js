@@ -33,11 +33,17 @@ export default function EmployeeTableForeman({selectedData,updateDt}) {
     const [employees, setEmployees] = useState(getInitialData());
 
     useEffect(()=>{
-        setRole(localStorage.getItem('role'))
+        let role = localStorage.getItem('role');
+        setRole(role);
+        if (role === 'ROLE_SUPERVISOR'){
+            calculateTotalAmount();
+        }
     },[])
 
     React.useEffect(() => {
-        calculateTotalAmount();
+        if (role === 'ROLE_SUPERVISOR'){
+            calculateTotalAmount();
+        }
     }, [employees]);
 
     const onChangeInput = (e, empId,timeDeserve) => {

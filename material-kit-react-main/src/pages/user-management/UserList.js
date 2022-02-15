@@ -14,6 +14,10 @@ export default function UserList() {
     const [showSelectedData, setShowSelectedData] = useState(false);
 
     useEffect(() => {
+        findAll();
+    }, []);
+
+    const findAll = () => {
         setLoading(true);
         userService.findAll().then(res => {
             if (res.status == 200) {
@@ -21,8 +25,7 @@ export default function UserList() {
                 setLoading(false);
             }
         })
-    }, []);
-
+    }
 
     let dt = <div>
         <div className="card">
@@ -31,7 +34,7 @@ export default function UserList() {
                        selection={selectedData}
                        onSelectionChange={e => {
                            setSelectedData(e.value);
-                           setShowSelectedData(true)
+                           setShowSelectedData(true);
                        }}
                        loading={loading}
                        paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
@@ -52,7 +55,7 @@ export default function UserList() {
     let detailForm = <React.Fragment>
         <Button icon="pi pi-times" className="p-button-rounded p-button-danger"
                 onClick={() => setShowSelectedData(false)}/>
-        <CreateUser isShow={true} selectedData={selectedData}/>
+        <CreateUser isShow={true} selectedData={selectedData} setShowSelectedData={setShowSelectedData} findAll={findAll}/>
     </React.Fragment>;
 
     return showSelectedData ? detailForm : dt;

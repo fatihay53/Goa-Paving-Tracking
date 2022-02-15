@@ -17,12 +17,12 @@ export default class TimeCardService {
     return axios.post('http://wwww.localhost:8080/timeCard/approveTimeCard', data);
   }
 
-  getTimeCardReport() {
-    return axios.get('http://wwww.localhost:8080/timeCard/getTimeCardReport');
+  getTimeCardReport(data) {
+    return axios.post('http://wwww.localhost:8080/timeCard/getTimeCardReport',data);
   }
 
-  getTimeCardReportTotal() {
-    return axios.get('http://wwww.localhost:8080/timeCard/getTimeCardReportTotal');
+  getTimeCardReportTotal(data) {
+    return axios.post('http://wwww.localhost:8080/timeCard/getTimeCardReportTotal',data);
   }
 
 }

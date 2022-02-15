@@ -3,6 +3,7 @@
 const express = require('express');
 const estimateTemplateRouter = express.Router();
 var mysql = require('mysql');
+var moment = require('moment');
 
 var connection = mysql.createConnection({
     host: '192.168.99.100',
@@ -10,6 +11,8 @@ var connection = mysql.createConnection({
     password: '123',
     database: 'goa_paving'
 });
+
+const dateFormat = "YYYY-MM-DD HH:mm:ss";
 
 estimateTemplateRouter.post('/save', function (request, response) {
     var sql = `INSERT INTO estimate_template (project_name,project_category_id,estimate_project_hour,total_m2,subcontractor_json,external_rent_json,internal_rent_json,equipment_cost_json,cold_milling_json,traffic_control_json,employee_json,materials_json,bid,created_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`;
@@ -110,6 +113,24 @@ estimateTemplateRouter.post('/findById', function (request, response) {
 estimateTemplateRouter.post('/findByProjectName', function (request, response) {
     let projectName = request.body.projectName;
     var sql = `select * from estimate_template where project_name='${projectName}'`;
+
+    connection.query(sql, function (error, result, fields) {
+        if (error) throw error;
+        response.json(result)
+        response.end();
+    });
+});
+
+
+estimateTemplateRouter.post('/findUserTodayHours', function (request, response) {
+    let userId = request.body.userId;
+    let now = moment();
+
+    let start = now.startOf('day').format(dateFormat);
+    let end = now.endOf('day').format(dateFormat);
+
+    let sql = `SELECT * FROM estimate_template WHERE json_contains(\`employee_json\`, '{"id":${userId}}') 
+                and created_date between '${start}' and '${end}';`;
 
     connection.query(sql, function (error, result, fields) {
         if (error) throw error;

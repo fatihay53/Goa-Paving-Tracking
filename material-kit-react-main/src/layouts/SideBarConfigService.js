@@ -14,7 +14,7 @@ export default class SideBarConfigService {
 
     const role = localStorage.getItem('role');
     let sidebarConfig = [];
-
+    //|| role === 'ROLE_FOREMAN') {
     if (role === 'ROLE_SUPERVISOR' || role === 'ROLE_FOREMAN') {
       sidebarConfig = [
         {
@@ -30,6 +30,11 @@ export default class SideBarConfigService {
             {
               title: 'Create User',
               path: '/dashboard/userManagement/createUser',
+              icon: getIcon(personAddFill)
+            },
+            {
+              title: 'Saved Users',
+              path: '/dashboard/userManagement/users',
               icon: getIcon(personAddFill)
             }
           ]
@@ -127,6 +132,11 @@ export default class SideBarConfigService {
             {
               title: 'Time Card Report',
               path: '/dashboard/reports/timeCardReport',
+              icon: getIcon(reportIcon)
+            },
+            {
+              title: 'Paving Milling Report',
+              path: '/dashboard/reports/pavingMillingReport',
               icon: getIcon(reportIcon)
             }
           ]

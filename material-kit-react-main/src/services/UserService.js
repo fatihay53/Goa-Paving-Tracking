@@ -9,6 +9,10 @@ export default class UserService {
     return axios.post('http://wwww.localhost:8080/user/save', data);
   }
 
+  update(data) {
+    return axios.post('http://wwww.localhost:8080/user/update', data);
+  }
+
   findByUserName(data) {
     return axios.post('http://wwww.localhost:8080/user/findByUsername', data);
   }
