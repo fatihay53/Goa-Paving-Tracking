@@ -6,12 +6,11 @@ import MBarChart from "../../../components/mcomponents/charts/MBarChart";
 import {Calendar} from 'primereact/calendar';
 import moment from 'moment';
 import { Button } from 'primereact/button';
+import GeneralUtils from "../../../utils/GeneralUtils";
 
 //
 
 // ----------------------------------------------------------------------
-const DATE_FORMAT = 'yy-mm-dd';
-const DATE_FORMAT_MOMENT = 'YYYY-MM-DD';
 
 export default function TimeCardReport() {
 
@@ -20,7 +19,7 @@ export default function TimeCardReport() {
     const [xAxis, setXAxis] = useState([]);
     const [chartDataBar, setChartDataBar] = useState([]);
     const [xAxisBar, setXAxisBar] = useState([]);
-    const [startDate, setStartDate] = useState(new Date(moment().subtract(7,"days").format(DATE_FORMAT_MOMENT)));
+    const [startDate, setStartDate] = useState(new Date(moment().subtract(7,"days").format(GeneralUtils.DATE_FORMAT_MOMENT)));
     const [endDate, setEndDate] = useState(new Date());
     const [loading, setLoading] = useState(false);
 
@@ -30,13 +29,13 @@ export default function TimeCardReport() {
 
     const requestCharts= async ()=>{
         setLoading(true);
-        await timeCardService.getTimeCardReport({startDate:moment(new Date(startDate)).format(DATE_FORMAT_MOMENT),endDate:moment(new Date(endDate)).format(DATE_FORMAT_MOMENT)}).then(res => {
+        await timeCardService.getTimeCardReport({startDate:moment(new Date(startDate)).format(GeneralUtils.DATE_FORMAT_MOMENT),endDate:moment(new Date(endDate)).format(GeneralUtils.DATE_FORMAT_MOMENT)}).then(res => {
             if (res.status == 200) {
                 setData(res);
             }
         });
 
-        timeCardService.getTimeCardReportTotal({startDate:moment(new Date(startDate)).format(DATE_FORMAT_MOMENT),endDate:moment(new Date(endDate)).format(DATE_FORMAT_MOMENT)}).then(res => {
+        timeCardService.getTimeCardReportTotal({startDate:moment(new Date(startDate)).format(GeneralUtils.DATE_FORMAT_MOMENT),endDate:moment(new Date(endDate)).format(GeneralUtils.DATE_FORMAT_MOMENT)}).then(res => {
             if (res.status == 200) {
                 setDataBarChart(res);
             }
@@ -107,7 +106,7 @@ export default function TimeCardReport() {
                             <div className="p-fluid grid formgrid" style={{paddingRight:'1em'}}>
                                 <label htmlFor="icon">Start Date</label>
                                 <Calendar id="icon" value={startDate} onChange={(e) => setStartDate(e.value)}
-                                          dateFormat={DATE_FORMAT}
+                                          dateFormat={GeneralUtils.DATE_FORMAT_CALENDAR}
                                           showIcon/>
                             </div>
                         </div>
@@ -115,7 +114,7 @@ export default function TimeCardReport() {
                             <div className="p-fluid grid formgrid" style={{paddingRight:'1em'}}>
                                 <label htmlFor="icon">End Date</label>
                                 <Calendar id="icon" value={endDate} onChange={(e) => setEndDate(e.value)}
-                                          dateFormat={DATE_FORMAT}
+                                          dateFormat={GeneralUtils.DATE_FORMAT_CALENDAR}
                                           showIcon/>
                             </div>
                         </div>

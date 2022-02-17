@@ -1,26 +1,24 @@
 // material
 import React, {useEffect, useState} from "react";
 import MLineChart from "../../../components/mcomponents/charts/MLineChart";
-import TimeCardService from "../../../services/TimeCardService";
 import MBarChart from "../../../components/mcomponents/charts/MBarChart";
 import {Calendar} from 'primereact/calendar';
 import moment from 'moment';
-import { Button } from 'primereact/button';
+import {Button} from 'primereact/button';
+import GeneralUtils from "../../../utils/GeneralUtils";
+import EstimateTemplateService from "../../../services/EstimateTemplateService";
 
 //
 
 // ----------------------------------------------------------------------
-const DATE_FORMAT = 'yy-mm-dd';
-const DATE_FORMAT_MOMENT = 'YYYY-MM-DD';
-
 export default function PavingMillingReport() {
 
-    const timeCardService = new TimeCardService();
+    const estimateTemplateService = new EstimateTemplateService();
     const [chartData, setChartData] = useState([]);
     const [xAxis, setXAxis] = useState([]);
     const [chartDataBar, setChartDataBar] = useState([]);
     const [xAxisBar, setXAxisBar] = useState([]);
-    const [startDate, setStartDate] = useState(new Date(moment().subtract(7,"days").format(DATE_FORMAT_MOMENT)));
+    const [startDate, setStartDate] = useState(new Date(moment().subtract(7, "days").format(GeneralUtils.DATE_FORMAT_MOMENT)));
     const [endDate, setEndDate] = useState(new Date());
     const [loading, setLoading] = useState(false);
 
@@ -28,15 +26,21 @@ export default function PavingMillingReport() {
         requestCharts();
     }, [])
 
-    const requestCharts= async ()=>{
+    const requestCharts = async () => {
         setLoading(true);
-        await timeCardService.getTimeCardReport({startDate:moment(new Date(startDate)).format(DATE_FORMAT_MOMENT),endDate:moment(new Date(endDate)).format(DATE_FORMAT_MOMENT)}).then(res => {
+        await estimateTemplateService.getProfitReportDaily({
+            startDate: moment(new Date(startDate)).format(GeneralUtils.DATE_FORMAT_MOMENT),
+            endDate: moment(new Date(endDate)).format(GeneralUtils.DATE_FORMAT_MOMENT)
+        }).then(res => {
             if (res.status == 200) {
                 setData(res);
             }
         });
 
-        timeCardService.getTimeCardReportTotal({startDate:moment(new Date(startDate)).format(DATE_FORMAT_MOMENT),endDate:moment(new Date(endDate)).format(DATE_FORMAT_MOMENT)}).then(res => {
+        estimateTemplateService.getProfitReportTotal({
+            startDate: moment(new Date(startDate)).format(GeneralUtils.DATE_FORMAT_MOMENT),
+            endDate: moment(new Date(endDate)).format(GeneralUtils.DATE_FORMAT_MOMENT)
+        }).then(res => {
             if (res.status == 200) {
                 setDataBarChart(res);
             }
@@ -44,26 +48,16 @@ export default function PavingMillingReport() {
         setLoading(false);
     }
 
-    const saveForm=()=>{
+    const saveForm = () => {
         requestCharts();
     }
 
     const setData = (res) => {
         let resultMap = new Map();
         let labelMap = new Map();
-        let labelArr = [];
-        let nameSurnameArr = [];
-        res.data.forEach(e => {
-            let name = e.name;
-            let surname = e.surname;
-            let totalHourArr = resultMap.get(name + " " + surname);
-            if (totalHourArr === null || totalHourArr === undefined) {
-                resultMap.set(name + " " + surname, [e.total_hour_double]);
-                nameSurnameArr.push(name + " " + surname);
-            } else {
-                totalHourArr.push(e.total_hour_double);
-            }
-        });
+        let pavingMillingMap = new Map();
+        let labelArr = []; //date ler
+        let pavingMillingArr = []; // Paving Milling
 
         res.data.forEach(e => {
             let date = e.date;
@@ -72,12 +66,47 @@ export default function PavingMillingReport() {
                 labelMap.set(date, date);
                 labelArr.push(date);
             }
+
+            let pavingMilling = pavingMillingMap.get(e.name);
+            if (pavingMilling === null || pavingMilling === undefined) {
+                pavingMillingMap.set(e.name, e.name);
+                pavingMillingArr.push(e.name);
+            }
         });
 
+        res.data.forEach(e => {
+            let name = e.name;
+            let date = e.date;
+
+            let data = resultMap.get(date);
+            if (data === null || data === undefined) {
+                resultMap.set(date, [{name: name, profit: e.sumProfit}]);
+            } else {
+                data.push({name: name, profit: e.sumProfit});
+                resultMap.set(date, data);
+            }
+        });
+
+        for (const [key, value] of resultMap.entries()) {//ilgili tarihte değeri yoksa 0 yap
+            pavingMillingArr.forEach(elem => {
+                let a = value.filter(e => e.name === elem);
+                if (a.length == 0) {
+                    value.push({name: elem, profit: 0})
+                    resultMap.set(key, value)
+                }
+            })
+        }
+
         let chartData = [];
-        nameSurnameArr.map(e => {
-            let employeeData = resultMap.get(e);
-            chartData.push({name: e, data: employeeData})
+        pavingMillingArr.forEach(elem => {
+            let data = [];
+            for (const [key, value] of resultMap.entries()) {
+                let filtered = value.filter(el => el.name == elem);
+                if (filtered.length != 0) {
+                    data.push(filtered[0].profit);
+                }
+            }
+            chartData.push({name: elem, data: data})
         })
 
         setChartData(chartData);
@@ -89,9 +118,8 @@ export default function PavingMillingReport() {
         let labelArr = [];
         res.data.forEach(e => {
             let name = e.name;
-            let surname = e.surname;
-            data.push(e.total);
-            labelArr.push(name + " " + surname);
+            data.push(e.sumProfit);
+            labelArr.push(name);
         });
 
         setChartDataBar([{data: data}]);
@@ -104,18 +132,18 @@ export default function PavingMillingReport() {
                 <ul className="form-section page-section">
                     <li className="form-line">
                         <div className="form-input-wide" data-layout="half">
-                            <div className="p-fluid grid formgrid" style={{paddingRight:'1em'}}>
+                            <div className="p-fluid grid formgrid" style={{paddingRight: '1em'}}>
                                 <label htmlFor="icon">Start Date</label>
                                 <Calendar id="icon" value={startDate} onChange={(e) => setStartDate(e.value)}
-                                          dateFormat={DATE_FORMAT}
+                                          dateFormat={GeneralUtils.DATE_FORMAT_CALENDAR}
                                           showIcon/>
                             </div>
                         </div>
                         <div className="form-input-wide" data-layout="half">
-                            <div className="p-fluid grid formgrid" style={{paddingRight:'1em'}}>
+                            <div className="p-fluid grid formgrid" style={{paddingRight: '1em'}}>
                                 <label htmlFor="icon">End Date</label>
                                 <Calendar id="icon" value={endDate} onChange={(e) => setEndDate(e.value)}
-                                          dateFormat={DATE_FORMAT}
+                                          dateFormat={GeneralUtils.DATE_FORMAT_CALENDAR}
                                           showIcon/>
                             </div>
                         </div>
@@ -124,7 +152,7 @@ export default function PavingMillingReport() {
                         <div className="form-input-wide" data-layout="full">
                             <Button type="submit"
                                     loading={loading}
-                                    style={{float:'right',marginRight:'2.5em'}}
+                                    style={{float: 'right', marginRight: '2.5em'}}
                                     onClick={saveForm}
                                     className="p-button-success form-submit-button submit-button jf-form-buttons"
                                     data-component="button" data-content="">
@@ -134,13 +162,13 @@ export default function PavingMillingReport() {
                     </li>
                     <li className="form-line">
                         <div className="form-input-wide" data-layout="full">
-                            <MLineChart chartData={chartData} chartTitle='Time Card Report (Daily)'
+                            <MLineChart chartData={chartData} chartTitle='Paving Milling Profit Report(Daily)'
                                         xAxis={xAxis}/>
                         </div>
                     </li>
                     <li className="form-line">
                         <div className="form-input-wide" data-layout="full">
-                            <MBarChart chartData={chartDataBar} chartTitle='Time Card Report (Total)'
+                            <MBarChart chartData={chartDataBar} chartTitle='Paving Milling Profit Report(Total)'
                                        xAxis={xAxisBar}/>
                         </div>
                     </li>

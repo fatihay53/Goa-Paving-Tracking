@@ -2,7 +2,6 @@
 
 const express = require('express');
 const timeCardRouter = express.Router();
-var mysql = require('mysql');
 const connection = require('../connection')
 const connectiongmt3 = require('../connectiongmt3')
 
@@ -25,7 +24,7 @@ timeCardRouter.post('/getTimeCardReportTotal', function (request, response) {
     let sql = `select e.user_id,e.name,e.surname,sum(total_hour_double) as total from time_card t join employee e on t.user_id=e.user_id
      where date between Date('${startDate}') and Date('${endDate}') and is_approved=true
      group by e.user_id,e.name,e.surname`;
-
+    console.log(sql)
     connection.query(sql, function (error, result, fields) {
         if (error) throw error;
         response.json(result)

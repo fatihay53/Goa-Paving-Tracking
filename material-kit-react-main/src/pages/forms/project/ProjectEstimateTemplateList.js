@@ -7,6 +7,7 @@ import {Dialog} from "primereact/dialog";
 import ProjectEstimateTemplate from "./ProjectEstimateTemplate";
 import {toast} from "react-toastify";
 import EmployeeTableForeman from "./tables/EmployeeTableForeman";
+import GeneralUtils from "../../../utils/GeneralUtils";
 
 export default function ProjectEstimateTemplateList() {
     const estimateTemplateService = new EstimateTemplateService();
@@ -98,8 +99,10 @@ export default function ProjectEstimateTemplateList() {
                         bodyStyle={{textAlign: 'center', overflow: 'visible'}}></Column>
 
                 <Column field="project_name" header="Project Name"></Column>
+                <Column field="date" header="Date Of Estimate"></Column>
                 <Column field="project_category_name" header="Category Name"></Column>
                 <Column field="estimate_project_hour" header="Estimate Project Hour"></Column>
+                <Column field="profit" body={e => '$'+GeneralUtils.changeDecimalSeperator(''+e.profit,'.',',')} header="Profit"></Column>
             </DataTable>
             {renderDialog()}
             {renderForemanDialog()}

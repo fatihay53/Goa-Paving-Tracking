@@ -30,4 +30,12 @@ export default class EstimateTemplateService {
         return axios.post(GeneralUtils.URL+'/estimateTemplate/findUserTodayHours', data);
     }
 
+    getProfitReportDaily(data){
+        return axios.post(GeneralUtils.URL+'/estimateTemplate/getProfitReportDaily', data);
+    }
+
+    getProfitReportTotal(data){
+        return axios.post(GeneralUtils.URL+'/estimateTemplate/getProfitReportTotal', data);
+    }
+
 }
