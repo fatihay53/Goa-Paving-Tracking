@@ -15,13 +15,8 @@ export default class SideBarConfigService {
     const role = localStorage.getItem('role');
     let sidebarConfig = [];
     //|| role === 'ROLE_FOREMAN') {
-    if (role === 'ROLE_SUPERVISOR' || role === 'ROLE_FOREMAN') {
+    if (role === 'ROLE_SUPERVISOR') {
       sidebarConfig = [
-        {
-          title: 'dashboard',
-          path: '/dashboard/app',
-          icon: getIcon(pieChart2Fill)
-        },
         {
           title: 'User Management',
           path: '/dashboard/userManagement',
@@ -69,18 +64,6 @@ export default class SideBarConfigService {
             {
               title: 'Tail Gate Talk Form',
               path: '/dashboard/forms/tailGateTalkForm',
-              icon: getIcon(reportIcon)
-            }
-          ]
-        },
-        {
-          title: 'Charts',
-          path: '/dashboard/charts',
-          icon: getIcon(formIcon),
-          children: [
-            {
-              title: 'Bar Chart Ex',
-              path: '/dashboard/charts/barchart',
               icon: getIcon(reportIcon)
             }
           ]
@@ -142,6 +125,94 @@ export default class SideBarConfigService {
           ]
         },
       ];
+    }else if(role === 'ROLE_FOREMAN'){
+        sidebarConfig = [
+          {
+            title: 'User Management',
+            path: '/dashboard/userManagement',
+            icon: getIcon(peopleFill),
+            children: [
+              {
+                title: 'Create User',
+                path: '/dashboard/userManagement/createUser',
+                icon: getIcon(personAddFill)
+              },
+              {
+                title: 'Saved Users',
+                path: '/dashboard/userManagement/users',
+                icon: getIcon(personAddFill)
+              }
+            ]
+          },
+          {
+            title: 'Project Operations',
+            path: '/dashboard/project',
+            icon: getIcon(lockFill),
+            children: [
+              {
+                title: 'Saved Project Estimate Template',
+                path: '/dashboard/project/savedEstimateTemplate',
+                icon: getIcon(reportIcon)
+              }
+            ]
+          },
+          {
+            title: 'forms',
+            path: '/dashboard/forms',
+            icon: getIcon(formIcon),
+            children: [
+              {
+                title: 'New Client Form',
+                path: '/dashboard/forms/newClientForm',
+                icon: getIcon(reportIcon)
+              },
+              {
+                title: 'Tail Gate Talk Form',
+                path: '/dashboard/forms/tailGateTalkForm',
+                icon: getIcon(reportIcon)
+              }
+            ]
+          },
+          {
+            title: 'Saved Froms',
+            path: '/dashboard/savedForms',
+            icon: getIcon(formIcon),
+            children: [
+              {
+                title: 'New Client Saved Form',
+                path: '/dashboard/savedForms/newClientForm',
+                icon: getIcon(reportIcon)
+              },
+              {
+                title: 'Tail Gate Talk Saved Form',
+                path: '/dashboard/savedForms/tailGateTalkForm',
+                icon: getIcon(reportIcon)
+              }
+            ]
+          },
+          {
+            title: 'Talks',
+            path: '/dashboard/talks',
+            icon: getIcon(alertTriangleFill)
+          },
+          {
+            title: 'Time Card',
+            path: '/dashboard/timeCard',
+            icon: getIcon(timeCardIcon),
+            children: [
+              {
+                title: 'Time Card Entering',
+                path: '/dashboard/timeCard/entering',
+                icon: getIcon(reportIcon)
+              },
+              {
+                title: 'Time Cards',
+                path: '/dashboard/timeCard/timeCards',
+                icon: getIcon(reportIcon)
+              }
+            ]
+          }
+        ];
     } else if (role === 'ROLE_USER') {
       sidebarConfig = [
         {

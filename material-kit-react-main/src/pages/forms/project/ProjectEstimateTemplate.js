@@ -109,6 +109,7 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
             return toast.warning("Please enter bid value.")
         }
         let profitDecimal = parseFloat('' + GeneralUtils.changeDecimalSeperator(profit, ',', '.')).toFixed(2);
+        project.totalM2 = GeneralUtils.changeDecimalSeperator(project.totalM2,",",".");
         let request = {
             ...project,
             bid,

@@ -1,21 +1,13 @@
 import * as Yup from 'yup';
-import { useState, useEffect } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useFormik, Form, FormikProvider } from 'formik';
-import { Icon } from '@iconify/react';
+import {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {Form, FormikProvider, useFormik} from 'formik';
+import {Icon} from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 // material
-import {
-  Link,
-  Stack,
-  Checkbox,
-  TextField,
-  IconButton,
-  InputAdornment,
-  FormControlLabel
-} from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import {IconButton, InputAdornment, Stack, TextField} from '@mui/material';
+import {LoadingButton} from '@mui/lab';
 import LoginService from "../../../services/LoginService";
 
 // ----------------------------------------------------------------------
@@ -26,7 +18,7 @@ export default function LoginForm() {
   useEffect(() => {
     const requestUrl = window.location.pathname;
     const loggedIn = localStorage.getItem('loggedin');
-    if (requestUrl === '/index.html') {
+    if (requestUrl === '/admin' || requestUrl === '') {
       if (loggedIn === 'true') {
         navigate('/dashboard', { replace: true });
       }
@@ -62,7 +54,7 @@ export default function LoginForm() {
             localStorage.setItem('role', response.data.session.role);
             localStorage.setItem('user', JSON.stringify(response.data.session.user));
             let signaturePath = localStorage.getItem('signatureConfirmPageRequest');
-            if (signaturePath != null && signaturePath != undefined){
+            if (signaturePath != null && signaturePath != undefined && signaturePath != ""){
               navigate(signaturePath, { replace: true });
             }else{
               navigate(response.data.redirectUrl, { replace: true });

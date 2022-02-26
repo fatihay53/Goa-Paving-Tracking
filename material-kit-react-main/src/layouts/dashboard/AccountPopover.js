@@ -49,7 +49,7 @@ export default function AccountPopover() {
 
   const logout = () => {
     localStorage.clear();
-    navigate('/index.html', { replace: true });
+    navigate('/admin', { replace: true });
   };
 
   return (

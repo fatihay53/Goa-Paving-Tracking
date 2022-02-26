@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import GeneralUtils from "../../../../utils/GeneralUtils";
 import EstimateTemplateService from "../../../../services/EstimateTemplateService";
+import {toast} from "react-toastify";
 
 export default function EmployeeTableForeman({selectedData,updateDt}) {
     const estimateTemplateService = new EstimateTemplateService();
@@ -51,7 +52,10 @@ export default function EmployeeTableForeman({selectedData,updateDt}) {
         if (e.target.value === null || e.target.value === undefined || e.target.value === '') {
             value = 0;
         } else {
-            value = parseFloat(e.target.value);
+            if (e.target.value.includes(".")){
+                return toast.warning("Please use comma(,)")
+            }
+            value = e.target.value;
         }
         setEmployeeValues(map => new Map(map.set(empId, {id: empId, employeeHour: value,timeDeserve,...employees.filter(e => e.id == empId)[0]})));
     }
@@ -61,7 +65,10 @@ export default function EmployeeTableForeman({selectedData,updateDt}) {
         if (e.target.value === null || e.target.value === undefined || e.target.value === '') {
             value = 0;
         } else {
-            value = parseFloat(e.target.value);
+            if (e.target.value.includes(".")){
+                return toast.warning("Please use comma(,)")
+            }
+            value = e.target.value;
         }
         setEmployeeValues(map => new Map(map.set(empId, {id: empId, timeDeserve: value,employeeHour,...employees.filter(e => e.id == empId)[0]})));
     }

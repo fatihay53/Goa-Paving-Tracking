@@ -7,6 +7,7 @@ import TimeCardDetailService from "../../../services/TimeCardDetailService";
 import {toast} from "react-toastify";
 import {Checkbox} from "primereact/checkbox";
 import EstimateTemplateService from "../../../services/EstimateTemplateService";
+import GeneralUtils from "../../../utils/GeneralUtils";
 
 const JOB_TYPE = [
     {name: "Culvert Resurfacing", j: 1},
@@ -36,6 +37,7 @@ export default function TimeCardApprove({selectedRow, setShowDialog, updateDt}) 
                 setJobTypeList(res.data);
             }
         })*/
+
         estimateTemplateService.findUserTodayHours({userId: selectedRow.user_id}).then(res => {
             if (res.status == 200) {
                 if (res.data.length > 0) {
@@ -71,7 +73,7 @@ export default function TimeCardApprove({selectedRow, setShowDialog, updateDt}) 
 
     const approveTimeCard = () => {
         let approvedUserId = JSON.parse(localStorage.getItem("user")).userId;
-        let detail = {
+        /*let detail = {
             timeCardId: selectedRow.time_card_id,
             jobDetail: [
                 {job_type_id: 1, hour: j1},
@@ -81,18 +83,29 @@ export default function TimeCardApprove({selectedRow, setShowDialog, updateDt}) 
             ]
         }
         timeCardDetailService.save({detail: detail}).then(res => {
+            if (res.status == 200) {*/
+        let totalApprovedTimeDeserve = 0;
+        let totalApprovedHour = 0;
+        projectData.map(pData => {
+            let empDat = pData.get('employeeData');
+
+            totalApprovedHour += parseFloat(GeneralUtils.changeDecimalSeperator(pData.get('foremanData').get('' + empDat.id).employeeHour,",","."));
+            totalApprovedTimeDeserve += parseFloat(GeneralUtils.changeDecimalSeperator(pData.get('foremanData').get('' + empDat.id).timeDeserve,",","."));
+        });
+
+        timeCardService.approveTimeCard({
+            approvedUserId: approvedUserId,
+            totalApprovedHour:totalApprovedHour,
+            totalApprovedTimeDeserve:totalApprovedTimeDeserve,
+            timeCardId: selectedRow.time_card_id
+        }).then(res => {
             if (res.status == 200) {
-                timeCardService.approveTimeCard({
-                    approvedUserId: approvedUserId,
-                    timeCardId: selectedRow.time_card_id
-                }).then(res => {
-                    if (res.status == 200) {
-                        setShowDialog(false);
-                        updateDt();
-                        toast.success("Saved successfuly.")
-                    }
-                });
+                setShowDialog(false);
+                updateDt();
+                toast.success("Saved successfuly.")
             }
+            /* });
+         }*/
         })
     }
 
@@ -101,7 +114,8 @@ export default function TimeCardApprove({selectedRow, setShowDialog, updateDt}) 
             <div>
                 <table id="customers">
                     {projectData.length > 0 && <tr>
-                        <th style={{textAlign: 'center', backgroundColor: 'orange'}} colSpan="8">Foreman Entering</th>
+                        <th style={{textAlign: 'center', backgroundColor: 'orange'}} colSpan="8">Foreman Entering
+                        </th>
                     </tr>}
                     {projectData.length > 0 ? <tr>
                         <th>Project Name</th>
@@ -242,7 +256,7 @@ export default function TimeCardApprove({selectedRow, setShowDialog, updateDt}) 
                       type="text"
                       className="form-textbox"
                       size="15"
-                      value={selectedRow.total_hour}
+                      value={GeneralUtils.changeDecimalSeperator('' + selectedRow.total_hour_double, ".", ",")}
                       disabled={true}
                   />
 
@@ -291,7 +305,8 @@ export default function TimeCardApprove({selectedRow, setShowDialog, updateDt}) 
                             </div>
                         </div>*/}
                         <div class="form-input-wide" style={{justifyContent: 'end'}}>
-                            <Button disabled={projectData.length > 0 ? false : true} style={{float: 'right'}} size="large" variant="contained" onClick={approveTimeCard}>
+                            <Button disabled={projectData.length > 0 ? false : true} style={{float: 'right'}}
+                                    size="large" variant="contained" onClick={approveTimeCard}>
                                 Approve
                             </Button>
                         </div>

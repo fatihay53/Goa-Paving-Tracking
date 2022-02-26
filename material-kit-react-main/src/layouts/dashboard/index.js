@@ -46,7 +46,7 @@ export default function DashboardLayout() {
     }
     const loggedIn = localStorage.getItem('loggedin');
     if (!loggedIn) {
-      navigate('/index.html', { replace: true });
+      navigate('/admin', { replace: true });
     }
   }, []);
   return (

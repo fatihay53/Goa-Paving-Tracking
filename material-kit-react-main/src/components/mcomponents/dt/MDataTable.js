@@ -21,7 +21,7 @@ export default function MDataTable({selectionMode, columns, data, loading, showM
         );
     }
 
-    let editButton = showEditButton === true && (role === 'ROLE_SUPERVISOR' || role === 'ROLE_FOREMAN' ) ?
+    let editButton = showEditButton === true && (role === 'ROLE_SUPERVISOR') ?
         <Column header='Operations' body={renderActionBody} headerStyle={{width: '8em', textAlign: 'center'}}
                 bodyStyle={{textAlign: 'center', overflow: 'visible'}}></Column> : null;
 

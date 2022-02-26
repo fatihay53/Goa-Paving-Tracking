@@ -23,7 +23,24 @@ export default function MBarChart({xAxis, chartData, chartTitle}) {
             },
             xaxis: {
                 categories: xAxis
+            },
+        tooltip: {
+            theme: 'dark',
+            x: {
+                show: false
+            },
+            y: {
+                title: {
+                    formatter: function (label) {
+                        if (label === 'series-1'){
+                            return 'Total Hourly Cost : '
+                        }else if(label === 'series-2'){
+                            return 'Total Time Deserve : '
+                        }
+                    }
+                }
             }
+        }
         }
 
     return (

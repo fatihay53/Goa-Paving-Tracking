@@ -52,31 +52,60 @@ export default function TimeCardReport() {
         let labelMap = new Map();
         let labelArr = [];
         let nameSurnameArr = [];
-        res.data.forEach(e => {
+
+        res.data.forEach(e => {//namesurname ve tarihleri tekilleştirme
+            let date = e.date;
             let name = e.name;
             let surname = e.surname;
-            let totalHourArr = resultMap.get(name + " " + surname);
-            if (totalHourArr === null || totalHourArr === undefined) {
-                resultMap.set(name + " " + surname, [e.total_hour_double]);
-                nameSurnameArr.push(name + " " + surname);
-            } else {
-                totalHourArr.push(e.total_hour_double);
-            }
-        });
 
-        res.data.forEach(e => {
-            let date = e.date;
             let label = labelMap.get(date);
             if (label === null || label === undefined) {
                 labelMap.set(date, date);
                 labelArr.push(date);
             }
+
+            let pavingMilling = labelMap.get(e.name);
+            if (pavingMilling === null || pavingMilling === undefined) {
+                labelMap.set(name, name);
+                nameSurnameArr.push(name + " " + surname);
+            }
         });
 
+
+        res.data.forEach(e => {
+            let name = e.name;
+            let surname = e.surname;
+            let date = e.date;
+
+            let data = resultMap.get(date);
+            if (data === null || data === undefined) {
+                resultMap.set(date, [{name: name + " " + surname, total_hour_double: e.total_hour_double}]);
+            } else {
+                data.push({name: name + " " + surname, total_hour_double: e.total_hour_double});
+                resultMap.set(date, data);
+            }
+        });
+
+        for (const [key, value] of resultMap.entries()) {//ilgili tarihte değeri yoksa 0 yap
+            nameSurnameArr.forEach(elem => {
+                let a = value.filter(e => e.name === elem);
+                if (a.length == 0) {
+                    value.push({name: elem, total_hour_double: 0})
+                    resultMap.set(key, value)
+                }
+            })
+        }
+
         let chartData = [];
-        nameSurnameArr.map(e => {
-            let employeeData = resultMap.get(e);
-            chartData.push({name: e, data: employeeData})
+        nameSurnameArr.forEach(elem => {
+            let data = [];
+            for (const [key, value] of resultMap.entries()) {
+                let filtered = value.filter(el => el.name == elem);
+                if (filtered.length != 0) {
+                    data.push(filtered[0].total_hour_double);
+                }
+            }
+            chartData.push({name: elem, data: data})
         })
 
         setChartData(chartData);
@@ -85,15 +114,17 @@ export default function TimeCardReport() {
 
     const setDataBarChart = (res) => {
         let data = [];
+        let dataTimeDeserve = [];
         let labelArr = [];
         res.data.forEach(e => {
             let name = e.name;
             let surname = e.surname;
             data.push(e.total);
+            dataTimeDeserve.push(e.timeDeserveTotal);
             labelArr.push(name + " " + surname);
         });
 
-        setChartDataBar([{data: data}]);
+        setChartDataBar([{data: data},{data: dataTimeDeserve}]);
         setXAxisBar(labelArr);
     }
 
@@ -133,7 +164,7 @@ export default function TimeCardReport() {
                     </li>
                     <li className="form-line">
                         <div className="form-input-wide" data-layout="full">
-                            <MLineChart chartData={chartData} chartTitle='Time Card Report (Daily)'
+                            <MLineChart chartData={chartData} chartTitle='Time Card Report (Daily With Time Deserve)'
                                         xAxis={xAxis}/>
                         </div>
                     </li>

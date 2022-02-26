@@ -2,9 +2,8 @@
 import 'simplebar/src/simplebar.css';
 
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
-
+import {HashRouter} from 'react-router-dom';
+import {HelmetProvider} from 'react-helmet-async';
 //
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -15,9 +14,9 @@ import 'font-awesome/css/font-awesome.min.css';
 
 ReactDOM.render(
   <HelmetProvider>
-    <BrowserRouter>
+    <HashRouter>
       <App />
-    </BrowserRouter>
+    </HashRouter>
   </HelmetProvider>,
   document.getElementById('root')
 );
