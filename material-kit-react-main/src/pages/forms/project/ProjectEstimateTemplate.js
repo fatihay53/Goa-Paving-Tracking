@@ -19,7 +19,7 @@ import {toast} from "react-toastify";
 import EmployeeTableForeman from "./tables/EmployeeTableForeman";
 import {Calendar} from "primereact/calendar";
 import moment from "moment";
-
+import './projectTemplate.css';
 export default function ProjectEstimateTemplate({selectedData, updateDt}) {
 
     const [bid, setBid] = useState(selectedData ? selectedData.bid : null);
