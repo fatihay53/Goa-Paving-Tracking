@@ -58,6 +58,7 @@
     "moment": "^2.29.1",
     "numeral": "^2.0.6",
     "primeicons": "^5.0.0",
+    "apexcharts": "3.33.1",
     "primereact": "^7.1.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
