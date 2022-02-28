@@ -16,6 +16,7 @@ const timeCardDetailRouter = require('./controller/time_card_detail');
 const materialsRouter = require('./controller/materials');
 const projectCategoryRouter = require('./controller/project_category');
 const estimateTemplateRouter = require('./controller/estimate_template');
+const preJobSafetyRouter = require('./controller/pre_job_safety_form');
 
 var app = express();
 app.use(cors())
@@ -39,6 +40,7 @@ app.use('/timeCardDetail',timeCardDetailRouter);
 app.use('/materials',materialsRouter);
 app.use('/projectCategory',projectCategoryRouter);
 app.use('/estimateTemplate',estimateTemplateRouter);
+app.use('/preJobSafety',preJobSafetyRouter);
 
 app.get('/', function(request, response) {
     response.sendFile(path.join(__dirname + '/login.html'));

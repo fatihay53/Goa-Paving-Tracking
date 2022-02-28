@@ -36,11 +36,12 @@ export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    const requestUrl = window.location.pathname;
-    const search = window.location.search;
-
-    if (requestUrl.includes('/signatureConfirmPage')){
-      localStorage.setItem('signatureConfirmPageRequest',requestUrl+search);
+    const requestUrl = window.location.hash;
+    //const search = window.location.search;
+    if (requestUrl.includes('/signatureConfirmPage/safety')){
+      localStorage.setItem('signatureConfirmPageRequest',requestUrl);
+    }else if (requestUrl.includes('/signatureConfirmPage')){
+      localStorage.setItem('signatureConfirmPageRequest',requestUrl);
     }else{
       localStorage.setItem('signatureConfirmPageRequest','');
     }

@@ -28,6 +28,9 @@ import ProjectEstimateTemplateList from "./pages/forms/project/ProjectEstimateTe
 import PavingMillingReport from "./pages/reports/paving-milling-report/PavingMillingReport";
 import HomePage from "./home-page/HomePage";
 import UserList from "./pages/user-management/UserList";
+import PreJobSafetyForm from "./pages/forms/pre-job-safety/PreJobSafetyForm";
+import PreJobSafetyFormList from "./pages/forms/pre-job-safety/PreJobSafetyFormList";
+import SignatureConfirmPageSafety from "./pages/forms/pre-job-safety/SignatureConfirmPageSafety";
 
 // ----------------------------------------------------------------------
 
@@ -49,7 +52,8 @@ export default function Router() {
       path: '/signatureConfirmPage',
       element: <DashboardLayout />,
       children: [
-        { path: '', element: <SignatureConfirmPage /> }
+        { path: '', element: <SignatureConfirmPage /> },
+        { path: 'safety', element: <SignatureConfirmPageSafety /> }
       ]
     },
     {
@@ -57,7 +61,17 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { path: 'newClientForm', element: <NewClientForm /> },
-        { path: 'tailGateTalkForm', element: <TailGateTalkForm /> }
+        { path: 'tailGateTalkForm', element: <TailGateTalkForm /> },
+        { path: 'preJobSafetyForm', element: <PreJobSafetyForm /> }
+      ]
+    },
+    {
+      path: '/dashboard/savedForms',
+      element: <DashboardLayout />,
+      children: [
+        { path: 'newClientForm', element: <NewClientFormList /> },
+        { path: 'tailGateTalkForm', element: <TailGateTalkFormList />},
+        { path: 'preJobSafetyForm', element: <PreJobSafetyFormList />}
       ]
     },
     {
@@ -97,14 +111,6 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { path: 'barchart', element: <BarChartEx /> }
-      ]
-    },
-    {
-      path: '/dashboard/savedForms',
-      element: <DashboardLayout />,
-      children: [
-        { path: 'newClientForm', element: <NewClientFormList /> },
-        { path: 'tailGateTalkForm', element: <TailGateTalkFormList />}
       ]
     },
     {

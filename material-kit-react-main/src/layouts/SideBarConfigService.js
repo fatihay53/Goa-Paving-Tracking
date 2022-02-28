@@ -1,4 +1,3 @@
-import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill';
 import peopleFill from '@iconify/icons-eva/people-fill';
 import lockFill from '@iconify/icons-eva/lock-fill';
 import reportIcon from '@iconify/icons-eva/bar-chart-fill';
@@ -65,6 +64,11 @@ export default class SideBarConfigService {
               title: 'Tail Gate Talk Form',
               path: '/dashboard/forms/tailGateTalkForm',
               icon: getIcon(reportIcon)
+            },
+            {
+              title: 'Pre Job Safety Form',
+              path: '/dashboard/forms/preJobSafetyForm',
+              icon: getIcon(reportIcon)
             }
           ]
         },
@@ -81,6 +85,11 @@ export default class SideBarConfigService {
             {
               title: 'Tail Gate Talk Saved Form',
               path: '/dashboard/savedForms/tailGateTalkForm',
+              icon: getIcon(reportIcon)
+            },
+            {
+              title: 'Pre Job Safety Saved Form',
+              path: '/dashboard/savedForms/preJobSafetyForm',
               icon: getIcon(reportIcon)
             }
           ]

@@ -12,6 +12,8 @@ import {Button} from "primereact/button";
 import SelectSubject from "../../../components/mcomponents/SelectSubject";
 import {JotFormConfig} from "../../JotFormConfig";
 import MSignaturePad from "../../../components/mcomponents/MSignaturePad";
+import GeneralUtils from "../../../utils/GeneralUtils";
+import SelectProject from "../../../components/mcomponents/SelectProject";
 
 export default function TailGateTalkForm({selectedData, isShow}) {
 
@@ -19,6 +21,8 @@ export default function TailGateTalkForm({selectedData, isShow}) {
     const [attendees, setAttendees] = useState([]);
     const [showedHtml, setShowedHtml] = useState({});
     const [subject, setSubject] = useState({});
+    const [project, setProject] = useState({});
+
     const tailGateTalkFormService = new TailGateTalkFormService();
     const attendeesService = new AttendeesService();
     const mailService = new MailService();
@@ -37,7 +41,6 @@ export default function TailGateTalkForm({selectedData, isShow}) {
         firstNameForeman: '',
         lastNameForeman: '',
         signatureForeman: '',
-        job: '',
         safetyTraining: '',
         employeeSuggestions: '',
         signature: '',
@@ -56,17 +59,11 @@ export default function TailGateTalkForm({selectedData, isShow}) {
         if (isShow) {
             let formId = selectedData.id;
             //let userId = JSON.parse(localStorage.getItem('user')).userId;
-            attendeesService.findAttendees({formId: formId}).then(res => {
+            attendeesService.findAttendees({formId: formId,formType:'TAIL_GATE_TALK_FORM'}).then(res => {
                 if (res.status == 200) {
                     setAttendees(res.data);
                 }
             })
-        }
-    }
-
-    function arrayBufferToBase64(data) {
-        if (data) {
-            return Buffer.from(data, 'base64');
         }
     }
 
@@ -81,7 +78,7 @@ export default function TailGateTalkForm({selectedData, isShow}) {
             (form.location === null || form.location === '') ||
             (form.firstNameForeman === null || form.firstNameForeman === '') ||
             (form.lastNameForeman === null || form.lastNameForeman === '') ||
-            (form.job === null || form.job === '') ||
+            (project.id === null || project.id === '' || project.id === undefined) ||
             (form.title === null || form.title === '') ||
             (subject.header === null || subject.header === '' || subject.header === undefined)
         ) {
@@ -97,7 +94,7 @@ export default function TailGateTalkForm({selectedData, isShow}) {
         }
 
         if (attendees.length == 0) {
-            return toast.warning("Please add crew!")
+            return toast.warning("Please add participant!")
         }
 
         const signature = refSignaturePad.current.getSignature();
@@ -106,10 +103,10 @@ export default function TailGateTalkForm({selectedData, isShow}) {
         setSubmitted(true);
         refSignaturePadForeman.current.clearSignature();
         refSignaturePad.current.clearSignature();
-        await tailGateTalkFormService.save({...form, signatureForeman: signatureForeman,signature:signature,subject:subject.header}).then(async res => {
-            let insertId = res.data.insertId;
+        await tailGateTalkFormService.save({...form, signatureForeman: signatureForeman,signature:signature,subject:subject.header,estimateTemplateId: project.id,}).then(async res => {
             if (res.status == 200) {
-                await attendeesService.save({attendees: attendees, formId: res.data.insertId}).then(res => {
+                let insertId = res.data.insertId;
+                await attendeesService.save({attendees: attendees, formId: insertId,formType:'TAIL_GATE_TALK_FORM'}).then(res => {
                     if (res.status == 200) {
                         var millisecondsToWait = 1000;
                         setTimeout(function () {
@@ -117,13 +114,13 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                             setSubmitted(false);
                             setAttendees([]);
                             setSubject({});
+                            setProject({});
                             setForm({
                                 date: '',
                                 location: '',
                                 firstNameForeman: '',
                                 lastNameForeman: '',
                                 signatureForeman: '',
-                                job: '',
                                 safetyTraining: '',
                                 employeeSuggestions: '',
                                 signature: '',
@@ -131,7 +128,7 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                             });
                         }, millisecondsToWait);
 
-                        mailService.sendMail({attendees: attendees, formId: insertId});
+                        mailService.sendMail({attendees: attendees, formId: insertId,formType:'TAIL_GATE_TALK_FORM'});
                     }
                 })
             }
@@ -168,16 +165,6 @@ export default function TailGateTalkForm({selectedData, isShow}) {
         setForm({...form, lastNameForeman: e.target.value, date, signatureForeman, signature});
     }
 
-    function onChangeJob(e) {
-        const date = document.getElementById('lite_mode_18').value;
-        //const signatureForeman = document.getElementById('input_7').value;
-        //const signature = document.getElementById('input_14').value;
-        const signature = refSignaturePad.current.getSignature();
-        const signatureForeman = refSignaturePadForeman.current.getSignature();
-
-        setForm({...form, job: e.target.value, date, signatureForeman, signature});
-    }
-
     function onChangeSafetyTraining(e) {
         const date = document.getElementById('lite_mode_18').value;
         //const signatureForeman = document.getElementById('input_7').value;
@@ -206,6 +193,15 @@ export default function TailGateTalkForm({selectedData, isShow}) {
         const signatureForeman = refSignaturePadForeman.current.getSignature();
 
         setForm({...form, title: e.target.value, date, signatureForeman, signature});
+    }
+
+    const selectProject = () => {
+        setShowDialog(true);
+        setShowedHtml(<SelectProject setShowDialog={(showDialog) => setShowDialog(showDialog)}
+                                     setSelections={(selections) => {
+                                         setProject(selections);
+                                         setShowDialog(false)
+                                     }}/>);
     }
 
     const addCrews = () => {
@@ -441,7 +437,7 @@ export default function TailGateTalkForm({selectedData, isShow}) {
             *
           </span>
                     </label>
-                    {isShow ? <img src={arrayBufferToBase64(selectedData.signatureForeman.data)}/> :
+                    {isShow ? <img src={GeneralUtils.arrayBufferToBase64(selectedData.signatureForeman.data)}/> :
                         <div id="cid_7" className="form-input-wide jf-required" data-layout="half">
                             <MSignaturePad ref={refSignaturePadForeman} setTouchedSignature={setTouchedSignatureForeman}/>
                         </div>}
@@ -453,14 +449,18 @@ export default function TailGateTalkForm({selectedData, isShow}) {
             *
           </span>
                     </label>
-                    <div id="cid_8" className="form-input-wide jf-required" data-layout="half">
+                    <div id="cid_8" style={{display: 'flex'}} className="form-input-wide jf-required"
+                         data-layout="half">
                         <input type="text" id="input_8" name="q8_typeA8" data-type="input-textbox"
                                className="form-textbox  " data-defaultvalue=""
                                style={{width: '520px'}}
+                               disabled={true}
                                size="520"
-                               value={form.job}
-                               onChange={onChangeJob}
+                               value={project.project_name ? project.project_name : selectedData?.project_name ? selectedData?.project_name : ''}
                                data-component="textbox" aria-labelledby="label_8" required=""/>
+                        {!isShow && <Button onClick={selectProject} icon="pi pi-search"
+                                            className="p-button-sm p-button-rounded p-button-text"/>}
+
                     </div>
                 </li>
                 <li className="form-line fixed-width jf-required" data-type="control_textbox" id="id_8">
@@ -477,7 +477,6 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                                disabled={true}
                                size="520"
                                value={subject.header ? subject.header : selectedData?.subject ? selectedData?.subject : ''}
-                               onChange={onChangeJob}
                                data-component="textbox" aria-labelledby="label_8" required=""/>
                         {!isShow&&<Button  onClick={selectSubject} icon="pi pi-search" className="p-button-sm p-button-rounded p-button-text"/>}
 
@@ -532,7 +531,7 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                                                    aria-labelledby="label_9_col_0 label_9_row_0"/>
                                         </td>
                                         <td className="form-matrix-values">
-                                            <img height={50} src={arrayBufferToBase64(elem.signature?.data)}/>
+                                            <img height={50} src={GeneralUtils.arrayBufferToBase64(elem.signature?.data)}/>
                                         </td>
                                     </tr>
                                 )
@@ -600,7 +599,7 @@ export default function TailGateTalkForm({selectedData, isShow}) {
             *
           </span>
                     </label>
-                    {isShow ? <img src={arrayBufferToBase64(selectedData.signature.data)}/> :
+                    {isShow ? <img src={GeneralUtils.arrayBufferToBase64(selectedData.signature.data)}/> :
                         <div id="cid_14" className="form-input-wide jf-required" data-layout="half">
                             <div id="cid_7" className="form-input-wide jf-required" data-layout="half">
                                 <MSignaturePad ref={refSignaturePad} setTouchedSignature={setTouchedSignature}/>

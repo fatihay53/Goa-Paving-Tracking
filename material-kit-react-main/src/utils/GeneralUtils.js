@@ -1,6 +1,7 @@
 export default class GeneralUtils{
 
     static URL = 'http://wwww.localhost:8080';
+    //static URL = 'https://fatihsultanay.com';
     static DATE_FORMAT_CALENDAR = 'yy-mm-dd';
     static DATE_FORMAT_MOMENT = 'YYYY-MM-DD';
 
@@ -24,5 +25,11 @@ export default class GeneralUtils{
 
     static deleteDot(str){
             return str.replace('.','')
+    }
+
+    static arrayBufferToBase64(data) {
+        if (data) {
+            return Buffer.from(data, 'base64');
+        }
     }
 }

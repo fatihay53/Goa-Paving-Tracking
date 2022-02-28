@@ -18,7 +18,7 @@ export default function SignatureConfirmPage() {
     const refSignaturePad = useRef();
     const [touchedSignature, setTouchedSignature] = useState(false);
 
-    let url = new URL(window.location.href);
+    let url = new URL(window.location.href.replace(/#/g,""));
     let formId = url.searchParams.get("formId");
 
     let userId = JSON.parse(localStorage.getItem('user'))?.userId;
@@ -45,7 +45,7 @@ export default function SignatureConfirmPage() {
 
         const signature = refSignaturePad.current.getSignature();
 
-        attendeesService.updateSignature({userId: userId,formId: formId,signature:signature,isApproval:checked}).then(res=>{
+        attendeesService.updateSignature({userId: userId,formId: formId,signature:signature,isApproval:checked,formType:'TAIL_GATE_TALK_FORM'}).then(res=>{
             if (res.status == 200){
                 toast.success("Signatured success!");
                 return navigate('/dashboard', { replace: true });

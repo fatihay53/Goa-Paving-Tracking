@@ -15,13 +15,19 @@ const transporter = nodemailer.createTransport({
 mailRouter.post('/send', function(request, response) {
     let attendees = request.body.attendees;
     let formId = request.body.formId;
+    let formType = request.body.formType;
+    let href = formType === 'TAIL_GATE_TALK_FORM' ? `${API_URL}/#/signatureConfirmPage?formId=${formId}`:
+               formType === 'PRE_JOB_SAFETY_FORM' ? `${API_URL}/#/signatureConfirmPage/safety?formId=${formId}` :'';
 
-    let path = `<a href=http://localhost:3000/signatureConfirmPage?formId=${formId}>Login App For Signature</a>`;
+    let subject = formType === 'TAIL_GATE_TALK_FORM' ? 'Tail Gate Talk Form Signature Confirm':
+                  formType === 'PRE_JOB_SAFETY_FORM' ? 'Pre Job Safety Form Signature Confirm' :'';
+
+    let path = `<a href=${href}>Login App For Signature</a>`;
     attendees.map(elem=>{
         transporter.sendMail({
             from: 'ozanboyukk@gmail.com',
             to: elem.email,
-            subject: "Tail Gate Talk Form Signature Confirm",
+            subject: subject,
             text: "Please signature to attend form!",
             html: path,
         }).then(info => {

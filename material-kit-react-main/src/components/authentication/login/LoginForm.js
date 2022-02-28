@@ -55,7 +55,7 @@ export default function LoginForm() {
             localStorage.setItem('user', JSON.stringify(response.data.session.user));
             let signaturePath = localStorage.getItem('signatureConfirmPageRequest');
             if (signaturePath != null && signaturePath != undefined && signaturePath != ""){
-              navigate(signaturePath, { replace: true });
+              navigate(signaturePath.substr(1,signaturePath.length-1), { replace: true });
             }else{
               navigate(response.data.redirectUrl, { replace: true });
             }
