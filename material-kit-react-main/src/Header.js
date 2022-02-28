@@ -1,7 +1,16 @@
 import React from "react";
+import {useNavigate} from "react-router";
+import {Link} from "react-router-dom";
 
 
 export default function Header() {
+
+    const navigate = useNavigate();
+
+    const navigateUrl=(url)=>{
+        return navigate(url, { replace: true })
+    }
+
     return(
         <header className="init">
 
@@ -68,8 +77,8 @@ export default function Header() {
                                     </li>
                                     <li><a href="#">Services <i className="fa fa-angle-down"></i></a>
                                         <ul>
-                                            <li><a href="/paving">Paving</a></li>
-                                            <li><a href="/coldMilling">Cold Milling</a></li>
+                                            <li><Link to="/paving">Paving</Link></li>
+                                            <li onClick={()=>navigateUrl('/coldMilling')}><a>Cold Milling</a></li>
                                             <li><a href="/concrete">Concrete</a></li>
                                             <li><a href="/equipmentRentals">Equipment Rentals</a></li>
                                             <li><a href="/trucking">Trucking</a></li>
