@@ -28,6 +28,14 @@ import ProjectEstimateTemplateList from "./pages/forms/project/ProjectEstimateTe
 import PavingMillingReport from "./pages/reports/paving-milling-report/PavingMillingReport";
 import HomePage from "./home-page/HomePage";
 import UserList from "./pages/user-management/UserList";
+import AboutUs from "./about-us/AboutUs";
+import Paving from "./goa-services/Paving";
+import ColdMilling from "./goa-services/ColdMilling";
+import EquipmentRentals from "./goa-services/EquipmentRentals";
+import Trucking from "./goa-services/Trucking";
+import Concrete from "./goa-services/Concrete";
+import Contact from "./goa-services/Contact";
+import OurWorks from "./goa-services/OurWorks";
 import PreJobSafetyForm from "./pages/forms/pre-job-safety/PreJobSafetyForm";
 import PreJobSafetyFormList from "./pages/forms/pre-job-safety/PreJobSafetyFormList";
 import SignatureConfirmPageSafety from "./pages/forms/pre-job-safety/SignatureConfirmPageSafety";
@@ -118,6 +126,15 @@ export default function Router() {
       children: [
         { element: <Navigate to="/home" replace /> },
         { path: '/home', element: <HomePage/> },
+        { path: '/aboutUs', element: <AboutUs/> },
+        { path: '/paving', element: <Paving/> },
+        { path: '/coldMilling', element: <ColdMilling/> },
+        { path: '/concrete', element: <Concrete/> },
+        { path: '/equipmentRentals', element: <EquipmentRentals/> },
+        { path: '/trucking', element: <Trucking/> },
+        { path: '/contact', element: <Contact/> },
+        { path: '/ourWorks', element: <OurWorks/> },
+        { path: 'index.html', element: <Login /> },
         { path: 'admin', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
