@@ -1,3 +1,5 @@
+import jQuery from "jquery";
+
 export default class GeneralUtils{
 
     static URL = 'http://wwww.localhost:8080';
@@ -32,4 +34,79 @@ export default class GeneralUtils{
             return Buffer.from(data, 'base64');
         }
     }
+
+    static reloadJQuery(){
+        "use strict";
+        var loader = jQuery( '.preloader, .preloader-white' );
+        var bgpreloader = jQuery( '.bg-preloader, .bg-preloader-white' );
+        // var navigation
+        var menumobile = jQuery( '#main-menu' );
+        var navdefault = jQuery( '.navbar-default-white' );
+        var Navactive = jQuery( "nav a" );
+        var subnav = jQuery( ".subnav" );
+
+        // start function fadeOut preloader when condition window has been load
+        loader.fadeOut( 'slow', function() {
+            "use strict";
+            // opening slideup
+            bgpreloader.fadeOut( 1500 );
+            // animated transition & scroll onStep
+            onStep();
+            // stick navbar
+            //navdefault.sticky();
+            // responsive part
+            if ( jQuery( window )
+                .width() < 1025 ) {}
+            // mobile icon
+            jQuery( ".navbar-toggle" )
+                .on( "click", function() {
+                    let has = menumobile.hasClass("menu-show");
+                    if (!has){
+                        menumobile.toggleClass( 'menu-show' );
+                        navdefault.toggleClass( 'fullHeight' );
+                    }
+                } );
+        } );
+    }
+
+
+    static reloadJQuerySticky(){
+        "use strict";
+        var loader = jQuery( '.preloader, .preloader-white' );
+        var bgpreloader = jQuery( '.bg-preloader, .bg-preloader-white' );
+        // var navigation
+        var menumobile = jQuery( '#main-menu' );
+        var navdefault = jQuery( '.navbar-default-white' );
+        var Navactive = jQuery( "nav a" );
+        var subnav = jQuery( ".subnav" );
+
+        // start function fadeOut preloader when condition window has been load
+        loader.fadeOut( 'slow', function() {
+            "use strict";
+            // opening slideup
+            bgpreloader.fadeOut( 1500 );
+            // animated transition & scroll onStep
+            onStep();
+            // stick navbar
+            navdefault.sticky();
+            // responsive part
+            if ( jQuery( window )
+                .width() < 1025 ) {}
+            // mobile icon
+            jQuery( ".navbar-toggle" )
+                .on( "click", function() {
+                    let has = menumobile.hasClass("menu-show");
+                    if (!has){
+                        menumobile.toggleClass( 'menu-show' );
+                        navdefault.toggleClass( 'fullHeight' );
+                    }else{
+                        if (!has){
+                            menumobile.toggleClass( 'menu-show' );
+                            navdefault.toggleClass( 'fullHeight' );
+                        }
+                    }
+                } );
+        } );
+    }
+
 }

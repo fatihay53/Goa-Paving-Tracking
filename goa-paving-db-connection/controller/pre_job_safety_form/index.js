@@ -2,7 +2,7 @@
 
 const express = require('express');
 const preJobSafetyRouter = express.Router();
-const connection = require('../connection')
+const connection = require('../connection');
 
 preJobSafetyRouter.post('/save', function (request, response) {
     var sql = `INSERT INTO pre_job_safety_form (date,location,firstNameForeman,lastNameForeman,signatureForeman,estimate_template_id,general_options,environment_options,hazardous_options,others,task_list,possible_hazard_list,hazard_control_list,created_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`;

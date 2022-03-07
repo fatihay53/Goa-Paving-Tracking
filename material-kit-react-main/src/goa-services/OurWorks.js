@@ -1,23 +1,20 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Footer from "../pages/Footer";
 import Header from "../Header";
 import LetUsKnow from "./LetUsKnow";
+import GeneralUtils from "../utils/GeneralUtils";
 
 export default function OurWorks() {
-
+    useEffect(()=>{
+        GeneralUtils.reloadJQuery();
+    },[]);
 
     return (
         <React.Fragment>
-            <div class="bg-preloader-white"></div>
-            <div class="preloader-white">
-                <div class="mainpreloader">
-                    <span></span>
-                </div>
-            </div>
-
             <div class="content-wrapper">
 
                 <Header/>
+
                 <section id="subheader">
                     <div class="container-fluid m-5-hor">
                         <div class="row">

@@ -1,7 +1,13 @@
-import React from "react";
+import React, {useEffect} from "react";
+import {Link} from "react-router-dom";
+import GeneralUtils from "../utils/GeneralUtils";
 
 
 export default function LetUsKnow(){
+    useEffect(()=>{
+        GeneralUtils.reloadJQuery();
+    },[]);
+
     return(
         <React.Fragment>
             <section>
@@ -16,7 +22,7 @@ export default function LetUsKnow(){
                         <div className="col-lg-3 col-md-12">
                             <div className="btn-content">
                                 <span className="shine"></span>
-                                <a href="/contact">Let us know</a>
+                                <Link to="/contact">Let us know</Link>
                             </div>
                         </div>
 

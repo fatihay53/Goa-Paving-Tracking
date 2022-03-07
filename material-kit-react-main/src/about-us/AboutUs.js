@@ -1,18 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Footer from "../pages/Footer";
 import Header from "../Header";
+import GeneralUtils from "../utils/GeneralUtils";
 
 export default function AboutUs() {
 
+    useEffect(()=>{
+        GeneralUtils.reloadJQuery();
+    },[]);
 
 return(
     <React.Fragment>
-        <div className="bg-preloader-white"></div>
-        <div className="preloader-white">
-            <div className="mainpreloader">
-                <span></span>
-            </div>
-        </div>
 
         <div className="content-wrapper">
 

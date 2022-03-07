@@ -1,18 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Footer from "../pages/Footer";
 import Header from "../Header";
+import {Link} from "react-router-dom";
+import GeneralUtils from "../utils/GeneralUtils";
 
 export default function Trucking() {
-
+    useEffect(()=>{
+        GeneralUtils.reloadJQuery();
+    },[]);
 
     return (
         <React.Fragment>
-            <div class="bg-preloader-white"></div>
-            <div class="preloader-white">
-                <div class="mainpreloader">
-                    <span></span>
-                </div>
-            </div>
 
             <div class="content-wrapper">
 
@@ -57,25 +55,24 @@ export default function Trucking() {
                             <div class="col-md-3 onStep" data-animation="fadeInUp" data-time="600">
                                 <div class="widget">
                                     <ul id="services-list">
-
                                         <li>
-                                            <a href="/paving">Paving</a>
+                                            <Link to="/paving">Paving</Link>
                                         </li>
 
                                         <li>
-                                            <a href="/coldMilling">Cold Milling</a>
+                                            <Link to="/coldMilling">Cold Milling</Link>
                                         </li>
 
                                         <li>
-                                            <a href="/concrete">Concrete</a>
+                                            <Link to="/concrete">Concrete</Link>
                                         </li>
 
                                         <li>
-                                            <a href="/equipmentRentals">Equipment Rentals</a>
+                                            <Link to="/equipmentRentals">Equipment Rentals</Link>
                                         </li>
 
-                                        <li class="active">
-                                            <a href="/trucking">Trucking</a>
+                                        <li className="active">
+                                            <Link to="/trucking">Trucking</Link>
                                         </li>
                                     </ul>
                                 </div>

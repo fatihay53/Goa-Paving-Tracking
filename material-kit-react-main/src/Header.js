@@ -1,19 +1,20 @@
-import React from "react";
-import {useNavigate} from "react-router";
+import React, {useEffect} from "react";
 import {Link} from "react-router-dom";
 
-
 export default function Header() {
+    useEffect(()=>{
+        //GeneralUtils.reloadJQuerySticky();
+    },[]);
 
-    const navigate = useNavigate();
-
-    const navigateUrl=(url)=>{
-        return navigate(url, { replace: true })
-    }
 
     return(
         <header className="init">
-
+            <div className="bg-preloader-white"></div>
+            <div className="preloader-white">
+                <div className="mainpreloader">
+                    <span></span>
+                </div>
+            </div>
             <div className="container-fluid m-5-hor">
                 <div className="row">
                     <div className="subnav">
@@ -45,7 +46,7 @@ export default function Header() {
                             <span className="icon icon-bar"></span>
                             <span className="icon icon-bar"></span></button>
 
-                        <a className="navbar-brand white" href="index.html">
+                        <a className="navbar-brand white" href="#">
                             <img className="white" alt="logo" src="../../img/GOA_Logo_stroke-1.png"/>
                             <img className="black" alt="logo" src="../../img/GOA_Logo_stroke-1.png"/>
                         </a>
@@ -54,37 +55,29 @@ export default function Header() {
                             <nav id="menu-center">
                                 <ul>
                                     <li>
-                                        <a className="actived" href="/home">Home</a>
+                                        <li><Link to="/home">Home</Link></li>
                                     </li>
-                                    <li><a href="#">About <i className="fa fa-angle-down"></i></a>
+                                    <li><a>About <i className="fa fa-angle-down"></i></a>
                                         <ul>
-                                            <li><a href="/aboutUs">About Us</a></li>
+                                            <li><Link to="/aboutUs">About Us</Link></li>
                                         </ul>
                                     </li>
-                                    <li><a href="#">Works <i className="fa fa-angle-down"></i></a>
+                                    <li><a>Works <i className="fa fa-angle-down"></i></a>
                                         <ul>
-                                            <li><a href="/ourWorks">Gallery Column</a></li>
-                                            <li><a href="works-carousel.html">Gallery Carousel</a></li>
-                                            <li><a href="#">Projects Detail <i
-                                                className="fa fa-angle-right"></i></a>
-                                                <ul>
-                                                    <li><a href="projects-detail.html">Project Detail 1</a></li>
-                                                    <li><a href="projects-detail-2.html">Project Detail 2</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
+                                            <li><Link to="/ourWorks">Our Works</Link></li>
                                         </ul>
                                     </li>
-                                    <li><a href="#">Services <i className="fa fa-angle-down"></i></a>
+                                    <li><a>Services <i className="fa fa-angle-down"></i></a>
                                         <ul>
                                             <li><Link to="/paving">Paving</Link></li>
-                                            <li onClick={()=>navigateUrl('/coldMilling')}><a>Cold Milling</a></li>
-                                            <li><a href="/concrete">Concrete</a></li>
-                                            <li><a href="/equipmentRentals">Equipment Rentals</a></li>
-                                            <li><a href="/trucking">Trucking</a></li>
+                                            <li><Link to="/coldMilling">Cold Milling</Link></li>
+                                            <li><Link to="/concrete">Concrete</Link></li>
+                                            <li><Link to="/equipmentRentals">Equipment Rentals</Link></li>
+                                            <li><Link to="/trucking">Trucking</Link></li>
                                         </ul>
                                     </li>
-                                    <li><a href="/Contact">Contact</a></li>
+                                    <li><Link to="/contact">Contact</Link></li>
+
                                 </ul>
                             </nav>
                         </div>
