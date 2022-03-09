@@ -35,6 +35,7 @@ export default function EmployeeTable({selectedData,estimateProjectHour,setEmplo
     }, [employees]);
 
     const addCrews = () => {
+
         if (estimateProjectHour === null || estimateProjectHour === undefined || estimateProjectHour === '') {
             return toast.warning("Please enter estimate project hour.")
         }

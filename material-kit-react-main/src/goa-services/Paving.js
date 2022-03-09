@@ -1,7 +1,6 @@
 import React, {useEffect} from "react";
 import Footer from "../pages/Footer";
 import Header from "../Header";
-import '../home-page/main.css'
 import {Link} from "react-router-dom";
 import GeneralUtils from "../utils/GeneralUtils";
 

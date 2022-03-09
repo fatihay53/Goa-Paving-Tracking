@@ -1,4 +1,3 @@
-import jQuery from "jquery";
 
 export default class GeneralUtils{
 

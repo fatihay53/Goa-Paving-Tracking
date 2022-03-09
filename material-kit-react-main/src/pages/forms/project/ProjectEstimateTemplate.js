@@ -20,10 +20,15 @@ import EmployeeTableForeman from "./tables/EmployeeTableForeman";
 import {Calendar} from "primereact/calendar";
 import moment from "moment";
 import './projectTemplate.css';
+import PdfArea from "./PdfArea";
+import AttachmentService from "../../../services/AttachmentService";
+
 export default function ProjectEstimateTemplate({selectedData, updateDt}) {
 
     const [bid, setBid] = useState(selectedData ? selectedData.bid : null);
     const [date, setDate] = useState(new Date())
+    const [files, setFiles] = useState([]);
+    const [newFiles, setNewFiles] = useState([]);
     const [materialsTotal, setMaterialsTotal] = useState({});
     const [subContractorTotal, setSubContractorTotal] = useState(0);
     const [employeeTotal, setEmployeeTotal] = useState(0);
@@ -45,7 +50,9 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
 
     const [showDialog, setShowDialog] = useState(false);
     const [showedHtml, setShowedHtml] = useState({});
+
     const estimateTemplateService = new EstimateTemplateService();
+    const attachmentService = new AttachmentService();
 
     const getInitialData = () => {
         let data;
@@ -69,11 +76,37 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
     const selectProjectCategory = () => {
         setShowDialog(true);
         setShowedHtml(<SelectProjectCategory
-            setSelections={(selections) => setProject({
-                ...project,
-                category: selections.name,
-                categoryId: selections.id
-            })}/>);
+            setSelections={(selections) => {
+                setProject({
+                    ...project,
+                    category: selections.name,
+                    categoryId: selections.id
+                });
+                setShowDialog(false);
+            }
+            }/>);
+    }
+
+    const successMessage=()=>{
+        setProject({projectName: '', category: '', categoryId: '', estimateProjectHour: '', totalM2: 0});
+        setMaterialsTotal({});
+        setSubContractorTotal(0);
+        setEmployeeTotal(0);
+        setExternalCostTotal(0);
+        setInternalRentTotal(0);
+        setEquipmentCostTotal(0);
+        setColdMillingTotal(0);
+        setTrafficControlTotal(0);
+
+        setMaterialsValue({});
+        setSubContractorValue({});
+        setEmployeeValue({});
+        setExternalRentValue({});
+        setInternalRentValue({});
+        setEquipmentCostValue({});
+        setColdMillingValue({});
+        setTrafficControlValue({});
+        toast.success("Operation success.");
     }
 
     const saveForm = async () => {
@@ -89,6 +122,10 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
                         return toast.warning("Project name has already use,please enter new project name.")
                     }
                 }
+            }).catch(error=>{
+                console.log(error);
+                toast.error("Ups! Something went wrong.");
+                return;
             });
         }
 
@@ -109,7 +146,7 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
             return toast.warning("Please enter bid value.")
         }
         let profitDecimal = parseFloat('' + GeneralUtils.changeDecimalSeperator(profit, ',', '.')).toFixed(2);
-        project.totalM2 = GeneralUtils.changeDecimalSeperator(project.totalM2,",",".");
+        project.totalM2 = GeneralUtils.changeDecimalSeperator(''+project.totalM2, ",", ".");
         let request = {
             ...project,
             bid,
@@ -122,272 +159,313 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
             coldMilling,
             trafficControl,
             profit: profitDecimal,
-            date:moment(new Date(date)).format(GeneralUtils.DATE_FORMAT_MOMENT)
+            date: moment(new Date(date)).format(GeneralUtils.DATE_FORMAT_MOMENT)
         }
         if (GeneralUtils.isNullOrEmpty(project.id)) {
-            estimateTemplateService.save(request).then(res => {
+            await estimateTemplateService.save(request).then(res => {
                 if (res.status == 200) {
-                    setProject({projectName: '', category: '', categoryId: '', estimateProjectHour: '', totalM2: 0});
-                    setMaterialsTotal({});
-                    setSubContractorTotal(0);
-                    setEmployeeTotal(0);
-                    setExternalCostTotal(0);
-                    setInternalRentTotal(0);
-                    setEquipmentCostTotal(0);
-                    setColdMillingTotal(0);
-                    setTrafficControlTotal(0);
+                    let estimateTemplateId = res.data.insertId;
+                    let request = {
+                        files:files,
+                        estimateTemplateId:estimateTemplateId
+                    }
+                    if (files.length>0){
+                        attachmentService.save(request).then(res=>{
+                            if (res.status == 200){
+                                successMessage();
+                            }
+                        })
+                    }else{
+                        successMessage();
+                    }
 
-                    setMaterialsValue({});
-                    setSubContractorValue({});
-                    setEmployeeValue({});
-                    setExternalRentValue({});
-                    setInternalRentValue({});
-                    setEquipmentCostValue({});
-                    setColdMillingValue({});
-                    setTrafficControlValue({});
-                    toast.success("Operation success.");
                 }
+            }).catch(error=>{
+                console.log(error)
+                toast.error("Ups! Something went wrong.");
             })
         } else {
             estimateTemplateService.update(request).then(res => {
                 if (res.status == 200) {
-                    updateDt();
+                    let requestAttachment = {
+                        files:newFiles,
+                        estimateTemplateId:selectedData.id
+                    }
+                    if (newFiles.length>0){
+                        attachmentService.save(requestAttachment).then(res=>{
+                            if (res.status == 200){
+                                updateDt();
+                            }
+                        }).catch(error=>{
+                            console.log(error)
+                            toast.error("Ups! Something went wrong.");
+                        })
+                    }else{
+                        updateDt();
+                    }
                 }
+            }).catch(error=>{
+                console.log(error)
+                toast.error("Ups! Something went wrong.");
             })
         }
     }
-    return (<form onSubmit={(event) => event.preventDefault()}>
-        <div role="main">
-            <ul className="form-section page-section">
-                <li className="form-input-wide">
-                    <div className="form-header-group  header-large">
-                        <div className="header-text httac htvam">
-                            <h1 id="header_1" className="form-header" data-component="header">
-                                GOA Paving Estimate Template
-                            </h1>
-                        </div>
-                    </div>
-                </li>
-                <li className="form-line">
-                    <div className="form-input-wide" data-layout="half">
-                        <TextField
-                            fullWidth
-                            style={{backgroundColor: 'white'}}
-                            label="Project Name"
-                            onChange={(e) => setProject({...project, projectName: e.target.value})}
-                            value={project.projectName}
-                        />
-                    </div>
-                    <div style={{position:'relative'}} className="form-input-wide" data-layout="half">
-                        <TextField
-                            fullWidth
-                            disabled={true}
-                            style={{backgroundColor: 'white'}}
-                            label="Select Project Category"
-                            value={project.category}
-                        />
-                        <Button style={{position:'absolute'}} onClick={selectProjectCategory} icon="pi pi-search"
-                                className="p-button-sm p-button-rounded p-button-text"/>
-                    </div>
-                </li>
-                <li className="form-line">
-                    <div className="form-input-wide" data-layout="half">
-                        <TextField
-                            fullWidth
-                            style={{backgroundColor: 'white'}}
-                            type="number"
-                            label="Estimate Project Hour"
-                            onChange={(e) => setProject({...project, estimateProjectHour: e.target.value})}
-                            value={project.estimateProjectHour}
-                        />
-                    </div>
-                    <div className="form-input-wide" data-layout="half">
-                        <div className="p-fluid grid formgrid">
-                            <Calendar id="icon" value={date} onChange={(e) => setDate(e.value)}
-                                  dateFormat={GeneralUtils.DATE_FORMAT_CALENDAR}
-                                  showIcon/>
-                        </div>
-                    </div>
-                </li>
 
-                <li
-                    className="form-line"
-                >
-                    <div className="form-input-wide" data-layout="half">
-                        <label>Tonne/Hr</label>
-                        <TextField
-                            fullWidth
-                            disabled={true}
-                            style={{backgroundColor: 'white'}}
-                            value={GeneralUtils.numberFormatter((materialsTotal.rateTotal / project.estimateProjectHour).toFixed(2))}
-                        />
-                    </div>
-                    <div className="form-input-wide" data-layout="half">
-                        <label>Total M2</label>
-                        <TextField
-                            fullWidth
-                            style={{backgroundColor: 'white'}}
-                            onChange={(e) => setProject({...project, totalM2: e.target.value})}
-                            value={project.totalM2}
-                        />
-                    </div>
-                </li>
-                <li className="form-line">
-                    <div className="form-input-wide" data-layout="half">
-                        <SubContractorTable selectedData={selectedData}
-                                            setSubContractorValue={setSubContractorValue}
-                                            setSubContractorTotal={setSubContractorTotal}/>
-                    </div>
-                    <div id="cid_18" className="form-input-wide jf-required" data-layout="half">
-                        <EmployeeTable selectedData={selectedData}
-                                       estimateProjectHour={project.estimateProjectHour}
-                                       setEmployeeValue={setEmployeeValue}
-                                       setEmployeeTotal={setEmployeeTotal}/>
-                    </div>
-                </li>
-                {selectedData?.employee_foreman_json && <li
-                    className="form-line form-line-column form-col-2 jf-required"
-                    data-type="control_datetime"
-                    id="id_18"
-                >
-                    <div id="cid_18" className="form-input-wide jf-required" data-layout="half">
+    const getForm = () => {
+        return (
+            <form onSubmit={(event) => event.preventDefault()}>
+                <div role="main">
+                    <ul className="form-section page-section">
+                        <li className="form-input-wide">
+                            <div className="form-header-group  header-large">
+                                <div className="header-text httac htvam">
+                                    <h1 id="header_1" className="form-header" data-component="header">
+                                        GOA Paving Estimate Template
+                                    </h1>
+                                </div>
+                            </div>
+                        </li>
+                        <li className="form-line">
+                            <div className="form-input-wide" data-layout="half">
+                                <TextField
+                                    fullWidth
+                                    style={{backgroundColor: 'white'}}
+                                    multiline="true"
+                                    label="Project Name"
+                                    onChange={(e) => setProject({...project, projectName: e.target.value})}
+                                    value={project.projectName}
+                                />
+                            </div>
+                            <div style={{position: 'relative'}} className="form-input-wide" data-layout="half">
+                                <TextField
+                                    fullWidth
+                                    disabled={true}
+                                    style={{backgroundColor: 'white'}}
+                                    multiline="true"
+                                    label="Select Project Category"
+                                    value={project.category}
+                                />
+                                <Button style={{position: 'absolute'}} onClick={selectProjectCategory}
+                                        icon="pi pi-search"
+                                        className="p-button-sm p-button-rounded p-button-text"/>
+                            </div>
+                        </li>
+                        <li className="form-line">
+                            <div className="form-input-wide" data-layout="half">
+                                <TextField
+                                    fullWidth
+                                    style={{backgroundColor: 'white'}}
+                                    multiline="true"
+                                    type="number"
+                                    label="Estimate Project Hour"
+                                    onChange={(e) => setProject({...project, estimateProjectHour: e.target.value})}
+                                    value={project.estimateProjectHour}
+                                />
+                            </div>
+                            <div className="form-input-wide" data-layout="half">
+                                <div className="p-fluid grid formgrid">
+                                    <Calendar id="icon" value={date} onChange={(e) => setDate(e.value)}
+                                              dateFormat={GeneralUtils.DATE_FORMAT_CALENDAR}
+                                              showIcon/>
+                                </div>
+                            </div>
+                        </li>
 
-                    </div>
-                </li>}
-                {selectedData?.employee_foreman_json && <li
-                    className="form-line form-line-column form-col-2 jf-required"
-                    data-type="control_datetime"
-                    id="id_18"
-                >
-                    <div id="cid_18" className="form-input-wide jf-required" data-layout="half">
-                        <EmployeeTableForeman selectedData={selectedData}/>
-                    </div>
-                </li>}
-                <li
-                    className="form-line form-line-column form-col-1 jf-required"
-                    data-type="control_textbox"
-                    id="id_16"
-                >
-                    <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
-                        <MaterialsTable selectedData={selectedData}
-                                        setMaterialsTotal={setMaterialsTotal}
-                                        setMaterialsValue={setMaterialsValue}
-                        />
-                    </div>
-                </li>
-                <li
-                    className="form-line form-line-column form-col-1 jf-required"
-                    data-type="control_textbox"
-                    id="id_16"
-                >
-                    <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
-                        <ExternalRentTable selectedData={selectedData}
-                                           setExternalCostTotal={setExternalCostTotal}
-                                           setExternalRentValue={setExternalRentValue}
-                        />
-                    </div>
-                </li>
-                <li
-                    className="form-line form-line-column form-col-1 jf-required"
-                    data-type="control_textbox"
-                    id="id_16"
-                >
-                    <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
-                        <InternalRentCar selectedData={selectedData}
-                                         estimateProjectHour={project.estimateProjectHour}
-                                         setInternalRentValue={setInternalRentValue}
-                                         setInternalRentTotal={setInternalRentTotal}/>
-                    </div>
-                </li>
-                <li
-                    className="form-line form-line-column form-col-1 jf-required"
-                    data-type="control_textbox"
-                    id="id_16"
-                >
-                    <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
-                        <TotalEquipmentCost selectedData={selectedData}
-                                            estimateProjectHour={project.estimateProjectHour}
-                                            setEquipmentCostValue={setEquipmentCostValue}
-                                            setEquipmentCostTotal={setEquipmentCostTotal}/>
-                    </div>
-                </li>
-                <li
-                    className="form-line form-line-column form-col-1 jf-required"
-                    data-type="control_textbox"
-                    id="id_16"
-                >
-                    <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
-                        <ColdMillingTable selectedData={selectedData}
-                                          setColdMillingTotal={setColdMillingTotal}
-                                          setColdMillingValue={setColdMillingValue}
-                        />
-                    </div>
-                </li>
-                <li
-                    className="form-line form-line-column form-col-1 jf-required"
-                    data-type="control_textbox"
-                    id="id_16"
-                >
-                    <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
-                        <TrafficControlTable selectedData={selectedData}
-                                             setTrafficControlTotal={setTrafficControlTotal}
-                                             setTrafficControlValue={setTrafficControlValue}
-                        />
-                    </div>
-                </li>
-                <li className="form-line" data-type="control_divider" id="id_25">
-                    <div id="cid_25" className="form-input-wide" data-layout="full" style={{textAlign: 'center'}}>
-                        <div className="divider" aria-label="Divider" data-component="divider"
-                             style={{
-                                 borderBottomWidth: '1px',
-                                 borderBottomStyle: 'solid',
-                                 borderColor: '#ecedf3',
-                                 height: '1px',
-                                 marginLeft: '0px',
-                                 marginRight: '0px',
-                                 marginTop: '5px',
-                                 marginBottom: '5px'
-                             }}>
-                            <span style={{fontSize: '2em', fontWeight: 'bold'}}>Result</span>
-                        </div>
-                    </div>
-                </li>
-                <li
-                    className="form-line form-line-column form-col-1 jf-required"
-                    data-type="control_textbox"
-                >
-                    <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
-                        <ResultTable
-                            subContractorTotal={subContractorTotal}
-                            employeeTotal={employeeTotal}
-                            materialsTotal={materialsTotal}
-                            externalRentTotal={externalRentTotal}
-                            internalRentTotal={internalRentTotal}
-                            equipmentCostTotal={equipmentCostTotal}
-                            coldMillingTotal={coldMillingTotal}
-                            trafficControlTotal={trafficControlTotal}
-                            totalM2={project.totalM2}
-                            setBidValue={setBid}
-                            bidValue={bid}
-                            setProfit={setProfit}
-                        />
-                    </div>
-                </li>
-                <li className="form-line" data-type="control_button" id="id_2">
-                    <div id="cid_2" className="form-input-wide" data-layout="full">
-                        <div data-align="auto"
-                             className="form-buttons-wrapper form-buttons-auto   jsTest-button-wrapperField">
-                            <button id="input_2" type="submit"
-                                    onClick={saveForm}
-                                    className="form-submit-button submit-button jf-form-buttons jsTest-submitField"
-                                    data-component="button" data-content="">
-                                Submit
-                            </button>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            {showDialog && <MDialog showedHtml={showedHtml} showDialog={showDialog} setShowDialog={setShowDialog}/>}
-        </div>
-    </form>)
+                        <li
+                            className="form-line"
+                        >
+                            <div className="form-input-wide" data-layout="half">
+                                <label>Tonne/Hr</label>
+                                <TextField
+                                    fullWidth
+                                    disabled={true}
+                                    style={{backgroundColor: 'white'}}
+                                    multiline="true"
+                                    value={GeneralUtils.numberFormatter((materialsTotal.rateTotal / project.estimateProjectHour).toFixed(2))}
+                                />
+                            </div>
+                            <div className="form-input-wide" data-layout="half">
+                                <label>Total M2</label>
+                                <TextField
+                                    fullWidth
+                                    style={{backgroundColor: 'white'}}
+                                    multiline="true"
+                                    onChange={(e) => setProject({...project, totalM2: e.target.value})}
+                                    value={project.totalM2}
+                                />
+                            </div>
+                        </li>
+                        <li className="form-line">
+                            <div className="form-input-wide" data-layout="half">
+                                <SubContractorTable selectedData={selectedData}
+                                                    setSubContractorValue={setSubContractorValue}
+                                                    setSubContractorTotal={setSubContractorTotal}/>
+                            </div>
+                            <div id="cid_18" className="form-input-wide jf-required" data-layout="half">
+                                <EmployeeTable selectedData={selectedData}
+                                               estimateProjectHour={project.estimateProjectHour}
+                                               setEmployeeValue={setEmployeeValue}
+                                               setEmployeeTotal={setEmployeeTotal}/>
+                            </div>
+                        </li>
+                        {selectedData?.employee_foreman_json && <li
+                            className="form-line form-line-column form-col-2 jf-required"
+                            data-type="control_datetime"
+                            id="id_18"
+                        >
+                            <div id="cid_18" className="form-input-wide jf-required" data-layout="half">
+
+                            </div>
+                        </li>}
+                        {selectedData?.employee_foreman_json && <li
+                            className="form-line form-line-column form-col-2 jf-required"
+                            data-type="control_datetime"
+                            id="id_18"
+                        >
+                            <div id="cid_18" className="form-input-wide jf-required" data-layout="half">
+                                <EmployeeTableForeman selectedData={selectedData}/>
+                            </div>
+                        </li>}
+                        <li
+                            className="form-line form-line-column form-col-1 jf-required"
+                            data-type="control_textbox"
+                            id="id_16"
+                        >
+                            <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
+                                <MaterialsTable selectedData={selectedData}
+                                                setMaterialsTotal={setMaterialsTotal}
+                                                setMaterialsValue={setMaterialsValue}
+                                />
+                            </div>
+                        </li>
+                        <li
+                            className="form-line form-line-column form-col-1 jf-required"
+                            data-type="control_textbox"
+                            id="id_16"
+                        >
+                            <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
+                                <ExternalRentTable selectedData={selectedData}
+                                                   setExternalCostTotal={setExternalCostTotal}
+                                                   setExternalRentValue={setExternalRentValue}
+                                />
+                            </div>
+                        </li>
+                        <li
+                            className="form-line form-line-column form-col-1 jf-required"
+                            data-type="control_textbox"
+                            id="id_16"
+                        >
+                            <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
+                                <InternalRentCar selectedData={selectedData}
+                                                 estimateProjectHour={project.estimateProjectHour}
+                                                 setInternalRentValue={setInternalRentValue}
+                                                 setInternalRentTotal={setInternalRentTotal}/>
+                            </div>
+                        </li>
+                        <li
+                            className="form-line form-line-column form-col-1 jf-required"
+                            data-type="control_textbox"
+                            id="id_16"
+                        >
+                            <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
+                                <TotalEquipmentCost selectedData={selectedData}
+                                                    estimateProjectHour={project.estimateProjectHour}
+                                                    setEquipmentCostValue={setEquipmentCostValue}
+                                                    setEquipmentCostTotal={setEquipmentCostTotal}/>
+                            </div>
+                        </li>
+                        <li
+                            className="form-line form-line-column form-col-1 jf-required"
+                            data-type="control_textbox"
+                            id="id_16"
+                        >
+                            <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
+                                <ColdMillingTable selectedData={selectedData}
+                                                  setColdMillingTotal={setColdMillingTotal}
+                                                  setColdMillingValue={setColdMillingValue}
+                                />
+                            </div>
+                        </li>
+                        <li
+                            className="form-line form-line-column form-col-1 jf-required"
+                            data-type="control_textbox"
+                            id="id_16"
+                        >
+                            <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
+                                <TrafficControlTable selectedData={selectedData}
+                                                     setTrafficControlTotal={setTrafficControlTotal}
+                                                     setTrafficControlValue={setTrafficControlValue}
+                                />
+                            </div>
+                        </li>
+                        <li className="form-line" data-type="control_divider" id="id_25">
+                            <div id="cid_25" className="form-input-wide" data-layout="full"
+                                 style={{textAlign: 'center'}}>
+                                <div className="divider" aria-label="Divider" data-component="divider"
+                                     style={{
+                                         borderBottomWidth: '1px',
+                                         borderBottomStyle: 'solid',
+                                         borderColor: '#ecedf3',
+                                         height: '1px',
+                                         marginLeft: '0px',
+                                         marginRight: '0px',
+                                         marginTop: '5px',
+                                         marginBottom: '5px'
+                                     }}>
+                                    <span style={{fontSize: '2em', fontWeight: 'bold'}}>Result</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li
+                            className="form-line form-line-column form-col-1 jf-required"
+                            data-type="control_textbox"
+                        >
+                            <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
+                                <ResultTable
+                                    subContractorTotal={subContractorTotal}
+                                    employeeTotal={employeeTotal}
+                                    materialsTotal={materialsTotal}
+                                    externalRentTotal={externalRentTotal}
+                                    internalRentTotal={internalRentTotal}
+                                    equipmentCostTotal={equipmentCostTotal}
+                                    coldMillingTotal={coldMillingTotal}
+                                    trafficControlTotal={trafficControlTotal}
+                                    totalM2={project.totalM2}
+                                    setBidValue={setBid}
+                                    bidValue={bid}
+                                    setProfit={setProfit}
+                                />
+                            </div>
+                        </li>
+                        <li className="form-line" data-type="control_button" id="id_2">
+                            <div id="cid_2" className="form-input-wide" data-layout="full">
+                                <div data-align="auto"
+                                     className="form-buttons-wrapper form-buttons-auto   jsTest-button-wrapperField">
+                                    <button id="input_2" type="submit"
+                                            onClick={saveForm}
+                                            className="form-submit-button submit-button jf-form-buttons jsTest-submitField"
+                                            data-component="button" data-content="">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    {showDialog &&
+                    <MDialog showedHtml={showedHtml} showDialog={showDialog} setShowDialog={setShowDialog}/>}
+                </div>
+            </form>
+        )
+    }
+
+    const setSelectedFiles=(files)=>{
+        setFiles(files);
+    }
+
+    return (
+        <React.Fragment>
+            <PdfArea setSelectedFiles={setSelectedFiles} selectedId={selectedData?.id} setNewFiles={(fileNew) => setNewFiles(newFiles => [...newFiles,...fileNew])}/>
+            {getForm()}
+        </React.Fragment>
+    )
 }

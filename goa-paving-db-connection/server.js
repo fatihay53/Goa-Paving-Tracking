@@ -17,6 +17,7 @@ const materialsRouter = require('./controller/materials');
 const projectCategoryRouter = require('./controller/project_category');
 const estimateTemplateRouter = require('./controller/estimate_template');
 const preJobSafetyRouter = require('./controller/pre_job_safety_form');
+const attachmentRouter = require('./controller/attachment');
 
 var app = express();
 app.use(cors())
@@ -25,8 +26,8 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-app.use(bodyParser.urlencoded({extended : true}));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 app.use('/auth',authController);
 app.use('/newClientForm',newClientFormController);
 app.use('/employee',employeeRouter);
@@ -41,6 +42,7 @@ app.use('/materials',materialsRouter);
 app.use('/projectCategory',projectCategoryRouter);
 app.use('/estimateTemplate',estimateTemplateRouter);
 app.use('/preJobSafety',preJobSafetyRouter);
+app.use('/attachment',attachmentRouter);
 
 app.get('/', function(request, response) {
     response.sendFile(path.join(__dirname + '/login.html'));

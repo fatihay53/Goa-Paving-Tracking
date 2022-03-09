@@ -1,10 +1,9 @@
 import './new-client-form.css';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import LoadingScreen from 'react-loading-screen'
 import logo from '../../../goa_logo.png';
 import {toast} from "react-toastify";
 import NewClientFormService from "../../../services/NewClientFormService";
-import {JotFormConfig} from "../../JotFormConfig";
 
 export default function NewClientForm({selectedData,isShow}) {
     let initialState = isShow ? selectedData : {
@@ -27,11 +26,8 @@ export default function NewClientForm({selectedData,isShow}) {
 
     const newClientFormService = new NewClientFormService();
 
-    useEffect(()=>{
-        JotFormConfig();
-    },[])
-
     function saveForm() {
+
         if ((clientForm.clientName === null || clientForm.clientName === ''  ) ||
             (clientForm.streetAddress === null || clientForm.streetAddress === ''  ) ||
             (clientForm.phoneNumber === null || clientForm.phoneNumber === ''  ) ||
@@ -115,9 +111,6 @@ export default function NewClientForm({selectedData,isShow}) {
         acceptCharset="utf-8"
         autoComplete="on"
     >
-        <input type="hidden" name="formID" value="220104272956249"/>
-        <input type="hidden" id="JWTContainer" value=""/>
-        <input type="hidden" id="cardinalOrderNumber" value=""/>
         <div role="main" className="form-all">
             <ul className="form-section page-section">
                 <li id="cid_1" className="form-input-wide" data-type="control_head">

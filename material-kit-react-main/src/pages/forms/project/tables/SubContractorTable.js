@@ -18,7 +18,6 @@ export default function SubContractorTable({selectedData,setSubContractorTotal,s
 
     const [subContractor,setSubContractor] = useState(getInitialData());
 
-
     React.useEffect(() => {
         let totalAmount = subContractor.quantityHours*subContractor.rateHours + subContractor.quantityM2*subContractor.rateM2;
         setTotalAmount(totalAmount);

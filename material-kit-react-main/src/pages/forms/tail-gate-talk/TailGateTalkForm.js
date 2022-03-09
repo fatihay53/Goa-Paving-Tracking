@@ -51,7 +51,7 @@ export default function TailGateTalkForm({selectedData, isShow}) {
     const [form, setForm] = useState(initialState);
 
     useEffect(() => {
-        JotFormConfig();
+        //JotFormConfig();
         getAttendees();
     }, []);
 
