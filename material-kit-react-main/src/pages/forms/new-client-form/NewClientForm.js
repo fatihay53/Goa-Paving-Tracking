@@ -102,6 +102,7 @@ export default function NewClientForm({selectedData,isShow}) {
     }
 
     let form = <form
+        style={{backgroundColor:'#f3f3fe'}}
         className="jotform-form"
         // action="https://submit.jotform.com/submit/220104272956249/"
         // method="post"

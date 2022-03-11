@@ -1,8 +1,9 @@
 import EmployeeService from "../../services/EmployeeService";
 import React, {useEffect, useState} from "react";
 import MDataTable from "./dt/MDataTable";
+import GeneralUtils from "../../utils/GeneralUtils";
 
-export default function SelectEmployee({setSelections,restriction}) {
+export default function SelectEmployee({setSelections,restriction,selectionMode}) {
     const employeeService = new EmployeeService();
     const [employeeList, setEmployeeList] = useState([]);
     const [dtLoading, setDtLoading] = useState(true);
@@ -24,6 +25,13 @@ export default function SelectEmployee({setSelections,restriction}) {
                     setDtLoading(false);
                 }
             });
+        }if (restriction === 'findAllSupervisors'){
+            employeeService.findAllSupervisors().then(res => {
+                if (res.status == 200) {
+                    setEmployeeList(res.data);
+                    setDtLoading(false);
+                }
+            });
         }else{
             employeeService.findAll().then(res => {
                 if (res.status == 200) {
@@ -35,8 +43,8 @@ export default function SelectEmployee({setSelections,restriction}) {
     }, []);
 
     return (
-        <MDataTable showMultipleSelection={true}
-                    selectionMode="multiple"
+        <MDataTable showMultipleSelection={ !GeneralUtils.isNullOrEmpty(selectionMode) ? false : true}
+                    selectionMode={!GeneralUtils.isNullOrEmpty(selectionMode) ? selectionMode :"multiple" }
                     setSelections={(selections)=>setSelections(selections)}
                     columns={columns}
                     loading={dtLoading}

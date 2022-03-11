@@ -127,7 +127,7 @@ export default function PavingMillingReport() {
     }
 
     return (
-        <form onSubmit={(event) => event.preventDefault()}>
+        <form onSubmit={(event) => event.preventDefault()} style={{backgroundColor:'#f3f3fe'}}>
             <div role="main">
                 <ul className="form-section page-section">
                     <li className="form-line">

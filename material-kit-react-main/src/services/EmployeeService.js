@@ -10,6 +10,10 @@ export default class EmployeeService {
     return axios.get(GeneralUtils.URL+'/employee/findAllEmployees');
   }
 
+  findAllSupervisors() {
+    return axios.get(GeneralUtils.URL+'/employee/findAllSupervisors');
+  }
+
   save(data) {
     return axios.post(GeneralUtils.URL+'/employee/save', data);
   }

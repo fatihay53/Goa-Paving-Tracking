@@ -1,6 +1,5 @@
 import './time-card.css'
 import React, {useEffect, useRef, useState} from "react";
-import {JotFormConfig} from "../../JotFormConfig";
 import TimePicker from 'react-time-picker';
 import moment from 'moment';
 import {toast} from "react-toastify";
@@ -23,7 +22,7 @@ export default function TimeCard() {
     const [touchedSignature, setTouchedSignature] = useState(false);
 
     useEffect(() => {
-        JotFormConfig();
+        //JotFormConfig();
         setUser(JSON.parse(localStorage.getItem("user")));
     }, []);
 
@@ -95,7 +94,7 @@ export default function TimeCard() {
     }
 
     return (
-        <form onSubmit={(event) => event.preventDefault()}>
+        <form onSubmit={(event) => event.preventDefault()} style={{backgroundColor:'#f3f3fe'}}>
             <div role="main" className="form-all">
                 <ul className="form-section page-section">
 

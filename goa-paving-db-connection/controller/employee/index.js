@@ -24,6 +24,16 @@ employeeRouter.get('/findAllEmployees', function (request, response) {
     });
 });
 
+employeeRouter.get('/findAllSupervisors', function (request, response) {
+    var sql = `select * from employee e join users u on e.user_id=u.id where employee_type='SUPERVISOR'`;
+
+    connection.query(sql, function (error, result, fields) {
+        if (error) throw error;
+        response.json(result)
+        response.end();
+    });
+});
+
 employeeRouter.post('/save', function (request, response) {
     var sql = `INSERT INTO employee (email, user_id,name,surname,employee_type,hourly_cost) VALUES (?,?,?,?,?,?)`;
     let userId = request.body.userId;

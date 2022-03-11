@@ -68,7 +68,7 @@ export default function PreJobSafetyForm({selectedData, isShow}) {
     };
 
     useEffect(() => {
-        JotFormConfig();
+        //JotFormConfig();
         let length = taskList.length;
         if (length == 0) {
             addNewTask();
@@ -257,7 +257,7 @@ export default function PreJobSafetyForm({selectedData, isShow}) {
         })
     }
 
-    let formReturn = <form className="jotform-form" autoComplete="on" onSubmit={(event) => event.preventDefault()}>
+    let formReturn = <form style={{backgroundColor:'#f3f3fe'}} className="jotform-form" autoComplete="on" onSubmit={(event) => event.preventDefault()}>
 
         <div role="main" className="form-all">
             <ul className="form-section page-section">

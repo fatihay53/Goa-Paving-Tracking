@@ -10,7 +10,6 @@ import MailService from "../../../services/MailService";
 import LoadingScreen from "react-loading-screen";
 import {Button} from "primereact/button";
 import SelectSubject from "../../../components/mcomponents/SelectSubject";
-import {JotFormConfig} from "../../JotFormConfig";
 import MSignaturePad from "../../../components/mcomponents/MSignaturePad";
 import GeneralUtils from "../../../utils/GeneralUtils";
 import SelectProject from "../../../components/mcomponents/SelectProject";
@@ -215,7 +214,7 @@ export default function TailGateTalkForm({selectedData, isShow}) {
         setShowedHtml(<SelectSubject setShowDialog={(showDialog)=>setShowDialog(showDialog)} setSelections={(selections) => setSubject(selections)}/>);
     }
 
-    let formReturn = <form class="jotform-form" name="form_220115730197045" id="220115730197045" accept-charset="utf-8"
+    let formReturn = <form style={{backgroundColor:'#f3f3fe'}} class="jotform-form" name="form_220115730197045" id="220115730197045" accept-charset="utf-8"
                            autocomplete="on"
                            onSubmit={(event) => event.preventDefault()}>
 

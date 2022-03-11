@@ -39,6 +39,9 @@ import OurWorks from "./goa-services/OurWorks";
 import PreJobSafetyForm from "./pages/forms/pre-job-safety/PreJobSafetyForm";
 import PreJobSafetyFormList from "./pages/forms/pre-job-safety/PreJobSafetyFormList";
 import SignatureConfirmPageSafety from "./pages/forms/pre-job-safety/SignatureConfirmPageSafety";
+import Demo from "./home-page/Demo";
+import EmergencyForm from "./pages/forms/emergency-form/EmergencyForm";
+import HospitalForm from "./pages/forms/inventory/hospital/HospitalForm";
 
 // ----------------------------------------------------------------------
 
@@ -70,7 +73,8 @@ export default function Router() {
       children: [
         { path: 'newClientForm', element: <NewClientForm /> },
         { path: 'tailGateTalkForm', element: <TailGateTalkForm /> },
-        { path: 'preJobSafetyForm', element: <PreJobSafetyForm /> }
+        { path: 'preJobSafetyForm', element: <PreJobSafetyForm /> },
+        { path: 'emergencyForm', element: <EmergencyForm /> }
       ]
     },
     {
@@ -96,6 +100,13 @@ export default function Router() {
       children: [
         { path: 'estimateTemplate', element: <ProjectEstimateTemplate /> },
         { path: 'savedEstimateTemplate', element: <ProjectEstimateTemplateList /> }
+      ]
+    },
+    {
+      path: '/dashboard/inventory',
+      element: <DashboardLayout />,
+      children: [
+        { path: 'hospitalForm', element: <HospitalForm /> }
       ]
     },
     {
@@ -126,6 +137,7 @@ export default function Router() {
       children: [
         { element: <Navigate to="/home" replace /> },
         { path: '/home', element: <HomePage/> },
+        { path: '/demo', element: <Demo/> },
         { path: '/aboutUs', element: <AboutUs/> },
         { path: '/paving', element: <Paving/> },
         { path: '/coldMilling', element: <ColdMilling/> },
