@@ -174,7 +174,8 @@ export default function HomePage() {
 
                             <div class="col-md-12 onStep" data-animation="fadeInLeft" data-time="0">
                                 <h4 class="bg-dots">why choose us?</h4>
-                                <p>We listen carefully about what clients needed</p>
+                                <p>GOA Paving uses quality materials and industry leading technology to ensure a durable, and long lasting product for our clients.</p>
+                                <p>You can count on our 15+ years experience and professional team to complete your project on time and on budget.</p>
                                 <span class="devider-left"></span>
                             </div>
 

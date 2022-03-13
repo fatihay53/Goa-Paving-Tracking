@@ -4,7 +4,7 @@ import Header from "../Header";
 import LetUsKnow from "./LetUsKnow";
 import GeneralUtils from "../utils/GeneralUtils";
 
-export default function OurWorks() {
+export default function PhotoGallery() {
     useEffect(()=>{
         GeneralUtils.reloadJQuery();
     },[]);

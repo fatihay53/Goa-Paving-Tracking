@@ -4,11 +4,11 @@ import Header from "../Header";
 import {Link} from "react-router-dom";
 import GeneralUtils from "../utils/GeneralUtils";
 
-export default function EquipmentRentals() {
+export default function Residential() {
 
-    useEffect(()=>{
+    useEffect(() => {
         GeneralUtils.reloadJQuery();
-    },[])
+    }, [])
 
     return (
         <React.Fragment>
@@ -34,23 +34,25 @@ export default function EquipmentRentals() {
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-12 onStep" data-animation="fadeInUp" data-time="300">
-                                        <img alt="imgservices" class="img-responsive" src="img/Equipement2-1568x1175.jpg"/>
-                                            <h2>
-                                                MODERN <span class="color">EQUIPMENT</span>
-                                            </h2>
+                                        <img alt="imgservices" class="img-responsive"
+                                             src="img/Equipement2-1568x1175.jpg"/>
+                                        <h2>
+                                            <span class="color">Residential</span>
+                                        </h2>
 
-                                            <p>
-                                                <em></em>
-                                            </p>
+                                        <p>
+                                            <em></em>
+                                        </p>
 
-                                            <p>
-                                                At GOA we pride ourselves on our modern fleet of trucks and equipment.
+                                        <ul>
+                                            <li style={{listStyle:"circle", marginLeft:"30px"}}>Driveway construction</li>
 
-                                                We can provide you with:
-                                                Pavers; rollers, skid steers, cold milling machines, shoulder spreaders, tack distributors, excavators, and more!
+                                            <li style={{listStyle:"circle", marginLeft:"30px"}}>Walkways</li>
 
-                                                If you are looking for some extra muscle on your project, give us a call.
-                                            </p>
+                                            <li style={{listStyle:"circle", marginLeft:"30px"}}>Excavating</li>
+
+                                            <li style={{listStyle:"circle", marginLeft:"30px"}}>Grading</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -59,24 +61,16 @@ export default function EquipmentRentals() {
                             <div class="col-md-3 onStep" data-animation="fadeInUp" data-time="600">
                                 <div class="widget">
                                     <ul id="services-list">
-                                        <li>
-                                            <Link to="/paving">Paving</Link>
-                                        </li>
-
-                                        <li>
-                                            <Link to="/coldMilling">Cold Milling</Link>
-                                        </li>
-
-                                        <li>
-                                            <Link to="/concrete">Concrete</Link>
-                                        </li>
-
                                         <li className="active">
-                                            <Link to="/equipmentRentals">Equipment Rentals</Link>
+                                            <Link to="/residential">Residential</Link>
                                         </li>
 
                                         <li>
-                                            <Link to="/trucking">Trucking</Link>
+                                            <Link to="/commercial">Commercial</Link>
+                                        </li>
+
+                                        <li>
+                                            <Link to="/municipal">Municipal</Link>
                                         </li>
                                     </ul>
                                 </div>

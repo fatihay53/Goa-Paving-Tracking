@@ -29,19 +29,18 @@ import PavingMillingReport from "./pages/reports/paving-milling-report/PavingMil
 import HomePage from "./home-page/HomePage";
 import UserList from "./pages/user-management/UserList";
 import AboutUs from "./about-us/AboutUs";
-import Paving from "./goa-services/Paving";
-import ColdMilling from "./goa-services/ColdMilling";
-import EquipmentRentals from "./goa-services/EquipmentRentals";
-import Trucking from "./goa-services/Trucking";
-import Concrete from "./goa-services/Concrete";
+import Residential from "./goa-services/Residential";
+import Commercial from "./goa-services/Commercial";
+import Municipal from "./goa-services/Municipal";
 import Contact from "./goa-services/Contact";
-import OurWorks from "./goa-services/OurWorks";
+import PhotoGallery from "./goa-services/PhotoGallery";
 import PreJobSafetyForm from "./pages/forms/pre-job-safety/PreJobSafetyForm";
 import PreJobSafetyFormList from "./pages/forms/pre-job-safety/PreJobSafetyFormList";
 import SignatureConfirmPageSafety from "./pages/forms/pre-job-safety/SignatureConfirmPageSafety";
 import Demo from "./home-page/Demo";
 import EmergencyForm from "./pages/forms/emergency-form/EmergencyForm";
 import HospitalForm from "./pages/forms/inventory/hospital/HospitalForm";
+import Careers from "./goa-services/Careers";
 
 // ----------------------------------------------------------------------
 
@@ -139,13 +138,12 @@ export default function Router() {
         { path: '/home', element: <HomePage/> },
         { path: '/demo', element: <Demo/> },
         { path: '/aboutUs', element: <AboutUs/> },
-        { path: '/paving', element: <Paving/> },
-        { path: '/coldMilling', element: <ColdMilling/> },
-        { path: '/concrete', element: <Concrete/> },
-        { path: '/equipmentRentals', element: <EquipmentRentals/> },
-        { path: '/trucking', element: <Trucking/> },
+        { path: '/residential', element: <Residential/> },
+        { path: '/commercial', element: <Commercial/> },
+        { path: '/municipal', element: <Municipal/> },
         { path: '/contact', element: <Contact/> },
-        { path: '/ourWorks', element: <OurWorks/> },
+        { path: '/careers', element: <Careers/> },
+        { path: '/photoGallery', element: <PhotoGallery/> },
         { path: 'index.html', element: <Login /> },
         { path: 'admin', element: <Login /> },
         { path: 'register', element: <Register /> },

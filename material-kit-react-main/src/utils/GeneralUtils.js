@@ -1,10 +1,23 @@
 
 export default class GeneralUtils{
 
-    static URL = 'http://wwww.localhost:8080';
-    //static URL = 'https://fatihsultanay.com';
+    //static URL = 'http://wwww.localhost:8080';
+    static URL = 'http://209.145.59.99:8080';
     static DATE_FORMAT_CALENDAR = 'yy-mm-dd';
     static DATE_FORMAT_MOMENT = 'YYYY-MM-DD';
+
+    static deleteSlash(url){
+        let newUrl;
+        let arr = url.split(':8');
+        if (!GeneralUtils.isNullOrEmpty(arr) && arr.length >0){
+            if(arr[0].charAt(arr[0].length-1) === '/'){
+                newUrl = arr[0].substring(0,arr[0].length-2);
+            }else{
+                newUrl = url;
+            }
+            return newUrl;
+        }
+    }
 
     static changeDecimalSeperator (str,from,to) {
         return str.replace(from,to).replace(' ','');

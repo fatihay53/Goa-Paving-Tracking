@@ -40,13 +40,12 @@ return(
                                 </h4>
 
                                 <p>
-                                    For over 15 years, GOA Paving has been all about quality!
+                                    Since 2006 GOA Paving has been a family owned and operated business serving all of eastern Ontario.
 
-                                    Quality equipment, quality workmanship and quality service. Our experienced team strives to provide you with the best quality workmanship because that is what you invest in.
+                                    Our professional team strives to provide you with some of the best quality workmanship and service in the business.
 
-                                    No job is too big or too small, from driveway construction to streets and roadways.
-
-                                    Give us a call or email us for your free quote today! </p>
+                                    From driveways, to streets and parking lots, no project is too big or too small for GOA Paving.
+                                </p>
 
 
                             </div>

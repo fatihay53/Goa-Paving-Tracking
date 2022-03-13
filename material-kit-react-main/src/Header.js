@@ -46,10 +46,10 @@ export default function Header() {
                             <span className="icon icon-bar"></span>
                             <span className="icon icon-bar"></span></button>
 
-                        <a className="navbar-brand white" href="#">
+                        <Link className="navbar-brand white" to="/home">
                             <img className="white" alt="logo" src="../../img/GOA_Logo_stroke-1.png"/>
                             <img className="black" alt="logo" src="../../img/GOA_Logo_stroke-1.png"/>
-                        </a>
+                        </Link>
 
                         <div className="white menu-init" id="main-menu">
                             <nav id="menu-center">
@@ -62,22 +62,23 @@ export default function Header() {
                                             <li><Link to="/aboutUs">About Us</Link></li>
                                         </ul>
                                     </li>
-                                    <li><a>Works <i className="fa fa-angle-down"></i></a>
+                                    <li><a>Photo Gallery <i className="fa fa-angle-down"></i></a>
                                         <ul>
-                                            <li><Link to="/ourWorks">Our Works</Link></li>
+                                            <li><Link to="/photoGallery">Photo Gallery</Link></li>
                                         </ul>
                                     </li>
                                     <li><a>Services <i className="fa fa-angle-down"></i></a>
                                         <ul>
-                                            <li><Link to="/paving">Paving</Link></li>
-                                            <li><Link to="/coldMilling">Cold Milling</Link></li>
-                                            <li><Link to="/concrete">Concrete</Link></li>
-                                            <li><Link to="/equipmentRentals">Equipment Rentals</Link></li>
-                                            <li><Link to="/trucking">Trucking</Link></li>
+                                            <li><Link to="/residential">Residential</Link></li>
+                                            <li><Link to="/commercial">Commercial</Link></li>
+                                            <li><Link to="/municipal">Municipal</Link></li>
                                         </ul>
                                     </li>
                                     <li><Link to="/contact">Contact</Link></li>
 
+                                    <li>
+                                        <li><Link to="/careers">Careers</Link></li>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
