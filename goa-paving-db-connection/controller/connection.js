@@ -1,12 +1,13 @@
-var mysql = require('mysql');
+var mysql =  require('mysql');
+
 module.exports = mysql.createConnection({
-    host: '192.168.99.100',
+    host: 'localhost',
     user: 'root',
     password: '123',
     database: 'goa_paving'
-});
+})
 
-/*module.exports = mysql.createConnection({
+ /*module.exports = mysql.createConnection({
     host: 'server311.web-hosting.com',
     user: 'fatiebny_goa_paving',
     password: 'xyO5nC7=blVF',

@@ -13,6 +13,7 @@ import SelectSubject from "../../../components/mcomponents/SelectSubject";
 import MSignaturePad from "../../../components/mcomponents/MSignaturePad";
 import GeneralUtils from "../../../utils/GeneralUtils";
 import SelectProject from "../../../components/mcomponents/SelectProject";
+import {Calendar} from "primereact/calendar";
 
 export default function TailGateTalkForm({selectedData, isShow}) {
 
@@ -35,7 +36,7 @@ export default function TailGateTalkForm({selectedData, isShow}) {
     const [touchedSignatureForeman, setTouchedSignatureForeman] = useState(false);
 
     let initialState = isShow ? selectedData : {
-        date: '',
+        date: new Date(),
         location: '',
         firstNameForeman: '',
         lastNameForeman: '',
@@ -50,7 +51,6 @@ export default function TailGateTalkForm({selectedData, isShow}) {
     const [form, setForm] = useState(initialState);
 
     useEffect(() => {
-        //JotFormConfig();
         getAttendees();
     }, []);
 
@@ -67,11 +67,10 @@ export default function TailGateTalkForm({selectedData, isShow}) {
     }
 
     async function saveForm() {
-        const date = document.getElementById('lite_mode_18').value;
         //let signatureForeman = document.getElementById('input_7').value;
         //const signature = document.getElementById('input_14').value;
 
-        if ((date === null || date === '') ||
+        if ((GeneralUtils.isNullOrEmpty(form.date)) ||
             //(signatureForeman === null || signatureForeman === '') ||
             //(signature === null || signature === '') ||
             (form.location === null || form.location === '') ||
@@ -115,7 +114,7 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                             setSubject({});
                             setProject({});
                             setForm({
-                                date: '',
+                                date: new Date(),
                                 location: '',
                                 firstNameForeman: '',
                                 lastNameForeman: '',
@@ -135,63 +134,57 @@ export default function TailGateTalkForm({selectedData, isShow}) {
     }
 
     function onChangeLocation(e) {
-        const date = document.getElementById('lite_mode_18').value;
         //const signatureForeman = document.getElementById('input_7').value;
         //const signature = document.getElementById('input_14').value;
         const signature = refSignaturePad.current.getSignature();
         const signatureForeman = refSignaturePadForeman.current.getSignature();
 
-        setForm({...form, location: e.target.value, date, signatureForeman, signature});
+        setForm({...form, location: e.target.value, signatureForeman, signature});
     }
 
     function onChangeFirstNameForeman(e) {
-        const date = document.getElementById('lite_mode_18').value;
         //const signatureForeman = document.getElementById('input_7').value;
         //const signature = document.getElementById('input_14').value;
         const signature = refSignaturePad.current.getSignature();
         const signatureForeman = refSignaturePadForeman.current.getSignature();
 
-        setForm({...form, firstNameForeman: e.target.value, date, signatureForeman, signature});
+        setForm({...form, firstNameForeman: e.target.value, signatureForeman, signature});
     }
 
     function onChangeLastNameForeman(e) {
-        const date = document.getElementById('lite_mode_18').value;
         //const signatureForeman = document.getElementById('input_7').value;
         //const signature = document.getElementById('input_14').value;
         const signature = refSignaturePad.current.getSignature();
         const signatureForeman = refSignaturePadForeman.current.getSignature();
 
-        setForm({...form, lastNameForeman: e.target.value, date, signatureForeman, signature});
+        setForm({...form, lastNameForeman: e.target.value, signatureForeman, signature});
     }
 
     function onChangeSafetyTraining(e) {
-        const date = document.getElementById('lite_mode_18').value;
         //const signatureForeman = document.getElementById('input_7').value;
         //const signature = document.getElementById('input_14').value;
         const signature = refSignaturePad.current.getSignature();
         const signatureForeman = refSignaturePadForeman.current.getSignature();
 
-        setForm({...form, safetyTraining: e.target.value, date, signatureForeman, signature});
+        setForm({...form, safetyTraining: e.target.value, signatureForeman, signature});
     }
 
     function onChangeEmployeeSuggestions(e) {
-        const date = document.getElementById('lite_mode_18').value;
         //const signatureForeman = document.getElementById('input_7').value;
         //const signature = document.getElementById('input_14').value;
         const signature = refSignaturePad.current.getSignature();
         const signatureForeman = refSignaturePadForeman.current.getSignature();
 
-        setForm({...form, employeeSuggestions: e.target.value, date, signatureForeman, signature});
+        setForm({...form, employeeSuggestions: e.target.value, signatureForeman, signature});
     }
 
     function onChangeTitle(e) {
-        const date = document.getElementById('lite_mode_18').value;
         //const signatureForeman = document.getElementById('input_7').value;
         //const signature = document.getElementById('input_14').value;
         const signature = refSignaturePad.current.getSignature();
         const signatureForeman = refSignaturePadForeman.current.getSignature();
 
-        setForm({...form, title: e.target.value, date, signatureForeman, signature});
+        setForm({...form, title: e.target.value, signatureForeman, signature});
     }
 
     const selectProject = () => {
@@ -243,139 +236,16 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                     data-type="control_datetime"
                     id="id_18"
                 >
-                    <label
-                        className="form-label form-label-top form-label-auto"
-                        id="label_18"
-                        htmlFor="lite_mode_18"
-                    >
+                    <label className="form-label form-label-top form-label-auto" id="label_5" htmlFor="input_5">
                         Date
-                        <span className="form-required">*</span>
+                        <span className="form-required">
+            *
+          </span>
                     </label>
-                    <div id="cid_18" className="form-input-wide jf-required" data-layout="half">
-                        <div data-wrapper-react="true">
-                            <div style={{display: 'none'}}>
-                  <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-                    <input
-                        type="tel"
-                        className="form-textboxs"
-                        id="month_18"
-                        name="q18_date[month]"
-                        size="2"
-                        data-maxlength="2"
-                        data-age=""
-                        maxLength="2"
-                        required=""
-                        autoComplete="section-input_18 off"
-                        aria-labelledby="label_18 sublabel_18_month"
-                    />
-                    <span className="date-separate" aria-hidden="true">
-                       -
-                    </span>
-                    <label
-                        className="form-sub-label"
-                        htmlFor="month_18"
-                        id="sublabel_18_month"
-                        style={{minHeight: '13px'}}
-                        aria-hidden="false"
-                    >
-                      {' '}
-                        Month{' '}
-                    </label>
-                  </span>
-                                <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-                    <input
-                        type="tel"
-                        className="form-textbox"
-                        id="day_18"
-                        name="q18_date[day]"
-                        size="2"
-                        data-maxlength="2"
-                        data-age=""
-                        maxLength="2"
-                        value=""
-                        required=""
-                        autoComplete="section-input_18 off"
-                        aria-labelledby="label_18 sublabel_18_day"
-                    />
-                    <span className="date-separate" aria-hidden="true">
-                       -
-                    </span>
-                    <label
-                        className="form-sub-label"
-                        htmlFor="day_18"
-                        id="sublabel_18_day"
-                        style={{minHeight: '13px'}}
-                        aria-hidden="false"
-                    >
-                      {' '}
-                        Day{' '}
-                    </label>
-                  </span>
-                                <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-                    <input
-                        type="tel"
-                        className="form-textbox"
-                        id="year_18"
-                        name="q18_date[year]"
-                        size="4"
-                        data-maxlength="4"
-                        data-age=""
-                        maxLength="4"
-                        value=""
-                        required=""
-                        autoComplete="section-input_18 off"
-                        aria-labelledby="label_18 sublabel_18_year"
-                    />
-                    <label
-                        className="form-sub-label"
-                        htmlFor="year_18"
-                        id="sublabel_18_year"
-                        style={{minHeight: '13px'}}
-                        aria-hidden="false"
-                    >
-                      {' '}
-                        Year{' '}
-                    </label>
-                  </span>
-                            </div>
-                            <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-                  <input
-                      type="text"
-                      className="form-textbox"
-                      id="lite_mode_18"
-                      size="12"
-                      data-maxlength="12"
-                      maxLength="12"
-                      data-age=""
-                      value={form.date}
-                      required=""
-                      data-format="mmddyyyy"
-                      data-seperator="-"
-                      placeholder="MM-DD-YYYY"
-                      autoComplete="section-input_18 off"
-                      aria-labelledby="label_18"
-                  />
-                  <img
-                      className=" newDefaultTheme-dateIcon icon-liteMode"
-                      alt="Pick a Date"
-                      id="input_18_pick"
-                      src="https://cdn.jotfor.ms/images/calendar.png"
-                      data-component="datetime"
-                      aria-hidden="true"
-                      data-allow-time="No"
-                      data-version="v2"
-                  />
-                  <label
-                      className="form-sub-label is-empty"
-                      htmlFor="lite_mode_18"
-                      id="sublabel_18_litemode"
-                      style={{minHeight: '13px'}}
-                      aria-hidden="false"
-                  >
-                    {' '}
-                  </label>
-                </span>
-                        </div>
+                    <div className="p-fluid grid formgrid">
+                        <Calendar id="icon" value={isShow ? new Date(form.date) : form.date} onChange={(e) => setForm({date:e.value})}
+                                  dateFormat={GeneralUtils.DATE_FORMAT_CALENDAR}
+                                  showIcon/>
                     </div>
                 </li>
                 <li className="form-line form-line-column form-col-2 jf-required" data-type="control_textbox"

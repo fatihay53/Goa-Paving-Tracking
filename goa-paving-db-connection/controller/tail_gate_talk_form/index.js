@@ -3,10 +3,12 @@
 const express = require('express');
 const tailGateTalkFormRouter = express.Router();
 const connection = require('../connection')
+const connectiongmt3 = require('../connectiongmt3')
 
 tailGateTalkFormRouter.post('/save', function (request, response) {
     var sql = `INSERT INTO tail_gate_talk_form (date,location,firstNameForeman,lastNameForeman,signatureForeman,estimate_template_id,safetyTraining,employeeSuggestions,signature,title,subject,created_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`;
-    let date = request.body.date;
+    let date = new Date(request.body.date);
+
     let location = request.body.location;
     let firstNameForeman = request.body.firstNameForeman;
     let lastNameForeman = request.body.lastNameForeman;
@@ -35,7 +37,7 @@ tailGateTalkFormRouter.post('/save', function (request, response) {
 tailGateTalkFormRouter.get('/findAll', function (request, response) {
     var sql = `select p.*,e.project_name as project_name from tail_gate_talk_form p left join estimate_template e on p.estimate_template_id = e.id order by created_date desc`;
 
-    connection.query(sql, function (error, result, fields) {
+    connectiongmt3.query(sql, function (error, result, fields) {
         if (error) throw error;
         response.json(result)
         response.end();

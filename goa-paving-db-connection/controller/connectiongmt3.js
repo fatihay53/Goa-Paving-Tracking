@@ -1,11 +1,12 @@
-var mysql = require('mysql');
+var mysql =  require('mysql');
+//createPool denedim
 module.exports = mysql.createConnection({
-    host: '192.168.99.100',
+    host: 'localhost',
     user: 'root',
     password: '123',
     database: 'goa_paving',
     timezone: 'GMT + 3'
-});
+})
 
 /*module.exports = mysql.createConnection({
     host: 'server311.web-hosting.com',

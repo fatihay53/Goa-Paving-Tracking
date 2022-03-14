@@ -16,6 +16,7 @@ import AttendeesService from "../../../services/AttendeesService";
 import LoadingScreen from "react-loading-screen";
 import logo from "../../../goa_logo.png";
 import MailService from "../../../services/MailService";
+import {Calendar} from "primereact/calendar";
 
 export default function PreJobSafetyForm({selectedData, isShow}) {
 
@@ -133,7 +134,7 @@ export default function PreJobSafetyForm({selectedData, isShow}) {
     }
 
     let initialState = isShow ? selectedData : {
-        date: '',
+        date: new Date(),
         location: '',
         firstNameForeman: '',
         lastNameForeman: '',
@@ -144,37 +145,31 @@ export default function PreJobSafetyForm({selectedData, isShow}) {
     const [form, setForm] = useState(initialState);
 
     function onChangeFirstNameForeman(e) {
-        const date = document.getElementById('lite_mode_18').value;
         const signatureForeman = refSignaturePadForeman.current.getSignature();
 
-        setForm({...form, firstNameForeman: e.target.value, date, signatureForeman});
+        setForm({...form, firstNameForeman: e.target.value, signatureForeman});
     }
 
     function onChangeLastNameForeman(e) {
-        const date = document.getElementById('lite_mode_18').value;
         const signatureForeman = refSignaturePadForeman.current.getSignature();
 
-        setForm({...form, lastNameForeman: e.target.value, date, signatureForeman});
+        setForm({...form, lastNameForeman: e.target.value, signatureForeman});
     }
 
     function onChangeLocation(e) {
-        const date = document.getElementById('lite_mode_18').value;
         const signatureForeman = refSignaturePadForeman.current.getSignature();
 
-        setForm({...form, location: e.target.value, date, signatureForeman});
+        setForm({...form, location: e.target.value, signatureForeman});
     }
 
     function onChangeOthers(e) {
-        const date = document.getElementById('lite_mode_18').value;
         const signatureForeman = refSignaturePadForeman.current.getSignature();
 
-        setForm({...form, others: e.target.value, date, signatureForeman});
+        setForm({...form, others: e.target.value, signatureForeman});
     }
 
     const saveForm = async () => {
-        const date = document.getElementById('lite_mode_18').value;
-
-        if ((date === null || date === '') ||
+        if ((GeneralUtils.isNullOrEmpty(form.date)) ||
             (form.location === null || form.location === '') ||
             (form.firstNameForeman === null || form.firstNameForeman === '') ||
             (form.lastNameForeman === null || form.lastNameForeman === '') ||
@@ -241,7 +236,7 @@ export default function PreJobSafetyForm({selectedData, isShow}) {
                             setAttendees([]);
                             setProject({});
                             setForm({
-                                date: '',
+                                date: new Date(),
                                 location: '',
                                 firstNameForeman: '',
                                 lastNameForeman: '',
@@ -281,57 +276,16 @@ export default function PreJobSafetyForm({selectedData, isShow}) {
                 </li>
                 <li className="form-line form-line-column form-col-1 jf-required" data-type="control_datetime"
                     id="id_4">
-                    <label className="form-label form-label-top form-label-auto" id="label_4"
-                           htmlFor="lite_mode_18">
+                    <label className="form-label form-label-top form-label-auto" id="label_5" htmlFor="input_5">
                         Date
                         <span className="form-required">
             *
           </span>
                     </label>
-                    <div id="cid_4" className="form-input-wide jf-required">
-                        <div data-wrapper-react="true">
-                            <div style={{display: 'none'}}>
-              <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-                <input type="tel" className="currentDate form-textbox validate[required, limitDate]" id="day_4"
-                       name="q4_date[day]" size="2" data-maxlength="2" data-age="" maxLength="2" value="27" required=""
-                       autoComplete="section-input_4 off" aria-labelledby="label_4 sublabel_4_day"/>
-                <span className="date-separate" aria-hidden="true">
-                   -
-                </span>
-                <label className="form-sub-label" htmlFor="day_4" id="sublabel_4_day" style={{minHeight: '13px'}}
-                       aria-hidden="false"> Day </label>
-              </span>
-                                <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-                <input type="tel" className="form-textbox validate[required, limitDate]" id="month_4"
-                       name="q4_date[month]" size="2" data-maxlength="2" data-age="" maxLength="2" value="02"
-                       required="" autoComplete="section-input_4 off" aria-labelledby="label_4 sublabel_4_month"/>
-                <span className="date-separate" aria-hidden="true">
-                   -
-                </span>
-                <label className="form-sub-label" htmlFor="month_4" id="sublabel_4_month" style={{minHeight: '13px'}}
-                       aria-hidden="false"> Month </label>
-              </span>
-                                <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-                <input type="tel" className="form-textbox validate[required, limitDate]" id="year_4"
-                       name="q4_date[year]" size="4" data-maxlength="4" data-age="" maxLength="4" value="2022"
-                       required="" autoComplete="section-input_4 off" aria-labelledby="label_4 sublabel_4_year"/>
-                <label className="form-sub-label" htmlFor="year_4" id="sublabel_4_year" style={{minHeight: '13px'}}
-                       aria-hidden="false"> Year </label>
-              </span>
-                            </div>
-                            <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-              <input type="text" className="form-textbox validate[required, limitDate, validateLiteDate]"
-                     id="lite_mode_18" size="12" data-maxlength="12" maxLength="12" data-age="" value="27-02-2022"
-                     required="" data-format="ddmmyyyy" data-seperator="-" placeholder="dd-mm-yyyy"
-                     autoComplete="section-input_4 off" aria-labelledby="label_4 sublabel_4_litemode"/>
-              <img className="showAutoCalendar newDefaultTheme-dateIcon icon-liteMode" alt="Pick a Date"
-                   id="input_4_pick" src="https://cdn.jotfor.ms/images/calendar.png" data-component="datetime"
-                   aria-hidden="true" data-allow-time="No" data-version="v1"/>
-              <label className="form-sub-label" htmlFor="lite_mode_18" id="sublabel_4_litemode"
-                     style={{minHeight: '13px'}}
-                     aria-hidden="false"> Date </label>
-            </span>
-                        </div>
+                    <div className="p-fluid grid formgrid">
+                        <Calendar id="icon" value={isShow ? new Date(form.date) : form.date} onChange={(e) => setForm({date:e.value})}
+                                  dateFormat={GeneralUtils.DATE_FORMAT_CALENDAR}
+                                  showIcon/>
                     </div>
                 </li>
                 <li className="form-line form-line-column form-col-2 jf-required" data-type="control_textbox"

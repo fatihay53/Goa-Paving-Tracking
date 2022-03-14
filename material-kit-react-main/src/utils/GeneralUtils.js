@@ -1,8 +1,8 @@
 
 export default class GeneralUtils{
 
-    //static URL = 'http://wwww.localhost:8080';
-    static URL = 'http://209.145.59.99:8080';
+    static URL = 'http://www.localhost:8080';
+    //static URL = 'http://209.145.59.99:8080';
     static DATE_FORMAT_CALENDAR = 'yy-mm-dd';
     static DATE_FORMAT_MOMENT = 'YYYY-MM-DD';
 
