@@ -296,12 +296,12 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
                             </div>
                         </li>
                         <li className="form-line">
-                            <div className="form-input-wide" data-layout="half">
+                            <div style={{overflowX:'auto'}} className="form-input-wide" data-layout="half">
                                 <SubContractorTable selectedData={selectedData}
                                                     setSubContractorValue={setSubContractorValue}
                                                     setSubContractorTotal={setSubContractorTotal}/>
                             </div>
-                            <div id="cid_18" className="form-input-wide jf-required" data-layout="half">
+                            <div style={{overflowX:'auto'}} id="cid_18" className="form-input-wide" data-layout="half">
                                 <EmployeeTable selectedData={selectedData}
                                                estimateProjectHour={project.estimateProjectHour}
                                                setEmployeeValue={setEmployeeValue}
@@ -322,7 +322,7 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
                             data-type="control_datetime"
                             id="id_18"
                         >
-                            <div id="cid_18" className="form-input-wide jf-required" data-layout="half">
+                            <div style={{overflowX:'auto'}} className="form-input-wide jf-required" data-layout="half">
                                 <EmployeeTableForeman selectedData={selectedData}/>
                             </div>
                         </li>}
@@ -331,7 +331,7 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
                             data-type="control_textbox"
                             id="id_16"
                         >
-                            <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
+                            <div style={{overflowX:'auto'}} id="cid_16" className="form-input-wide jf-required" data-layout="half">
                                 <MaterialsTable selectedData={selectedData}
                                                 setMaterialsTotal={setMaterialsTotal}
                                                 setMaterialsValue={setMaterialsValue}
@@ -343,7 +343,7 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
                             data-type="control_textbox"
                             id="id_16"
                         >
-                            <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
+                            <div style={{overflowX:'auto'}} className="form-input-wide jf-required" data-layout="half">
                                 <ExternalRentTable selectedData={selectedData}
                                                    setExternalCostTotal={setExternalCostTotal}
                                                    setExternalRentValue={setExternalRentValue}
@@ -355,7 +355,7 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
                             data-type="control_textbox"
                             id="id_16"
                         >
-                            <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
+                            <div style={{overflowX:'auto'}} className="form-input-wide jf-required" data-layout="half">
                                 <InternalRentCar selectedData={selectedData}
                                                  estimateProjectHour={project.estimateProjectHour}
                                                  setInternalRentValue={setInternalRentValue}
@@ -367,7 +367,7 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
                             data-type="control_textbox"
                             id="id_16"
                         >
-                            <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
+                            <div style={{overflowX:'auto'}} className="form-input-wide jf-required" data-layout="half">
                                 <TotalEquipmentCost selectedData={selectedData}
                                                     estimateProjectHour={project.estimateProjectHour}
                                                     setEquipmentCostValue={setEquipmentCostValue}
@@ -379,7 +379,7 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
                             data-type="control_textbox"
                             id="id_16"
                         >
-                            <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
+                            <div style={{overflowX:'auto'}} className="form-input-wide jf-required" data-layout="half">
                                 <ColdMillingTable selectedData={selectedData}
                                                   setColdMillingTotal={setColdMillingTotal}
                                                   setColdMillingValue={setColdMillingValue}
@@ -391,7 +391,7 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
                             data-type="control_textbox"
                             id="id_16"
                         >
-                            <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
+                            <div style={{overflowX:'auto'}} className="form-input-wide jf-required" data-layout="half">
                                 <TrafficControlTable selectedData={selectedData}
                                                      setTrafficControlTotal={setTrafficControlTotal}
                                                      setTrafficControlValue={setTrafficControlValue}
@@ -420,7 +420,7 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
                             className="form-line form-line-column form-col-1 jf-required"
                             data-type="control_textbox"
                         >
-                            <div id="cid_16" className="form-input-wide jf-required" data-layout="half">
+                            <div style={{overflowX:'auto'}} className="form-input-wide jf-required" data-layout="half">
                                 <ResultTable
                                     subContractorTotal={subContractorTotal}
                                     employeeTotal={employeeTotal}

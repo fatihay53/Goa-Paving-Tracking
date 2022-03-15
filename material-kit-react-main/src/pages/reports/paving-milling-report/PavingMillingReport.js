@@ -152,7 +152,7 @@ export default function PavingMillingReport() {
                         <div className="form-input-wide" data-layout="full">
                             <Button type="submit"
                                     loading={loading}
-                                    style={{float: 'right', marginRight: '2.5em'}}
+                                    style={{float: 'right'}}
                                     onClick={saveForm}
                                     className="p-button-success form-submit-button submit-button jf-form-buttons"
                                     data-component="button" data-content="">
