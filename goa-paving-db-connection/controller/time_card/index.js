@@ -70,7 +70,7 @@ function toDate(date) {
 
 timeCardRouter.post('/save', function (request, response) {
     var sql = `INSERT INTO time_card (date,start_hour,end_hour,total_hour,user_id,is_approved,signature,created_date,board_allowance,total_hour_double) VALUES (?,?,?,?,?,?,?,?,?,?)`;
-    let date = toDate(request.body.date);
+    let date = new Date(request.body.date);
     let startHour = request.body.startHour;
     let endHour = request.body.endHour;
     let totalHour = request.body.totalHour;

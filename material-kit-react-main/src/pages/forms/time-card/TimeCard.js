@@ -6,12 +6,19 @@ import {toast} from "react-toastify";
 import TimeCardService from "../../../services/TimeCardService";
 import {Checkbox} from "primereact/checkbox";
 import MSignaturePad from "../../../components/mcomponents/MSignaturePad";
+import {Calendar} from "primereact/calendar";
+import GeneralUtils from "../../../utils/GeneralUtils";
+
+const START_HOUR_INITIAL= '07:00';
+const END_HOUR_INITIAL= '07:00';
 
 export default function TimeCard() {
+
     const [form, setForm] = useState({
-        startHour: '07:00',
-        endHour: '07:00',
-        totalHour: ''
+        startHour: START_HOUR_INITIAL,
+        endHour: END_HOUR_INITIAL,
+        totalHour: '',
+        date: new Date()
     });
 
     const [user, setUser] = useState({});
@@ -27,15 +34,22 @@ export default function TimeCard() {
     }, []);
 
     const onChangeStartHour = (e) => {
-        const date = document.getElementById('lite_mode_5').value;
-        let totalHour = calculateTotalTime(e, form.endHour);
-        setForm({...form, startHour: e, date, totalHour});
+        if (!GeneralUtils.isNullOrEmpty(e)){
+            let totalHour = calculateTotalTime(e, form.endHour);
+            /*if (result === false){
+                setForm({...form, startHour: START_HOUR_INITIAL});
+                return toast.warn("Start time cannot forward at end time.");
+            }else{*/
+                setForm({...form, startHour: e, totalHour});
+            //}
+        }
     }
 
     const onChangeEndHour = (e) => {
-        const date = document.getElementById('lite_mode_5').value;
-        let totalHour = calculateTotalTime(form.startHour, e);
-        setForm({...form, endHour: e, date, totalHour});
+        if (!GeneralUtils.isNullOrEmpty(e)){
+            let totalHour = calculateTotalTime(form.startHour, e);
+            setForm({...form, endHour: e, totalHour});
+        }
     }
 
     const calculateTotalTime = (start, end) => {
@@ -43,6 +57,18 @@ export default function TimeCard() {
         let endMoment = moment([arr[0], arr[1]], "HH:mm");
 
         let arrStart = start.split(":");
+        /*if (!GeneralUtils.isNullOrEmpty(form.endHour)){
+            let arrEnd = form.endHour.split(":");
+
+            if (parseInt(arrStart[0])>parseInt(arrEnd[0])){
+                    return false;
+            }else if(arrEnd[0] == arrStart[0]){
+                if (arrStart[1] > arrEnd[1]){
+                    return false;
+                }
+            }
+        }*/
+
         let startMoment = moment([arrStart[0], arrStart[1]], "HH:mm");
         let result = endMoment.diff(startMoment, 'minutes');
         let remaining = result % 60;
@@ -61,14 +87,32 @@ export default function TimeCard() {
     }
 
     const saveForm = () => {
-        const date = document.getElementById('lite_mode_5').value;
-        if (form.totalHour === "" || form.totalHour === null || form.totalHour == 0 || div < 0) {
+        if (form.totalHour === "" || form.totalHour === null || form.totalHour == 0) {
             return toast.warning("Please enter time.");
         }
 
         let totalParseMin = form.totalHour.split(":")[1];
         if (totalParseMin !== "00" && totalParseMin !== "30"){
             return toast.warning("Please fill total hour minute 00 or 30.");
+        }
+
+        if (div < 0){
+            return toast.warn("Start time cannot forward at end time.");
+        }
+
+        if (!GeneralUtils.isNullOrEmpty(form.endHour)&&!GeneralUtils.isNullOrEmpty(form.startHour)){
+            let arrStart = form.startHour.split(":");
+            let arrEnd = form.endHour.split(":");
+
+            if (parseInt(arrStart[0])>parseInt(arrEnd[0])){
+                    return toast.warn("Start time cannot forward at end time.");
+            }else if(arrEnd[0] == arrStart[0]){
+                if (arrStart[1] > arrEnd[1]){
+                    return toast.warn("Start time cannot forward at end time.");
+                }else  if (arrStart[1] == arrEnd[1]){
+                    return toast.warn("Please select different start and end time.");
+                }
+            }
         }
 
         if (!touchedSignature){
@@ -78,14 +122,15 @@ export default function TimeCard() {
         const signature = refSignaturePad.current.getSignature();
         let totalHourDouble = getTotalHourDouble();
 
-        timeCardService.save({...form, date, signature,userId : user.userId,boardAllowance,totalHourDouble:totalHourDouble}).then(async res => {
+        timeCardService.save({...form, signature,userId : user.userId,boardAllowance,totalHourDouble:totalHourDouble}).then(async res => {
             if (res.status == 200) {
                 refSignaturePad.current.clearSignature();
                 setBoardAllowance(false);
                 setForm({
-                    startHour: '07:00',
-                    endHour: '07:00',
-                    totalHour: ''
+                    startHour: START_HOUR_INITIAL,
+                    endHour: END_HOUR_INITIAL,
+                    totalHour: '',
+                    date: new Date()
                 });
                 toast.success("Saved succesfully!");
             }
@@ -108,56 +153,16 @@ export default function TimeCard() {
                         </div>
                     </li>
                     <li className="form-line jf-required" data-type="control_datetime" id="id_5">
-                        <label className="form-label form-label-top form-label-auto" id="label_5" htmlFor="lite_mode_5">
+                        <label className="form-label form-label-top form-label-auto" id="label_5" htmlFor="input_5">
                             Date
                             <span className="form-required">
             *
           </span>
                         </label>
-                        <div id="cid_5" className="form-input-wide jf-required" data-layout="half">
-                            <div data-wrapper-react="true">
-                                <div style={{display: 'none'}}>
-              <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-                <input type="tel" className="currentDate form-textbox validate[required, limitDate]" id="day_5"
-                       name="q5_date[day]" size="2" data-maxlength="2" data-age="" maxLength="2" value="25" required=""
-                       autoComplete="section-input_5 off" aria-labelledby="label_5 sublabel_5_day"/>
-                <span className="date-separate" aria-hidden="true">
-                   -
-                </span>
-                <label className="form-sub-label" htmlFor="day_5" id="sublabel_5_day" style={{minHeight: '13px'}}
-                       aria-hidden="false"> Day </label>
-              </span>
-                                    <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-                <input type="tel" className="form-textbox validate[required, limitDate]" id="month_5"
-                       name="q5_date[month]" size="2" data-maxlength="2" data-age="" maxLength="2" value="01"
-                       required="" autoComplete="section-input_5 off" aria-labelledby="label_5 sublabel_5_month"/>
-                <span className="date-separate" aria-hidden="true">
-                   -
-                </span>
-                <label className="form-sub-label" htmlFor="month_5" id="sublabel_5_month" style={{minHeight: '13px'}}
-                       aria-hidden="false"> Month </label>
-              </span>
-                                    <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-                <input type="tel" className="form-textbox validate[required, limitDate]" id="year_5"
-                       name="q5_date[year]" size="4" data-maxlength="4" data-age="" maxLength="4" value="2022"
-                       required="" autoComplete="section-input_5 off" aria-labelledby="label_5 sublabel_5_year"/>
-                <label className="form-sub-label" htmlFor="year_5" id="sublabel_5_year" style={{minHeight: '13px'}}
-                       aria-hidden="false"> Year </label>
-              </span>
-                                </div>
-                                <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-              <input type="text" className="form-textbox validate[required, limitDate, validateLiteDate]"
-                     id="lite_mode_5" size="12" data-maxlength="12" maxLength="12" data-age=""
-                     required="" data-format="ddmmyyyy" data-seperator="-" placeholder="DD-MM-YYYY"
-                     autoComplete="section-input_5 off" aria-labelledby="label_5 sublabel_5_litemode"/>
-              <img className="showAutoCalendar newDefaultTheme-dateIcon icon-liteMode" alt="Pick a Date"
-                   id="input_5_pick" src="https://cdn.jotfor.ms/images/calendar.png" data-component="datetime"
-                   aria-hidden="true" data-allow-time="No" data-version="v2"/>
-              <label className="form-sub-label" htmlFor="lite_mode_5" id="sublabel_5_litemode"
-                     style={{minHeight: '13px'}}
-                     aria-hidden="false"> Date </label>
-            </span>
-                            </div>
+                        <div className="p-fluid grid formgrid">
+                            <Calendar id="icon" value={form.date} onChange={(e) => setForm({...form,date:e.value})}
+                                      dateFormat={GeneralUtils.DATE_FORMAT_CALENDAR}
+                                      showIcon/>
                         </div>
                     </li>
                     <li id="cid_1" className="form-input-wide" data-type="control_head">

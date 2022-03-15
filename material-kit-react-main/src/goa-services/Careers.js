@@ -32,7 +32,7 @@ export default function Careers() {
                             <div className="col-md-12 col-md-offset-1">
                                 <p>We are always looking for professionals to join our growing team, at GOA we hire for work ethics and integrity.</p>
                                     <p>If you think you fit the criteria for any of the following positions, send your resume to <span className="color"><a
-                                        href="mailto:accounting@goapaving.ca"> accounting@goapaving.ca</a></span> </p>
+                                        href="mailto:careers@goapaving.ca"> careers@goapaving.ca</a></span> </p>
                             </div>
                         </div>
                     </div>

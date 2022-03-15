@@ -40,7 +40,7 @@ export default function Contact() {
                                     <span>Denbigh, Ontario K0H1L0</span>
                                     <span><strong>PHONE:</strong> (613) 333-9222</span>
                                     <span><strong>EMAIL:</strong><a
-                                        href="mailto:accounting@goapaving.ca"> accounting@goapaving.ca</a></span>
+                                        href="mailto:info@goapaving.ca"> info@goapaving.ca</a></span>
                                     <span><strong>WEB:</strong><a href="#"> www.goapaving.ca</a></span>
                                 </address>
                             </div>

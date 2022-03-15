@@ -58,7 +58,7 @@ export default function HomePage() {
                                          data-start="400"
                                          data-easing="easeInOutExpo"
                                          data-endspeed="450">
-                                        Experience the Requirements
+                                        Experience the Paving
                                     </div>
 
                                     <div class="tp-caption sub-heading sft"
@@ -68,7 +68,7 @@ export default function HomePage() {
                                          data-start="800"
                                          data-easing="easeOutExpo"
                                          data-endspeed="400">
-                                        with precision
+                                        with quality materials
                                     </div>
 
                                     <div class="tp-caption sfb"
@@ -85,7 +85,7 @@ export default function HomePage() {
 
                                 <li data-transition="parallaxtobottom" data-slotamount="10" data-masterspeed="1200"
                                     data-delay="5000">
-                                    <img src="../../images-slider/Equipement2-1568x1175.jpg" alt="" data-start="0"
+                                    <img src="../../images-slider/municipal-work.jpg" alt="" data-start="0"
                                          data-bgposition="center center" data-kenburns="on" data-duration="10000"
                                          data-ease="Linear.easeNone" data-bgfit="120" data-bgfitend="100"
                                          data-bgpositionend="center center"/>
@@ -96,7 +96,7 @@ export default function HomePage() {
                                          data-start="400"
                                          data-easing="easeInOutExpo"
                                          data-endspeed="450">
-                                        Equipment Rentals
+                                        Patching process
                                     </div>
 
                                     <div class="tp-caption sub-heading sft"
@@ -106,7 +106,7 @@ export default function HomePage() {
                                          data-start="800"
                                          data-easing="easeOutExpo"
                                          data-endspeed="400">
-                                        modern trucks
+                                        ensuring longevity
                                     </div>
 
                                     <div class="tp-caption sfb"
@@ -116,7 +116,7 @@ export default function HomePage() {
                                          data-start="800"
                                          data-easing="easeInOutExpo">
                                         <div class="btn-slider"><span class="shine"></span>
-                                            <Link to="/equipmentRentals">More Detail</Link>
+                                            <Link to="/municipal">More Detail</Link>
                                         </div>
                                     </div>
                                 </li>
@@ -154,7 +154,7 @@ export default function HomePage() {
                                          data-start="800"
                                          data-easing="easeInOutExpo">
                                         <div class="btn-slider"><span class="shine"></span>
-                                            <Link to="/paving">More Detail</Link>
+                                            <Link to="/residential">More Detail</Link>
                                         </div>
                                     </div>
                                 </li>
@@ -259,7 +259,7 @@ export default function HomePage() {
                                                         <h3>Municipal Works
                                                             <span class="devider"></span>
                                                         </h3>
-                                                        <p>More Detail</p>
+                                                        <Link to="/contact">More Detail</Link>
                                                     </div>
                                                 </div>
                                             </a>
@@ -276,7 +276,7 @@ export default function HomePage() {
                                                         <h3>Cold Milling
                                                             <span class="devider"></span>
                                                         </h3>
-                                                        <p>More Detail</p>
+                                                        <Link to="/contact">More Detail</Link>
                                                     </div>
                                                 </div>
                                             </a>
@@ -293,7 +293,7 @@ export default function HomePage() {
                                                         <h3>Driveway
                                                             <span class="devider"></span>
                                                         </h3>
-                                                        <p>More Detail</p>
+                                                        <Link to="/contact">More Detail</Link>
                                                     </div>
                                                 </div>
                                             </a>
