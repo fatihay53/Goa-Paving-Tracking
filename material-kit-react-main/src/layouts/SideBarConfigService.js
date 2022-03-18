@@ -96,6 +96,11 @@ export default class SideBarConfigService {
               title: 'Pre Job Safety Saved Form',
               path: '/dashboard/savedForms/preJobSafetyForm',
               icon: getIcon(reportIcon)
+            },
+            {
+              title: 'Emergency Saved Form',
+              path: '/dashboard/savedForms/emergencyForm',
+              icon: getIcon(reportIcon)
             }
           ]
         },
@@ -107,6 +112,11 @@ export default class SideBarConfigService {
             {
               title: 'Hospital Form',
               path: '/dashboard/inventory/hospitalForm',
+              icon: getIcon(reportIcon)
+            },
+            {
+              title: 'Saved Hospital Form',
+              path: '/dashboard/inventory/savedHospitalForm',
               icon: getIcon(reportIcon)
             }
           ]

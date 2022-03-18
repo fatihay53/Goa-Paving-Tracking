@@ -61,9 +61,9 @@ export default function DashboardNavbar({ onOpenSidebar }) {
           {/*
           <LanguagePopover />
 */}
-          {/*
+          {
           <NotificationsPopover />
-*/}
+  }
           <AccountPopover />
         </Stack>
       </ToolbarStyle>

@@ -7,11 +7,20 @@ import {toast} from "react-toastify";
 import './pdf.css';
 import GeneralUtils from "../../../utils/GeneralUtils";
 import AttachmentService from "../../../services/AttachmentService";
+import { InputTextarea } from 'primereact/inputtextarea';
+import {AccordionTab,Accordion} from "primereact/accordion";
+import './accordion.css';
+import CommentsService from "../../../services/CommentService";
+import DateUtil from "../../../utils/DateUtil";
 
 export default function PdfArea({selectedId,setSelectedFiles,setNewFiles}) {
 
-    const [showDialog, setShowDialog] = useState();
+    const [showDialog, setShowDialog] = useState(false);
+    const [comment, setComment] = useState('');
+    const [comments, setComments] = useState([]);
+    const [showCommentsDialog, setShowCommentsDialog] = useState(false);
     const attachmentService = new AttachmentService();
+    const commentsService = new CommentsService();
 
     useEffect(() => {
         if (!GeneralUtils.isNullOrEmpty(selectedId)){
@@ -30,6 +39,7 @@ export default function PdfArea({selectedId,setSelectedFiles,setNewFiles}) {
                     }
                 }
             })
+            findComments();
         }
     }, []);
 
@@ -39,6 +49,31 @@ export default function PdfArea({selectedId,setSelectedFiles,setNewFiles}) {
     useEffect(()=>{
         setSelectedFiles(files);
     },[files])
+
+    const saveComment=()=>{
+        commentsService.save({
+            comment,
+            estimateTemplateId: selectedId,
+            userId : JSON.parse(localStorage.getItem('user')).userId
+        }).then(res=>{
+            if (res.status == 200) {
+                toast.success('Comment saved succesfully.');
+                setComment('')
+                findComments();
+            }
+        })
+    }
+
+    const findComments=()=>{
+        commentsService.findComments({estimateTemplateId:selectedId}).then(res => {
+            if (res.status == 200) {
+                let data = res.data;
+                if (!GeneralUtils.isNullOrEmpty(data) && data.length > 0) {
+                    setComments(data);
+                }
+            }
+        })
+    }
 
     function downloadPDF(pdf) {
         const linkSource = pdf.data;
@@ -121,6 +156,37 @@ export default function PdfArea({selectedId,setSelectedFiles,setNewFiles}) {
         )
     }
 
+    const renderComments = () =>{
+        return(
+            <div>
+                <div className="card">
+                    <h5>Comment</h5>
+                    <InputTextarea value={comment} onChange={(e) => setComment(e.target.value)} rows={5} cols={30} />
+                    <div>
+                        <Button style={{marginBottom:'1em'}}
+                                onClick={saveComment} label="Submit"
+                            className="p-button-success mr-2"/>
+                    </div>
+                    <div className="accordion-demo">
+                        <div className="card">
+                            <Accordion>
+                                {
+                                    comments.length > 0 &&
+                                    comments.map(elem=>{
+                                        let header = elem.name + '' + elem.surname + (!GeneralUtils.isNullOrEmpty(elem.employee_type) ? ' - ' + elem.employee_type : '') + (!GeneralUtils.isNullOrEmpty(elem.created_date) ? ' - ' +  DateUtil.getDateFormat(new Date(elem.created_date),'2','-') : '') ;
+                                        return <AccordionTab header={header}>
+                                            <p>{elem.comment}</p>
+                                        </AccordionTab>
+                                    })
+                                }
+                            </Accordion>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     const getDialog = () => {
         return (
             <div className="dialog-demo">
@@ -136,9 +202,29 @@ export default function PdfArea({selectedId,setSelectedFiles,setNewFiles}) {
         )
     }
 
+    const getCommentsDialog = () => {
+        return (
+            <div className="dialog-demo">
+                <div className="card">
+                    <Dialog visible={showCommentsDialog} onHide={() => setShowCommentsDialog(false)} maximizable
+                            breakpoints={{'960px': '75vw'}} style={{minHeight: '30em', width: '50vw'}}
+                            baseZIndex={1501}
+                    >
+                        {renderComments()}
+                    </Dialog>
+                </div>
+            </div>
+        )
+    }
+
+
+
     const rightContents = (
         <React.Fragment>
-            <Button onClick={() => setShowDialog(true)} icon="pi pi-file-pdf"
+            {selectedId&&<Button onClick={() => setShowCommentsDialog(true)} icon="pi pi-comments"
+                    style={{marginRight: '2px', fontSize: '2rem'}}
+                    className="p-button-success mr-2"/>}
+            <Button onClick={() => setShowDialog(true)} icon="pi pi-file"
                     style={{marginRight: '2px', fontSize: '2rem'}}
                     className="p-button-danger mr-2"/>
         </React.Fragment>
@@ -147,7 +233,8 @@ export default function PdfArea({selectedId,setSelectedFiles,setNewFiles}) {
     return (
         <React.Fragment>
             <Toolbar right={rightContents}/>
-            {getDialog()}
+            {showDialog && getDialog()}
+            {showCommentsDialog && getCommentsDialog()}
         </React.Fragment>
     )
 

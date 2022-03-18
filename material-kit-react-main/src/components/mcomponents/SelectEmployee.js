@@ -25,8 +25,15 @@ export default function SelectEmployee({setSelections,restriction,selectionMode}
                     setDtLoading(false);
                 }
             });
-        }if (restriction === 'findAllSupervisors'){
+        }else if (restriction === 'findAllSupervisors'){
             employeeService.findAllSupervisors().then(res => {
+                if (res.status == 200) {
+                    setEmployeeList(res.data);
+                    setDtLoading(false);
+                }
+            });
+        }else if (restriction === 'findAllForemans'){
+            employeeService.findAllForemans().then(res => {
                 if (res.status == 200) {
                     setEmployeeList(res.data);
                     setDtLoading(false);

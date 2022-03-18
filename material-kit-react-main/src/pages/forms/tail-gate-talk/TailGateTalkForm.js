@@ -41,7 +41,6 @@ export default function TailGateTalkForm({selectedData, isShow}) {
         firstNameForeman: '',
         lastNameForeman: '',
         signatureForeman: '',
-        safetyTraining: '',
         employeeSuggestions: '',
         signature: '',
         title: '',
@@ -119,7 +118,6 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                                 firstNameForeman: '',
                                 lastNameForeman: '',
                                 signatureForeman: '',
-                                safetyTraining: '',
                                 employeeSuggestions: '',
                                 signature: '',
                                 title: '',
@@ -158,15 +156,6 @@ export default function TailGateTalkForm({selectedData, isShow}) {
         const signatureForeman = refSignaturePadForeman.current.getSignature();
 
         setForm({...form, lastNameForeman: e.target.value, signatureForeman, signature});
-    }
-
-    function onChangeSafetyTraining(e) {
-        //const signatureForeman = document.getElementById('input_7').value;
-        //const signature = document.getElementById('input_14').value;
-        const signature = refSignaturePad.current.getSignature();
-        const signatureForeman = refSignaturePadForeman.current.getSignature();
-
-        setForm({...form, safetyTraining: e.target.value, signatureForeman, signature});
     }
 
     function onChangeEmployeeSuggestions(e) {
@@ -436,17 +425,6 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                                  marginBottom: '5px'
                              }}>
                         </div>
-                    </div>
-                </li>
-                <li className="form-line" data-type="control_textarea" id="id_12">
-                    <label className="form-label form-label-top form-label-auto" id="label_12"
-                           htmlFor="input_12"> Safety Training </label>
-                    <div id="cid_12" className="form-input-wide" data-layout="full">
-                            <textarea id="input_12" className="form-textarea" name="q12_typeA12"
-                                      value={form.safetyTraining}
-                                      onChange={onChangeSafetyTraining}
-                                      style={{width: '648px', height: '163px'}} data-component="textarea"
-                                      aria-labelledby="label_12"></textarea>
                     </div>
                 </li>
                 <li className="form-line" data-type="control_textarea" id="id_13">

@@ -9,7 +9,6 @@ import Products from './pages/Products';
 import Blog from './pages/Blog';
 import User from './pages/User';
 import NotFound from './pages/Page404';
-import Reports from './pages/Reports';
 import Forms from './pages/Forms';
 import NewClientForm from './pages/forms/new-client-form/NewClientForm';
 import NewClientFormList from "./pages/forms/new-client-form/NewClientFormList";
@@ -38,9 +37,11 @@ import PreJobSafetyForm from "./pages/forms/pre-job-safety/PreJobSafetyForm";
 import PreJobSafetyFormList from "./pages/forms/pre-job-safety/PreJobSafetyFormList";
 import SignatureConfirmPageSafety from "./pages/forms/pre-job-safety/SignatureConfirmPageSafety";
 import Demo from "./home-page/Demo";
-import EmergencyForm from "./pages/forms/emergency-form/EmergencyForm";
 import HospitalForm from "./pages/forms/inventory/hospital/HospitalForm";
 import Careers from "./goa-services/Careers";
+import HospitalList from "./pages/forms/inventory/hospital/HospitalList";
+import EmergencyForm from "./pages/forms/emergency-form/EmergencyForm";
+import EmergencyFormList from "./pages/forms/emergency-form/EmergencyFormList";
 
 // ----------------------------------------------------------------------
 
@@ -82,7 +83,8 @@ export default function Router() {
       children: [
         { path: 'newClientForm', element: <NewClientFormList /> },
         { path: 'tailGateTalkForm', element: <TailGateTalkFormList />},
-        { path: 'preJobSafetyForm', element: <PreJobSafetyFormList />}
+        { path: 'preJobSafetyForm', element: <PreJobSafetyFormList />},
+        { path: 'emergencyForm', element: <EmergencyFormList />}
       ]
     },
     {
@@ -105,7 +107,8 @@ export default function Router() {
       path: '/dashboard/inventory',
       element: <DashboardLayout />,
       children: [
-        { path: 'hospitalForm', element: <HospitalForm /> }
+        { path: 'hospitalForm', element: <HospitalForm /> },
+        { path: 'savedHospitalForm', element: <HospitalList /> },
       ]
     },
     {

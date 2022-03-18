@@ -1,6 +1,76 @@
-import React from "react";
+import React, {useState} from "react";
+import GeneralUtils from "../../../../utils/GeneralUtils";
+import {toast} from "react-toastify";
+import HospitalService from "../../../../services/HospitalService";
 
-export default function HospitalForm() {
+export default function HospitalForm({isShow,selectedData,setShowSelectedData,findAll}) {
+
+    const hospitalService = new HospitalService();
+
+    let initialState = isShow ? selectedData : {
+        name : '',
+        phone: '',
+        street: '',
+        city: '',
+        zip: ''
+    };
+
+    const [form, setForm] = useState(initialState);
+
+    const onChangeName=(e)=>{
+        setForm({...form,name:e.target.value})
+    }
+
+    const onChangePhone=(e)=>{
+        setForm({...form,phone:e.target.value})
+    }
+
+    const onChangeStreet=(e)=>{
+        setForm({...form,street:e.target.value})
+    }
+
+    const onChangeCity=(e)=>{
+        setForm({...form,city:e.target.value})
+    }
+
+    const onChangeZip=(e)=>{
+        setForm({...form,zip:e.target.value})
+    }
+
+    const saveForm=()=>{
+        if (GeneralUtils.isNullOrEmpty(form.name) ||
+            GeneralUtils.isNullOrEmpty(form.phone) ||
+            GeneralUtils.isNullOrEmpty(form.street) ||
+            GeneralUtils.isNullOrEmpty(form.city) ||
+            GeneralUtils.isNullOrEmpty(form.zip)
+        ){
+            return toast.warning("Please check required fields!")
+        }
+
+        if (!isShow){
+            hospitalService.save({...form}).then(res=>{
+                if (res.status == 200){
+                    toast.success("Saved succesfully!");
+                    setForm({
+                        name : '',
+                        phone: '',
+                        street: '',
+                        city: '',
+                        zip: ''
+                    });
+                }
+            })
+        }else{
+            hospitalService.update({...form,id:selectedData.id}).then(res=>{
+                if (res.status == 200){
+                    toast.success("Update succesfully!");
+                    setShowSelectedData(false);
+                    findAll();
+                }
+            })
+        }
+    }
+
     return (
         <form style={{backgroundColor: '#f3f3fe'}} className="jotform-form" autoComplete="on"
               onSubmit={(event) => event.preventDefault()}>
@@ -26,9 +96,11 @@ export default function HospitalForm() {
                         </label>
                         <div id="cid_4" className="form-input-wide jf-required" data-layout="half">
                           <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
-                            <input type="text" id="input_4_full" name="q4_phoneNumber[full]"
-                                   className="form-textbox validate[required, Fill Mask]"
-                                   style={{width: '310px'}} value="" aria-labelledby="label_4 sublabel_4_masked"/>
+                            <input type="text" name="name"
+                                   className="form-textbox"
+                                   value={form.name}
+                                   onChange={onChangeName}
+                                   style={{width: '310px'}} aria-labelledby="label_4 sublabel_4_masked"/>
                           </span>
                         </div>
                     </li>
@@ -45,7 +117,9 @@ export default function HospitalForm() {
                           <span className="form-sub-label-container" style={{verticalAlign: 'top'}}>
                             <input type="text" id="input_4_full" name="q4_phoneNumber[full]"
                                    className="form-textbox validate[required, Fill Mask]"
-                                   style={{width: '310px'}} value="" aria-labelledby="label_4 sublabel_4_masked"/>
+                                   value={form.phone}
+                                   onChange={onChangePhone}
+                                   style={{width: '310px'}} aria-labelledby="label_4 sublabel_4_masked"/>
                           </span>
                         </div>
                     </li>
@@ -60,9 +134,9 @@ export default function HospitalForm() {
                             <div data-wrapper-react="true">
             <span className="form-sub-label-container" style={{verticalAlign: 'top'}} data-input-type="first">
               <input type="text" id="first_3" name="q3_name[first]" className="form-textbox validate[required]"
-                     disabled={true}
                      data-defaultvalue="" autoComplete="section-input_3 given-name" size="10"
-                     value=""
+                     value={form.street}
+                     onChange={onChangeStreet}
                      data-component="first" aria-labelledby="label_3 sublabel_3_first" required=""/>
               <label className="form-sub-label" htmlFor="first_3" id="sublabel_3_first" style={{minHeight: '13px'}}
                      aria-hidden="false"> Street Address </label>
@@ -70,9 +144,9 @@ export default function HospitalForm() {
                                 <span className="form-sub-label-container" style={{verticalAlign: 'top'}}
                                       data-input-type="last">
               <input type="text" id="last_3" name="q3_name[last]" className="form-textbox validate[required]"
-                     disabled={true}
                      data-defaultvalue="" autoComplete="section-input_3 family-name" size="15"
-                     value=""
+                     value={form.city}
+                     onChange={onChangeCity}
                      data-component="last" aria-labelledby="label_3 sublabel_3_last" required=""/>
               <label className="form-sub-label" htmlFor="last_3" id="sublabel_3_last" style={{minHeight: '13px'}}
                      aria-hidden="false"> City </label>
@@ -80,9 +154,9 @@ export default function HospitalForm() {
                                 <span className="form-sub-label-container" style={{verticalAlign: 'top'}}
                                       data-input-type="last">
               <input type="text" id="last_11" name="q11_name[last]" className="form-textbox validate[required]"
-                     disabled={true}
                      data-defaultvalue="" autoComplete="section-input_3 family-name" size="15"
-                     value=""
+                     value={form.zip}
+                     onChange={onChangeZip}
                      data-component="last" aria-labelledby="label_3 sublabel_3_last" required=""/>
               <label className="form-sub-label" htmlFor="last_3" id="sublabel_3_last" style={{minHeight: '13px'}}
                      aria-hidden="false"> Zip </label>
@@ -90,6 +164,17 @@ export default function HospitalForm() {
                             </div>
                         </div>
                     </li>
+                    <div id="cid_2" className="form-input-wide" data-layout="full">
+                        <div data-align="auto"
+                             className="form-buttons-wrapper form-buttons-auto   jsTest-button-wrapperField">
+                            <button id="input_2" type="submit"
+                                    onClick={saveForm}
+                                    className="submit-button jf-form-buttons jsTest-submitField"
+                                    data-component="button" data-content="">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
                 </ul>
             </div>
         </form>

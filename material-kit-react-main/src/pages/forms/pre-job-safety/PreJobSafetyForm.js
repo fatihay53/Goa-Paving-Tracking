@@ -339,7 +339,7 @@ export default function PreJobSafetyForm({selectedData, isShow}) {
                 <li className="form-line form-line-column form-col-4 jf-required" data-type="control_signature"
                     id="id_7">
                     <label className="form-label form-label-top form-label-auto" id="label_7" htmlFor="input_7">
-                        Signature Foreman
+                        Analysis Completed By
                         <span className="form-required">
             *
           </span>

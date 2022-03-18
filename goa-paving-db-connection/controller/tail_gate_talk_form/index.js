@@ -6,14 +6,13 @@ const connection = require('../connection')
 const connectiongmt3 = require('../connectiongmt3')
 
 tailGateTalkFormRouter.post('/save', function (request, response) {
-    var sql = `INSERT INTO tail_gate_talk_form (date,location,firstNameForeman,lastNameForeman,signatureForeman,estimate_template_id,safetyTraining,employeeSuggestions,signature,title,subject,created_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`;
+    var sql = `INSERT INTO tail_gate_talk_form (date,location,firstNameForeman,lastNameForeman,signatureForeman,estimate_template_id,employeeSuggestions,signature,title,subject,created_date) VALUES (?,?,?,?,?,?,?,?,?,?,?)`;
     let date = new Date(request.body.date);
 
     let location = request.body.location;
     let firstNameForeman = request.body.firstNameForeman;
     let lastNameForeman = request.body.lastNameForeman;
     let signatureForeman = request.body.signatureForeman;
-    let safetyTraining = request.body.safetyTraining;
     let employeeSuggestions = request.body.employeeSuggestions;
     let signature = request.body.signature;
     let title = request.body.title;
@@ -21,7 +20,7 @@ tailGateTalkFormRouter.post('/save', function (request, response) {
     let estimateTemplateId = request.body.estimateTemplateId;
     let createdDate = new Date();
 
-    connection.query(sql, [date, location, firstNameForeman, lastNameForeman, signatureForeman, estimateTemplateId, safetyTraining, employeeSuggestions, signature, title,subject,createdDate], function (error, rows) {
+    connection.query(sql, [date, location, firstNameForeman, lastNameForeman, signatureForeman, estimateTemplateId, employeeSuggestions, signature, title,subject,createdDate], function (error, rows) {
         if (error) throw error;
 
         console.log("Row inserted to tail_gate_talk_form. Id = "
