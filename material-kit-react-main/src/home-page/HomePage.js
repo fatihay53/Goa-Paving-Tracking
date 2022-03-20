@@ -85,7 +85,7 @@ export default function HomePage() {
 
                                 <li data-transition="parallaxtobottom" data-slotamount="10" data-masterspeed="1200"
                                     data-delay="5000">
-                                    <img src="../../images-slider/GOA_TRUCKS.jpg" alt="" data-start="0"
+                                    <img src="../../images-slider/goa-trucks.jpg" alt="" data-start="0"
                                          data-bgposition="center center" data-kenburns="on" data-duration="10000"
                                          data-ease="Linear.easeNone" data-bgfit="120" data-bgfitend="100"
                                          data-bgpositionend="center center"/>
