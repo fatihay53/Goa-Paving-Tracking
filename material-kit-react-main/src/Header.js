@@ -22,13 +22,13 @@ export default function Header() {
                         <div className="col-md-12">
                             <div className="right">
                                 <div className="social-icons-subnav">
-                                    <div>Call Us : Tel: (613) 333-9222</div>
+                                    <div style={{color:"white",fontWeight: "bold"}}>Call Us : Tel: (613) 333-9222</div>
                                 </div>
 
                                 <div id="sub-icon" className="social-icons-subnav">
-                                    <a href="https://www.facebook.com/goapaving/"><span className="ti-facebook"></span></a>
-                                    <a href="https://www.instagram.com/accounts/login/?next=/greater_ottawa_area_paving/"><span
-                                        className="ti-instagram"></span></a>
+                                    <a href="https://www.facebook.com/goapaving/"><span className="ti-facebook"style={{color:"white",fontWeight: "bold"}}>Facebook</span></a>
+                                    <a href="https://www.instagram.com/accounts/login/?next=/greater_ottafawa_area_paving/"><span
+                                        className="ti-instagram" style={{color:"white",fontWeight: "bold"}}> Instagram</span></a>
                                 </div>
                             </div>
                         </div>

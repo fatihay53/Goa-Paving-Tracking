@@ -47,7 +47,7 @@ export default function HomePage() {
 
                                 <li data-transition="parallaxtobottom" data-slotamount="10" data-masterspeed="1200"
                                     data-delay="5000">
-                                    <img src="../../images-slider/Equipement3.jpg" alt="" data-start="0"
+                                    <img src="../../images-slider/IMG_2183.jpg" alt="" data-start="0"
                                          data-bgposition="center center" data-kenburns="on" data-duration="10000"
                                          data-ease="Linear.easeNone" data-bgfit="120" data-bgfitend="100"
                                          data-bgpositionend="center center"/>
@@ -58,7 +58,7 @@ export default function HomePage() {
                                          data-start="400"
                                          data-easing="easeInOutExpo"
                                          data-endspeed="450">
-                                        Experience the Paving
+                                        Experience the Difference
                                     </div>
 
                                     <div class="tp-caption sub-heading sft"
@@ -68,7 +68,7 @@ export default function HomePage() {
                                          data-start="800"
                                          data-easing="easeOutExpo"
                                          data-endspeed="400">
-                                        with quality materials
+                                        makes quality
                                     </div>
 
                                     <div class="tp-caption sfb"
@@ -85,7 +85,7 @@ export default function HomePage() {
 
                                 <li data-transition="parallaxtobottom" data-slotamount="10" data-masterspeed="1200"
                                     data-delay="5000">
-                                    <img src="../../images-slider/municipal-work.jpg" alt="" data-start="0"
+                                    <img src="../../images-slider/GOA_TRUCKS.jpg" alt="" data-start="0"
                                          data-bgposition="center center" data-kenburns="on" data-duration="10000"
                                          data-ease="Linear.easeNone" data-bgfit="120" data-bgfitend="100"
                                          data-bgpositionend="center center"/>
@@ -96,7 +96,7 @@ export default function HomePage() {
                                          data-start="400"
                                          data-easing="easeInOutExpo"
                                          data-endspeed="450">
-                                        Patching process
+                                        Experience
                                     </div>
 
                                     <div class="tp-caption sub-heading sft"
@@ -106,7 +106,7 @@ export default function HomePage() {
                                          data-start="800"
                                          data-easing="easeOutExpo"
                                          data-endspeed="400">
-                                        ensuring longevity
+                                        with remarkable service
                                     </div>
 
                                     <div class="tp-caption sfb"
@@ -123,7 +123,7 @@ export default function HomePage() {
 
                                 <li data-transition="parallaxtobottom" data-slotamount="10" data-masterspeed="1200"
                                     data-delay="5000">
-                                    <img src="../../images-slider/Equipement4-1568x1175.jpg" alt="" data-start="0"
+                                    <img src="../../images-slider/IMG_4428.jpg" alt="" data-start="0"
                                          data-bgposition="center center" data-kenburns="on" data-duration="10000"
                                          data-ease="Linear.easeNone" data-bgfit="120" data-bgfitend="100"
                                          data-bgpositionend="center center"/>

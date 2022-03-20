@@ -42,6 +42,11 @@ import Careers from "./goa-services/Careers";
 import HospitalList from "./pages/forms/inventory/hospital/HospitalList";
 import EmergencyForm from "./pages/forms/emergency-form/EmergencyForm";
 import EmergencyFormList from "./pages/forms/emergency-form/EmergencyFormList";
+import GrinderOperator from "./goa-services/GrinderOperator";
+import AZDriver from "./goa-services/AZDriver";
+import AsphaltPaverOperator from "./goa-services/AsphaltPaverOperator";
+import AsphaltLaborer from "./goa-services/AsphaltLaborer";
+import SiteForeman from "./goa-services/SiteForeman";
 
 // ----------------------------------------------------------------------
 
@@ -147,6 +152,11 @@ export default function Router() {
         { path: '/contact', element: <Contact/> },
         { path: '/careers', element: <Careers/> },
         { path: '/photoGallery', element: <PhotoGallery/> },
+        { path: '/grinderOperator', element: <GrinderOperator/> },
+        { path: '/azDriver', element: <AZDriver/> },
+        { path: '/asphaltPaverOperator', element: <AsphaltPaverOperator/> },
+        { path: '/asphaltLaborer', element: <AsphaltLaborer/> },
+        { path: '/siteForeman', element: <SiteForeman/> },
         { path: 'index.html', element: <Login /> },
         { path: 'admin', element: <Login /> },
         { path: 'register', element: <Register /> },

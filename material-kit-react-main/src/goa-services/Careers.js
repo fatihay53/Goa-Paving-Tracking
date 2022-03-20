@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import Header from "../Header";
 import GeneralUtils from "../utils/GeneralUtils";
+import {Link} from "react-router-dom";
 
 export default function Careers() {
 
@@ -35,6 +36,9 @@ export default function Careers() {
                                         href="mailto:careers@goapaving.ca"> careers@goapaving.ca</a></span> </p>
                             </div>
                         </div>
+                    </div>
+                    <div className="btn-slider" style={{marginLeft: "40em"}}><span></span>
+                        <Link to="/grinderOperator" style={{color: "#008CBA"}}>Positions<i className="fa fa-arrow-right mr-1"></i></Link>
                     </div>
                 </section>
             </div>
