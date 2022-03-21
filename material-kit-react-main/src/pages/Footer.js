@@ -13,8 +13,8 @@ export default function Footer() {
                     </div>
 
                     <div className="col-md-4">
-                <span className="logo">
-                <img alt="logo" height="80px" style={{ marginLeft: "200px"}} src="../../img/GOA_Logo_stroke-1.png"/>
+                <span className="logo" style={{display:'flex',justifyContent:'center'}}>
+                    <img alt="logo" height="80px" src="../../img/GOA_Logo_stroke-1.png"/>
                 </span>
                     </div>
 
