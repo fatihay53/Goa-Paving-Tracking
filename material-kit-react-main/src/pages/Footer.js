@@ -8,7 +8,7 @@ export default function Footer() {
 
                 <div className="onStep" data-animation="fadeInUp" data-time="300">
                     <div className="col-md-4 text-left">
-                        <span><a href="#">Email: info@goapaving.ca</a></span>
+                        <span><a href="mailto:info@goapaving.ca"> info@goapaving.ca</a></span>
                         <span>Copyright - GOA PAVING © {new Date().getFullYear()} All Right Reserved</span>
                     </div>
 
