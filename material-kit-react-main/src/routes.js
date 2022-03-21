@@ -127,7 +127,7 @@ export default function Router() {
     {
       path: '/',
       children: [
-        { element: <Navigate to="/home" replace /> },
+        { path: '/', element: <Navigate to="/home" /> },
         { path: '/home', element: <HomePage/> },
         { path: '/demo', element: <Demo/> },
         { path: '/aboutUs', element: <AboutUs/> },
