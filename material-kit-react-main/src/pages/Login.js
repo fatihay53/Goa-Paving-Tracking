@@ -54,14 +54,6 @@ export default function Login() {
           </Stack>
           <LoginForm />
 
-          <MHidden width="smUp">
-            <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-              Don’t have an account?&nbsp;
-              <Link variant="subtitle2" component={RouterLink} to="register">
-                Get started
-              </Link>
-            </Typography>
-          </MHidden>
         </ContentStyle>
       </Container>
     </RootStyle>
