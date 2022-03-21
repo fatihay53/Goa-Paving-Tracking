@@ -3,13 +3,8 @@ import {Navigate, useRoutes} from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 //
 import Login from './pages/Login';
-import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
-import Products from './pages/Products';
-import Blog from './pages/Blog';
-import User from './pages/User';
 import NotFound from './pages/Page404';
-import Forms from './pages/Forms';
 import NewClientForm from './pages/forms/new-client-form/NewClientForm';
 import NewClientFormList from "./pages/forms/new-client-form/NewClientFormList";
 import TailGateTalkForm from "./pages/forms/tail-gate-talk/TailGateTalkForm";
@@ -17,8 +12,8 @@ import SignatureConfirmPage from "./pages/forms/tail-gate-talk/SignatureConfirmP
 import TailGateTalkFormList from "./pages/forms/tail-gate-talk/TailGateFormList";
 import React from "react";
 import Talks from "./pages/forms/talks/Talks";
-import BarChartEx from "./pages/charts/BarChartEx";
 import CreateUser from "./pages/user-management/CreateUser";
+import ChangePassword from "./pages/user-management/ChangePassword";
 import TimeCard from "./pages/forms/time-card/TimeCard";
 import TimeCardList from "./pages/forms/time-card/TimeCardList";
 import ProjectEstimateTemplate from "./pages/forms/project/ProjectEstimateTemplate";
@@ -57,11 +52,7 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { path: 'app', element: <DashboardApp /> },
-        { path: 'forms', element: <Forms /> },
         { path: 'talks', element: <Talks /> },
-        { path: 'user', element: <User /> },
-        { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> }
       ]
     },
     {
@@ -129,14 +120,8 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { path: 'createUser', element: <CreateUser /> },
-        { path: 'users', element: <UserList /> }
-      ]
-    },
-    {
-      path: '/dashboard/charts',
-      element: <DashboardLayout />,
-      children: [
-        { path: 'barchart', element: <BarChartEx /> }
+        { path: 'users', element: <UserList /> },
+        { path: 'changePassword', element: <ChangePassword /> },
       ]
     },
     {
@@ -157,9 +142,7 @@ export default function Router() {
         { path: '/asphaltPaverOperator', element: <AsphaltPaverOperator/> },
         { path: '/asphaltLaborer', element: <AsphaltLaborer/> },
         { path: '/siteForeman', element: <SiteForeman/> },
-        { path: 'index.html', element: <Login /> },
         { path: 'admin', element: <Login /> },
-        { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> }
       ]

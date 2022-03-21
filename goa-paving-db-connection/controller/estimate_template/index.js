@@ -9,7 +9,7 @@ const connectiongmt3 = require('../connectiongmt3')
 const dateFormat = "YYYY-MM-DD HH:mm:ss";
 
 estimateTemplateRouter.post('/save', function (request, response) {
-    var sql = `INSERT INTO estimate_template (date,project_name,project_category_id,estimate_project_hour,total_m2,subcontractor_json,external_rent_json,internal_rent_json,equipment_cost_json,cold_milling_json,traffic_control_json,employee_json,materials_json,bid,profit,created_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`;
+    var sql = `INSERT INTO estimate_template (date,project_name,project_category_id,estimate_project_hour,total_m2,subcontractor_json,external_rent_json,internal_rent_json,equipment_cost_json,cold_milling_json,traffic_control_json,employee_json,materials_json,bid,profit,status,created_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`;
     let projectName = request.body.projectName;
     let categoryId = request.body.categoryId;
     let estimateProjectHour = request.body.estimateProjectHour;
@@ -24,11 +24,12 @@ estimateTemplateRouter.post('/save', function (request, response) {
     let employee  = JSON.stringify(request.body.employee);
     let profit  = request.body.profit;
     let date  = request.body.date;
+    let status  = request.body.status;
 
     let materials  = JSON.stringify(request.body.materials);
     let createdDate = new Date();
 
-    connection.query(sql, [date,projectName, categoryId, estimateProjectHour,totalM2,subContractor, externalRent, internalRent, equipmentCost, coldMilling, trafficControl,employee,materials,bid,profit,createdDate], function (error, rows) {
+    connection.query(sql, [date,projectName, categoryId, estimateProjectHour,totalM2,subContractor, externalRent, internalRent, equipmentCost, coldMilling, trafficControl,employee,materials,bid,profit,status,createdDate], function (error, rows) {
         if (error) throw error;
 
         console.log("Row inserted to estimate_template. Id = "
@@ -58,12 +59,13 @@ estimateTemplateRouter.post('/update', function (request, response) {
     let materials  = JSON.stringify(request.body.materials);
     let profit  = request.body.profit;
     let date  = request.body.date;
+    let status  = request.body.status;
 
     let createdDate = new Date();
 
-    var sql = `UPDATE estimate_template set date =?,project_name = ?,project_category_id = ?,estimate_project_hour = ?,total_m2 = ?,subcontractor_json = ?,external_rent_json = ?,internal_rent_json = ?,equipment_cost_json = ?,cold_milling_json = ?,traffic_control_json = ?,employee_json = ?,materials_json = ?,bid = ?,profit=?,created_date = ? where id =${id}`;
+    var sql = `UPDATE estimate_template set date =?,project_name = ?,project_category_id = ?,estimate_project_hour = ?,total_m2 = ?,subcontractor_json = ?,external_rent_json = ?,internal_rent_json = ?,equipment_cost_json = ?,cold_milling_json = ?,traffic_control_json = ?,employee_json = ?,materials_json = ?,bid = ?,profit=?,status=?,created_date = ? where id =${id}`;
 
-    connection.query(sql, [date,projectName, categoryId, estimateProjectHour,totalM2,subContractor, externalRent, internalRent, equipmentCost, coldMilling, trafficControl,employee,materials,bid,profit,createdDate], function (error, rows) {
+    connection.query(sql, [date,projectName, categoryId, estimateProjectHour,totalM2,subContractor, externalRent, internalRent, equipmentCost, coldMilling, trafficControl,employee,materials,bid,profit,status,createdDate], function (error, rows) {
         if (error) throw error;
 
         console.log("Row updated to estimate_template = " + id);

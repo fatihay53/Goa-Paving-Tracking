@@ -1,5 +1,3 @@
-// routes
-import { useNavigate } from 'react-router';
 import Router from './routes';
 // theme
 import ThemeConfig from './theme';
@@ -12,7 +10,6 @@ import "primeicons/primeicons.css";
 
 // components
 import ScrollToTop from './components/ScrollToTop';
-import { BaseOptionChartStyle } from './components/charts/BaseOptionChart';
 
 // ----------------------------------------------------------------------
 
@@ -30,7 +27,6 @@ export default function App() {
         {getToastContainer()}
         <ScrollToTop />
       <GlobalStyles />
-      <BaseOptionChartStyle />
       <Router />
     </ThemeConfig>
   );

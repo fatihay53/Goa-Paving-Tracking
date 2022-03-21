@@ -63,7 +63,7 @@ export default function ProjectEstimateTemplateList() {
             <div className="dialog-demo">
                 <div className="card">
                     <Dialog visible={showDialog} onHide={() => setShowDialog(false)}
-                            maximized={true} maximizable={true} baseZIndex={1500}
+                            maximized={true} baseZIndex={1500}
                     >
                         <ProjectEstimateTemplate selectedData={selectedData} updateDt={updateDt}/>
                     </Dialog>

@@ -22,6 +22,14 @@ import moment from "moment";
 import './projectTemplate.css';
 import PdfArea from "./PdfArea";
 import AttachmentService from "../../../services/AttachmentService";
+import StepProggress from "../../../components/mcomponents/step-progress/StepProggress";
+import {Dropdown} from "primereact/dropdown";
+
+const STATUS=[
+    {name:'Pending',value:'Pending'},
+    {name:'Active',value:'Active'},
+    {name:'Completed',value:'Completed'}
+]
 
 export default function ProjectEstimateTemplate({selectedData, updateDt}) {
 
@@ -54,6 +62,10 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
     const estimateTemplateService = new EstimateTemplateService();
     const attachmentService = new AttachmentService();
 
+    const onChangeStatus=(e)=>{
+        setProject({...project,status: e.value});
+    }
+
     const getInitialData = () => {
         let data;
         if (!GeneralUtils.isNullOrEmpty(selectedData)) {
@@ -63,10 +75,11 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
                 category: selectedData.project_category_name,
                 categoryId: selectedData.project_category_id,
                 estimateProjectHour: selectedData.estimate_project_hour,
-                totalM2: selectedData.total_m2
+                totalM2: selectedData.total_m2,
+                status: selectedData.status
             }
         } else {
-            data = {projectName: '', category: '', categoryId: '', estimateProjectHour: '', totalM2: 0}
+            data = {status:'Pending',projectName: '', category: '', categoryId: '', estimateProjectHour: '', totalM2: 0}
         }
         return data;
     }
@@ -214,6 +227,9 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
     const getForm = () => {
         return (
             <form onSubmit={(event) => event.preventDefault()} style={{backgroundColor:'#f3f3fe'}}>
+                <div style={{marginTop:'1em'}}>
+                    <StepProggress status={project?.status}/>
+                </div>
                 <div role="main">
                     <ul className="form-section page-section">
                         <li className="form-input-wide">
@@ -293,6 +309,18 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
                                     onChange={(e) => setProject({...project, totalM2: e.target.value})}
                                     value={project.totalM2}
                                 />
+                            </div>
+                        </li>
+                        <li className="form-line form-line-column form-col-2 jf-required" data-type="control_textbox"
+                            id="id_7">
+                            <label className="form-label form-label-top form-label-auto" id="label_7" htmlFor="input_7">
+                                Project Status
+                                <span className="form-required">
+            *
+          </span>
+                            </label>
+                            <div id="cid_7" className="form-input-wide jf-required" data-layout="half">
+                                <Dropdown value={project?.status} options={STATUS} onChange={onChangeStatus} optionLabel="name" />
                             </div>
                         </li>
                         <li className="form-line">
@@ -452,7 +480,7 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
                         </li>
                     </ul>
                     {showDialog &&
-                    <MDialog showedHtml={showedHtml} showDialog={showDialog} setShowDialog={setShowDialog}/>}
+                        <MDialog showedHtml={showedHtml} showDialog={showDialog} setShowDialog={setShowDialog}/>}
                 </div>
             </form>
         )

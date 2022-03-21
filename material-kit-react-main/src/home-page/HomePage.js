@@ -77,9 +77,6 @@ export default function HomePage() {
                                          data-speed="400"
                                          data-start="800"
                                          data-easing="easeInOutExpo">
-                                        <div class="btn-slider"><span class="shine"></span>
-                                            <Link to="/aboutUs">More Detail</Link>
-                                        </div>
                                     </div>
                                 </li>
 
@@ -115,9 +112,6 @@ export default function HomePage() {
                                          data-speed="400"
                                          data-start="800"
                                          data-easing="easeInOutExpo">
-                                        <div class="btn-slider"><span class="shine"></span>
-                                            <Link to="/municipal">More Detail</Link>
-                                        </div>
                                     </div>
                                 </li>
 
@@ -153,9 +147,6 @@ export default function HomePage() {
                                          data-speed="400"
                                          data-start="800"
                                          data-easing="easeInOutExpo">
-                                        <div class="btn-slider"><span class="shine"></span>
-                                            <Link to="/residential">More Detail</Link>
-                                        </div>
                                     </div>
                                 </li>
 
@@ -259,7 +250,6 @@ export default function HomePage() {
                                                         <h3>Municipal Works
                                                             <span class="devider"></span>
                                                         </h3>
-                                                        <Link to="/contact">More Detail</Link>
                                                     </div>
                                                 </div>
                                             </a>
@@ -276,7 +266,6 @@ export default function HomePage() {
                                                         <h3>Cold Milling
                                                             <span class="devider"></span>
                                                         </h3>
-                                                        <Link to="/contact">More Detail</Link>
                                                     </div>
                                                 </div>
                                             </a>
@@ -293,7 +282,6 @@ export default function HomePage() {
                                                         <h3>Driveway
                                                             <span class="devider"></span>
                                                         </h3>
-                                                        <Link to="/contact">More Detail</Link>
                                                     </div>
                                                 </div>
                                             </a>
@@ -310,7 +298,6 @@ export default function HomePage() {
                                                         <h3>Residential Street
                                                             <span class="devider"></span>
                                                         </h3>
-                                                        <Link to="/contact">More Detail</Link>
                                                     </div>
                                                 </div>
                                             </a>
@@ -327,7 +314,6 @@ export default function HomePage() {
                                                         <h3>Road Construction
                                                             <span class="devider"></span>
                                                         </h3>
-                                                        <Link to="/contact">More Detail</Link>
                                                     </div>
                                                 </div>
                                             </a>
@@ -344,7 +330,6 @@ export default function HomePage() {
                                                         <h3>Parking
                                                             <span class="devider"></span>
                                                         </h3>
-                                                        <Link to="/contact">More Detail</Link>
                                                     </div>
                                                 </div>
                                             </a>

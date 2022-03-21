@@ -40,11 +40,11 @@ export default function HospitalList() {
                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10}
                        rowsPerPageOptions={[10, 20, 50]}
             >
-                <Column field="name" header="name"></Column>
-                <Column field="phone" header="phone"></Column>
-                <Column field="street" header="street"></Column>
-                <Column field="city" header="city"></Column>
-                <Column field="zip" header="zip"></Column>
+                <Column field="name" header="Name"></Column>
+                <Column field="phone" header="Phone"></Column>
+                <Column field="street" header="Street"></Column>
+                <Column field="city" header="City"></Column>
+                <Column field="zip" header="Zip"></Column>
             </DataTable>
         </div>
 

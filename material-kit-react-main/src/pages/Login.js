@@ -6,8 +6,8 @@ import { Card, Container, Link, Stack, Typography } from '@mui/material';
 // components
 import Page from '../components/Page';
 import { MHidden } from '../components/@material-extend';
-import { LoginForm } from '../components/authentication/login';
 import logo from '../goa_logo.png';
+import LoginForm from "../components/authentication/login/LoginForm";
 
 // ----------------------------------------------------------------------
 

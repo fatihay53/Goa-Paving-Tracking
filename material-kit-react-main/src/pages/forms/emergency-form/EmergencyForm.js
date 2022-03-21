@@ -22,7 +22,7 @@ const methodOfCommunicationOptions = [
 const emergencyMeetingLocationOptions = [
     { name: 'Select', value: '' },
     { name: '200 M Behind Paver', value: '200 M Behind Paver' },
-    { name: 'Milling Machine', value: 'Milling Machine' }
+    { name: '200 M Behind Milling Machine', value: 'Milling Machine' }
 ];
 
 const AM_PM=[
@@ -54,6 +54,31 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
 
     const [showDialog, setShowDialog] = useState(false);
     const [showedHtml, setShowedHtml] = useState({});
+    const [taskEmployees,setTaskEmployees] = useState(
+        !GeneralUtils.isNullOrEmpty(selectedData)&&!GeneralUtils.isNullOrEmpty(selectedData.employee1Id) ?
+            {
+                employee1:{id:selectedData.employee1Id,name:selectedData.employee1Name,surname:selectedData.employee1Surname},
+                employee2:{id:selectedData.employee2Id,name:selectedData.employee2Name,surname:selectedData.employee2Surname},
+                employee3:{id:selectedData.employee3Id,name:selectedData.employee3Name,surname:selectedData.employee3Surname},
+                supervisor3:{id:selectedData.supervisor3Id,name:selectedData.supervisor3Name,surname:selectedData.supervisor3Surname},
+                employee4:{id:selectedData.employee4Id,name:selectedData.employee4Name,surname:selectedData.employee4Surname},
+                employee5:{id:selectedData.employee5Id,name:selectedData.employee5Name,surname:selectedData.employee5Surname},
+                employee6:{id:selectedData.employee6Id,name:selectedData.employee6Name,surname:selectedData.employee6Surname},
+                employee7:{id:selectedData.employee7Id,name:selectedData.employee7Name,surname:selectedData.employee7Surname},
+                employee8:{id:selectedData.employee8Id,name:selectedData.employee8Name,surname:selectedData.employee8Surname}
+            }:
+            {
+                employee1:{id:'',name:'',surname:''},
+                employee2:{id:'',name:'',surname:''},
+                employee3:{id:'',name:'',surname:''},
+                supervisor3:{id:'',name:'',surname:''},
+                employee4:{id:'',name:'',surname:''},
+                employee5:{id:'',name:'',surname:''},
+                employee6:{id:'',name:'',surname:''},
+                employee7:{id:'',name:'',surname:''},
+                employee8:{id:'',name:'',surname:''}
+            });
+
     const [hospital, setHospital] = useState(
         !GeneralUtils.isNullOrEmpty(selectedData)&&!GeneralUtils.isNullOrEmpty(selectedData.hospitalId) ?
             {id:selectedData.hospitalId,name:selectedData.hospitalName,phone:selectedData.phone,street:selectedData.street,city:selectedData.city,zip:selectedData.zip} : {}
@@ -74,18 +99,12 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
             {id:selectedData.foremanId,name:selectedData.foremanName,surname:selectedData.foremanSurname} : {}
     );
 
-    const [employee, setEmployee] = useState(
-        !GeneralUtils.isNullOrEmpty(selectedData)&&!GeneralUtils.isNullOrEmpty(selectedData.employeeId) ?
-            {id:selectedData.employeeId,name:selectedData.employeeName,surname:selectedData.employeeSurname} : {}
-
-    );
-
     const [provincialGoverment, setProvincialGoverment] = useState(
         !GeneralUtils.isNullOrEmpty(selectedData)&&!GeneralUtils.isNullOrEmpty(selectedData.provincialGoverment) ?
             JSON.parse(selectedData.provincialGoverment) :
             {
-                localHealthy:'',localEnvironment:'',localTransPortation:'',
-                spillsHealthy:'',spillsEnvironment:'',spillsTransPortation:''
+                localGoverment:'',spillsGoverment:'',healthGoverment:'',
+                environmentGoverment:'',transportationGoverment:''
             });
 
     const [responseCheckList, setResponseCheckList] = useState(
@@ -118,9 +137,9 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
         setShowDialog(true);
         setShowedHtml(<SelectHospital setShowDialog={(showDialog) => setShowDialog(showDialog)}
                                       setSelections={(selections) => {
-                                         setHospital(selections);
-                                         setShowDialog(false)
-                                     }}/>);
+                                          setHospital(selections);
+                                          setShowDialog(false)
+                                      }}/>);
     }
 
     const selectSupervisor = () => {
@@ -141,10 +160,64 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                       setSelections={(selections) => {setForm({...form,employeeId:selections.id}); setEmployee({...selections}); setShowDialog(false);}}/>);
     }
 
+    const selectEmployee1 = () => {
+        setShowDialog(true);
+        setShowedHtml(<SelectEmployee restriction="findAllEmployees" selectionMode="single"
+                                      setSelections={(selections) => {setTaskEmployees({...taskEmployees,employee1:selections});setShowDialog(false);}}/>);
+    }
+
+    const selectEmployee2 = () => {
+        setShowDialog(true);
+        setShowedHtml(<SelectEmployee restriction="findAllEmployees" selectionMode="single"
+                                      setSelections={(selections) => {setTaskEmployees({...taskEmployees,employee2:selections});setShowDialog(false);}}/>);
+    }
+
+    const selectEmployee3 = () => {
+        setShowDialog(true);
+        setShowedHtml(<SelectEmployee restriction="findAllEmployees" selectionMode="single"
+                                      setSelections={(selections) => {setTaskEmployees({...taskEmployees,employee3:selections});setShowDialog(false);}}/>);
+    }
+
+    const selectSupervisor3 = () => {
+        setShowDialog(true);
+        setShowedHtml(<SelectEmployee restriction="findAllSupervisors" selectionMode="single"
+                                      setSelections={(selections) => {setTaskEmployees({...taskEmployees,supervisor3:selections});setShowDialog(false);}}/>);
+    }
+
+    const selectEmployee4 = () => {
+        setShowDialog(true);
+        setShowedHtml(<SelectEmployee restriction="findAllEmployees" selectionMode="single"
+                                      setSelections={(selections) => {setTaskEmployees({...taskEmployees,employee4:selections});setShowDialog(false);}}/>);
+    }
+
+    const selectEmployee5 = () => {
+        setShowDialog(true);
+        setShowedHtml(<SelectEmployee restriction="findAllEmployees" selectionMode="single"
+                                      setSelections={(selections) => {setTaskEmployees({...taskEmployees,employee5:selections});setShowDialog(false);}}/>);
+    }
+
+    const selectEmployee6 = () => {
+        setShowDialog(true);
+        setShowedHtml(<SelectEmployee restriction="findAllEmployees" selectionMode="single"
+                                      setSelections={(selections) => {setTaskEmployees({...taskEmployees,employee6:selections});setShowDialog(false);}}/>);
+    }
+
+    const selectEmployee7 = () => {
+        setShowDialog(true);
+        setShowedHtml(<SelectEmployee restriction="findAllEmployees" selectionMode="single"
+                                      setSelections={(selections) => {setTaskEmployees({...taskEmployees,employee7:selections});setShowDialog(false);}}/>);
+    }
+
+    const selectEmployee8 = () => {
+        setShowDialog(true);
+        setShowedHtml(<SelectEmployee restriction="findAllEmployees" selectionMode="single"
+                                      setSelections={(selections) => {setTaskEmployees({...taskEmployees,employee8:selections});setShowDialog(false);}}/>);
+    }
+
     const selectProject = () => {
         setShowDialog(true);
         setShowedHtml(<SelectProject selectionMode="single"
-                                      setSelections={(selections) => {setForm({...form,projectId:selections.id}); setProject({...selections}); setShowDialog(false);}}/>);
+                                     setSelections={(selections) => {setForm({...form,projectId:selections.id}); setProject({...selections}); setShowDialog(false);}}/>);
     }
 
     const onMethodOfCommunicationChange = (e) => {
@@ -181,28 +254,25 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
         }
     }
 
-    const onChangeLocalHealty=(e)=>{
-        setProvincialGoverment({...provincialGoverment,localHealthy: e.target.value});
+    const onChangeLocalGoverment=(e)=>{
+        setProvincialGoverment({...provincialGoverment,localGoverment: e.target.value});
     }
 
-    const onChangeLocalEnvironment=(e)=>{
-        setProvincialGoverment({...provincialGoverment,localEnvironment: e.target.value});
+    const onChangeSpillsGoverment=(e)=>{
+        setProvincialGoverment({...provincialGoverment,spillsGoverment: e.target.value});
     }
 
-    const onChangeLocalTransportation=(e)=>{
-        setProvincialGoverment({...provincialGoverment,localTransPortation: e.target.value});
+    const onChangeHealthGoverment=(e)=>{
+        setProvincialGoverment({...provincialGoverment,healthGoverment: e.target.value});
     }
 
-    const onChangeSpillsHealty=(e)=>{
-        setProvincialGoverment({...provincialGoverment,spillsHealthy: e.target.value});
+    const onChangeEnvirenmentGoverment=(e)=>{
+        setProvincialGoverment({...provincialGoverment,environmentGoverment: e.target.value});
     }
 
-    const onChangeSpillsEnvironment=(e)=>{
-        setProvincialGoverment({...provincialGoverment,spillsEnvironment: e.target.value});
-    }
 
-    const onChangeSpillsTransportation=(e)=>{
-        setProvincialGoverment({...provincialGoverment,spillsTransPortation: e.target.value});
+    const onChangeTransportationGoverment=(e)=>{
+        setProvincialGoverment({...provincialGoverment,transportationGoverment: e.target.value});
     }
 
     const onChangeAmPm=(e)=>{
@@ -232,7 +302,6 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
 
     const saveForm=()=>{
         if (GeneralUtils.isNullOrEmpty(supervisor.id) ||
-            GeneralUtils.isNullOrEmpty(employee.id) ||
             GeneralUtils.isNullOrEmpty(project.id) ||
             GeneralUtils.isNullOrEmpty(foreman.id) ||
             GeneralUtils.isNullOrEmpty(hospital.id) ||
@@ -258,10 +327,21 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
     }
 
     const formSave=()=>{
-        emergencyService.save({...form,provincialGoverment,responseCheckList,projectId:project.id,employeeId:employee.id,supervisorId:supervisor.id,hospitalId:hospital.id,foremanId:foreman.id}).then(res=>{
+        let taskEmp = {
+            employee1Id: taskEmployees?.employee1?.id,
+            employee2Id: taskEmployees?.employee2.id,
+            employee3Id: taskEmployees?.employee3?.id,
+            supervisor3Id: taskEmployees?.supervisor3?.id,
+            employee4Id: taskEmployees?.employee4?.id,
+            employee5Id: taskEmployees?.employee5?.id,
+            employee6Id: taskEmployees?.employee6?.id,
+            employee7Id: taskEmployees?.employee7?.id,
+            employee8Id: taskEmployees?.employee8?.id,
+        }
+        emergencyService.save({...form,...taskEmp,provincialGoverment,responseCheckList,projectId:project.id,supervisorId:supervisor.id,hospitalId:hospital.id,foremanId:foreman.id}).then(res=>{
             if (res.status == 200){
                 setSupervisor({});
-                setEmployee({});
+                //setEmployee({});
                 setHospital({});
                 setProject({});
                 setProvincialGoverment({
@@ -292,10 +372,21 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
     }
 
     const formUpdate=()=>{
-        emergencyService.update({...form,provincialGoverment,responseCheckList,projectId:project.id,employeeId:employee.id,supervisorId:supervisor.id,hospitalId:hospital.id,foremanId:foreman.id}).then(res=>{
+        let taskEmp = {
+            employee1Id: taskEmployees?.employee1?.id,
+            employee2Id: taskEmployees?.employee2.id,
+            employee3Id: taskEmployees?.employee3?.id,
+            supervisor3Id: taskEmployees?.supervisor3?.id,
+            employee4Id: taskEmployees?.employee4?.id,
+            employee5Id: taskEmployees?.employee5?.id,
+            employee6Id: taskEmployees?.employee6?.id,
+            employee7Id: taskEmployees?.employee7?.id,
+            employee8Id: taskEmployees?.employee8?.id,
+        }
+        emergencyService.update({...form,...taskEmp,provincialGoverment,responseCheckList,projectId:project.id,supervisorId:supervisor.id,hospitalId:hospital.id,foremanId:foreman.id}).then(res=>{
             if (res.status == 200){
                 setSupervisor({});
-                setEmployee({});
+                //setEmployee({});
                 setHospital({});
                 setProject({});
                 setProvincialGoverment({
@@ -607,42 +698,6 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                    size="310" value={form?.siteSupervisor} onChange={onSiteSupervisorChange} data-component="textbox" aria-labelledby="label_12" required=""/>
                         </div>
                     </li>
-                    <li className="form-line jf-required" data-type="control_fullname" id="id_3">
-                        <label className="form-label form-label-top form-label-auto" id="label_3" htmlFor="first_3">
-                            Employee
-                            <span className="form-required">
-            *
-          </span>
-                        </label>
-                        <div id="cid_3" className="form-input-wide jf-required" data-layout="full">
-                            <div data-wrapper-react="true">
-            <span className="form-sub-label-container" style={{verticalAlign:'top'}} data-input-type="first">
-              <input type="text" id="first_3" name="q3_name[first]" className="form-textbox  " disabled={true}
-                     data-defaultvalue="" autoComplete="section-input_3 given-name" size="10" value={employee.name ? employee.name :''}
-                     data-component="first" aria-labelledby="label_3 sublabel_3_first" required=""/>
-              <label className="form-sub-label" htmlFor="first_3" id="sublabel_3_first" style={{minHeight:'13px'}}
-                     aria-hidden="false"> First Name </label>
-            </span>
-                                <span className="form-sub-label-container" style={{verticalAlign:'top'}}
-                                      data-input-type="last">
-              <input type="text" id="last_3" name="q3_name[last]" className="form-textbox  " disabled={true}
-                     data-defaultvalue="" autoComplete="section-input_3 family-name" size="15" value={employee.surname ? employee.surname : ''}
-                     data-component="last" aria-labelledby="label_3 sublabel_3_last" required=""/>
-              <label className="form-sub-label" htmlFor="last_3" id="sublabel_3_last" style={{minHeight:'13px'}}
-                     aria-hidden="false"> Last Name </label>
-            </span>
-                                <span className="form-sub-label-container" style={{verticalAlign:'top'}} data-input-type="first">
-
-                        <button id="input_10"
-                                onClick={selectEmployee}
-                                className="form-submit-button-simple_orange submit-button jf-form-buttons jsTest-submitField"
-                                data-component="button" data-content="">
-                                Select Employee
-                            </button>
-            </span>
-                            </div>
-                        </div>
-                    </li>
                     <li id="cid_13" className="form-input-wide" data-type="control_head">
                         <div className="form-header-group  header-default">
                             <div className="header-text httac htvam">
@@ -675,7 +730,7 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                                                                                 name="q16_input16[shorttext-1]"
                                                                                                 id="16_shorttext-1"
                                                                                                 value={form.methodOfCommunication}
-                                                                                                /></span> <br/><span
+                                /></span> <br/><span
                                     style={{color:'#000000',backgroundColor:'transparent'}}>Location of Emergency Communication Systems:</span>
                                     <span data-type="textbox" data-grouptype="control_textbox"
                                           className="FITB-inptCont">
@@ -684,11 +739,11 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                                 value={responseCheckList.locationOfEmergency}
                                                 aria-labelledby="label_6 sublabel_6_ampm">
                                           <option selected="" value=""> Select </option>
-                                                                    {
-                                                                        LOCATION_OF_EMERGENCY.map(elem=>{
-                                                                            return <option value={elem.value}> {elem.name} </option>
-                                                                        })
-                                                                    }
+                                            {
+                                                LOCATION_OF_EMERGENCY.map(elem=>{
+                                                    return <option value={elem.value}> {elem.name} </option>
+                                                })
+                                            }
                                         </select>
                                     </span> <br/>First Aid Kits are located in
                                     the following areas:<span data-type="textbox" data-grouptype="control_textbox"
@@ -752,8 +807,8 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                     <span style={{color:'#000000',backgroundColor:'transparent'}}>Phone </span> <span
                                         data-type="textbox" data-grouptype="control_phone"
                                         className="FITB-inptCont"></span> <span data-type="textbox"
-                                                                                               data-grouptype="control_phone"
-                                                                                               className="FITB-inptCont"><input
+                                                                                data-grouptype="control_phone"
+                                                                                className="FITB-inptCont"><input
                                         type="tel" className="form-textbox  validate[Numeric]" value={hospital.phone ? hospital.phone :''}
                                         name="q16_input16[phone-8]" id="16_phone-8"/></span> <span
                                         style={{color:'#000000',backgroundColor:'transparent'}}>Address</span> <span
@@ -766,17 +821,17 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                         className="FITB-inptCont"><input type="text" value={hospital.city ? hospital.city :''}
                                                                          className="form-textbox  validate[]"
                                                                          name="q16_input16[city-9]" id="16_city-9"
-                                                                         /></span> <span data-type="textbox"
-                                                                                      data-grouptype="control_address"
-                                                                                      className="FITB-inptCont"><input value={hospital.zip ? hospital.zip :''}
-                                        type="text" className="form-textbox  validate[]" name="q16_input16[zip-9]"
-                                        id="16_zip-9" /></span></p>
+                                    /></span> <span data-type="textbox"
+                                                    data-grouptype="control_address"
+                                                    className="FITB-inptCont"><input value={hospital.zip ? hospital.zip :''}
+                                                                                     type="text" className="form-textbox  validate[]" name="q16_input16[zip-9]"
+                                                                                     id="16_zip-9" /></span></p>
                             </div>
                         </div>
                     </li>
                     <li className="form-line" data-type="control_matrix" id="id_17">
                         <label className="form-label form-label-top form-label-auto" id="label_17"
-                               htmlFor="input_17"> Provincial Government Office </label>
+                               htmlFor="input_17"> Emergency Contact Numbers </label>
                         <div id="cid_17" className="form-input-wide" data-layout="full">
                             <table summary="" aria-labelledby="label_17" cellPadding="4" cellSpacing="0"
                                    className="form-matrix-table" data-component="matrix">
@@ -786,15 +841,7 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                     </th>
                                     <th scope="col"
                                         className="form-matrix-headers form-matrix-column-headers form-matrix-column_0">
-                                        <label id="label_17_col_0"> Health &amp; Safety </label>
-                                    </th>
-                                    <th scope="col"
-                                        className="form-matrix-headers form-matrix-column-headers form-matrix-column_1">
-                                        <label id="label_17_col_1"> Environment </label>
-                                    </th>
-                                    <th scope="col"
-                                        className="form-matrix-headers form-matrix-column-headers form-matrix-column_2">
-                                        <label id="label_17_col_2"> Transportation </label>
+                                        <label id="label_17_col_0"> Government Office </label>
                                     </th>
                                 </tr>
                                 <tr className="form-matrix-tr form-matrix-value-tr"
@@ -804,24 +851,10 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                     </th>
                                     <td className="form-matrix-values">
                                         <input type="text" id="input_17_0_0" className="form-textbox" size="5"
-                                               name="q17_typeA17[0][]" style={{width:'100%',boxSizing:'border-box'}}
-                                               value={provincialGoverment.localHealthy}
-                                               onChange={onChangeLocalHealty}
+                                               name="q17_emergencyContact[0][]" style={{width:'100%',boxSizing:'border-box'}}
+                                               value={provincialGoverment.localGoverment}
+                                               onChange={onChangeLocalGoverment}
                                                aria-labelledby="label_17_col_0 label_17_row_0"/>
-                                    </td>
-                                    <td className="form-matrix-values">
-                                        <input type="text" id="input_17_0_1" className="form-textbox" size="5"
-                                               name="q17_typeA17[0][]" style={{width:'100%',boxSizing:'border-box'}}
-                                               value={provincialGoverment.localEnvironment}
-                                               onChange={onChangeLocalEnvironment}
-                                               aria-labelledby="label_17_col_1 label_17_row_0"/>
-                                    </td>
-                                    <td className="form-matrix-values">
-                                        <input type="text" id="input_17_0_2" className="form-textbox" size="5"
-                                               name="q17_typeA17[0][]" style={{width:'100%',boxSizing:'border-box'}}
-                                               value={provincialGoverment.localTransPortation}
-                                               onChange={onChangeLocalTransportation}
-                                               aria-labelledby="label_17_col_2 label_17_row_0"/>
                                     </td>
                                 </tr>
                                 <tr className="form-matrix-tr form-matrix-value-tr"
@@ -831,24 +864,49 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                     </th>
                                     <td className="form-matrix-values">
                                         <input type="text" id="input_17_1_0" className="form-textbox" size="5"
-                                               name="q17_typeA17[1][]" style={{width:'100%',boxSizing:'border-box'}}
-                                               value={provincialGoverment.spillsHealthy}
-                                               onChange={onChangeSpillsHealty}
+                                               name="q17_emergencyContact[1][]" style={{width:'100%',boxSizing:'border-box'}}
+                                               value={provincialGoverment.spillsGoverment}
+                                               onChange={onChangeSpillsGoverment}
                                                aria-labelledby="label_17_col_0 label_17_row_1"/>
                                     </td>
+                                </tr>
+                                <tr className="form-matrix-tr form-matrix-value-tr"
+                                    aria-labelledby="label_17 label_17_row_2">
+                                    <th scope="row" className="form-matrix-headers form-matrix-row-headers">
+                                        <label id="label_17_row_2"> Health Safety </label>
+                                    </th>
                                     <td className="form-matrix-values">
-                                        <input type="text" id="input_17_1_1" className="form-textbox" size="5"
-                                               name="q17_typeA17[1][]" style={{width:'100%',boxSizing:'border-box'}}
-                                               value={provincialGoverment.spillsEnvironment}
-                                               onChange={onChangeSpillsEnvironment}
-                                               aria-labelledby="label_17_col_1 label_17_row_1"/>
+                                        <input type="text" id="input_17_2_0" className="form-textbox" size="5"
+                                               name="q17_emergencyContact[2][]" style={{width:'100%',boxSizing:'border-box'}}
+                                               value={provincialGoverment.healthGoverment}
+                                               onChange={onChangeHealthGoverment}
+                                               aria-labelledby="label_17_col_0 label_17_row_2"/>
                                     </td>
+                                </tr>
+                                <tr className="form-matrix-tr form-matrix-value-tr"
+                                    aria-labelledby="label_17 label_17_row_3">
+                                    <th scope="row" className="form-matrix-headers form-matrix-row-headers">
+                                        <label id="label_17_row_3"> Environment </label>
+                                    </th>
                                     <td className="form-matrix-values">
-                                        <input type="text" id="input_17_1_2" className="form-textbox" size="5"
-                                               name="q17_typeA17[1][]" style={{width:'100%',boxSizing:'border-box'}}
-                                               value={provincialGoverment.spillsTransPortation}
-                                               onChange={onChangeSpillsTransportation}
-                                               aria-labelledby="label_17_col_2 label_17_row_1"/>
+                                        <input type="text" id="input_17_3_0" className="form-textbox" size="5"
+                                               name="q17_emergencyContact[3][]" style={{width:'100%',boxSizing:'border-box'}}
+                                               value={provincialGoverment.environmentGoverment}
+                                               onChange={onChangeEnvirenmentGoverment}
+                                               aria-labelledby="label_17_col_0 label_17_row_3"/>
+                                    </td>
+                                </tr>
+                                <tr className="form-matrix-tr form-matrix-value-tr"
+                                    aria-labelledby="label_17 label_17_row_4">
+                                    <th scope="row" className="form-matrix-headers form-matrix-row-headers">
+                                        <label id="label_17_row_4"> Transportation </label>
+                                    </th>
+                                    <td className="form-matrix-values">
+                                        <input type="text" id="input_17_4_0" className="form-textbox" size="5"
+                                               name="q17_emergencyContact[4][]" style={{width:'100%',boxSizing:'border-box'}}
+                                               value={provincialGoverment.transportationGoverment}
+                                               onChange={onChangeTransportationGoverment}
+                                               aria-labelledby="label_17_col_0 label_17_row_4"/>
                                     </td>
                                 </tr>
                             </table>
@@ -872,23 +930,25 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                 <p>1. <span data-type="textbox" data-grouptype="control_fullname"
                                             className="FITB-inptCont"><input type="text"
                                                                              className="form-textbox  validate[]"
-                                                                             name="q19_input19[firstname-1]" value={employee.name ? employee.name: ''}
+                                                                             name="q19_input19[firstname-1]" value={taskEmployees?.employee1?.name ? taskEmployees.employee1.name: ''}
                                                                              id="19_firstname-1"/></span> <span data-type="textbox"
-                                                                                                    data-grouptype="control_fullname"
-                                                                                                    className="FITB-inptCont"><input value={employee.surname ? employee.surname :''}
-                                    type="text" className="form-textbox  validate[]" name="q19_input19[lastname-1]"
-                                    id="19_lastname-1" /></span>
+                                                                                                                data-grouptype="control_fullname"
+                                                                                                                className="FITB-inptCont"><input value={taskEmployees?.employee1?.surname ? taskEmployees.employee1.surname :''}
+                                                                                                                                                 type="text" className="form-textbox  validate[]" name="q19_input19[lastname-1]"
+                                                                                                                                                 id="19_lastname-1" /></span>
                                     <span style={{color:'#000000',backgroundColor:'transparent'}}> will contact the necessary emergency services and MOL, MOE etc..   </span><span
                                         data-type="textbox" data-grouptype="control_fullname" className="FITB-inptCont"><input
-                                        value={employee.name ? employee.name:''}
+                                        value={taskEmployees?.employee1?.name ? taskEmployees.employee1.name:''}
                                         type="text" className="form-textbox  validate[]" name="q19_input19[firstname-2]"
                                         id="19_firstname-2" /></span>
                                     <span data-type="textbox" data-grouptype="control_fullname"
-                                          className="FITB-inptCont"><input type="text" value={employee.surname ? employee.surname :''}
+                                          className="FITB-inptCont"><input type="text" value={taskEmployees?.employee1?.surname ? taskEmployees.employee1.surname :''}
                                                                            className="form-textbox  validate[]"
                                                                            name="q19_input19[lastname-2]"
                                                                            id="19_lastname-2" /></span> <span
                                         style={{color:'#000000',backgroundColor:'transparent'}}> will act as an alternate if the above individual is unavailable. </span>
+                                    <Button onClick={selectEmployee1} icon="pi pi-search" style={{borderColor:'#6366F1',height:'0px'}}
+                                            className="p-button-sm p-button-rounded p-button-text"/>
                                 </p>
                             </div>
                         </div>
@@ -898,27 +958,29 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                             <div id="FITB_20" className="FITB formRender">
                                 <p>2. <span data-type="textbox" data-grouptype="control_fullname"
                                             className="FITB-inptCont"><input type="text"
-                                                                             value={employee.name ? employee.name:''}
+                                                                             value={taskEmployees?.employee2?.name ? taskEmployees.employee2.name:''}
                                                                              className="form-textbox  validate[]"
                                                                              name="q20_input20[firstname-1]"
                                                                              id="20_firstname-1"/></span> <span data-type="textbox"
-                                                                                              data-grouptype="control_fullname"
-                                                                                              className="FITB-inptCont"><input
-                                    value={employee.surname ? employee.surname :''}
+                                                                                                                data-grouptype="control_fullname"
+                                                                                                                className="FITB-inptCont"><input
+                                    value={taskEmployees.employee2?.surname ? taskEmployees.employee2.surname :''}
                                     type="text" className="form-textbox  validate[]" name="q20_input20[lastname-1]"
                                     id="20_lastname-1"/></span>
                                     <span style={{color:'#000000',backgroundColor:'transparent'}}> will provide first aid treatment. The alternate first aid provider will be </span><span
                                         data-type="textbox" data-grouptype="control_fullname" className="FITB-inptCont"><input
-                                        value={employee.name ? employee.name:''}
+                                        value={taskEmployees?.employee2?.name ? taskEmployees.employee2.name:''}
                                         type="text" className="form-textbox  validate[]" name="q20_input20[firstname-2]"
                                         id="20_firstname-2"/></span>
                                     <span data-type="textbox" data-grouptype="control_fullname"
                                           className="FITB-inptCont"><input type="text"
                                                                            className="form-textbox  validate[]"
                                                                            name="q20_input20[lastname-2]"
-                                                                           value={employee.surname ? employee.surname :''}
+                                                                           value={taskEmployees?.employee2?.surname ? taskEmployees.employee2.surname :''}
                                                                            id="20_lastname-2"/></span> <span
                                         style={{color:'#000000',backgroundColor:'transparent'}}> in the event that the above named individual is unavailable. </span>
+                                    <Button onClick={selectEmployee2} icon="pi pi-search" style={{borderColor:'#6366F1',height:'0px'}}
+                                            className="p-button-sm p-button-rounded p-button-text"/>
                                 </p>
                             </div>
                         </div>
@@ -929,32 +991,36 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                 <p>3. <span data-type="textbox" data-grouptype="control_fullname"
                                             className="FITB-inptCont"><input type="text"
                                                                              className="form-textbox  validate[]"
-                                                                             value={supervisor.name ? supervisor.name:''}
+                                                                             value={taskEmployees?.supervisor3?.name ? taskEmployees.supervisor3.name:''}
                                                                              name="q21_input21[firstname-1]"
                                                                              id="21_firstname-1"/></span> <span data-type="textbox"
-                                                                                                  data-grouptype="control_fullname"
-                                                                                                  className="FITB-inptCont"><input
-                                    value={supervisor.surname ? supervisor.surname:''}
+                                                                                                                data-grouptype="control_fullname"
+                                                                                                                className="FITB-inptCont"><input
+                                    value={taskEmployees?.supervisor3?.surname ? taskEmployees.supervisor3.surname:''}
                                     type="text" className="form-textbox  validate[]" name="q21_input21[lastname-1]"
                                     id="21_lastname-1"/></span> <span
                                     style={{color:'#000000',backgroundColor:'transparent'}}> will ensure that the injured worker is provided with adequate transportation to the hospital via   </span><span
                                     data-type="textbox" data-grouptype="control_textbox"
                                     className="FITB-inptCont"><input type="text" className="form-textbox  validate[]"
                                                                      name="q21_input21[shorttext-3]" id="21_shorttext-3"
-                                                                     /><label htmlFor="21_shorttext-3"></label></span><span
+                                /><label htmlFor="21_shorttext-3"></label></span><span
                                     style={{color:'#000000',backgroundColor:'transparent'}}>    (car, ambulance, etc.). </span><span
                                     data-type="textbox" data-grouptype="control_fullname"
                                     className="FITB-inptCont"><input type="text" className="form-textbox  validate[]"
-                                                                     value={employee.name ? employee.name:''}
+                                                                     value={taskEmployees?.employee3?.name ? taskEmployees.employee3.name:''}
                                                                      name="q21_input21[firstname-2]" id="21_firstname-2"
-                                                                     /></span>
+                                /></span>
                                     <span data-type="textbox" data-grouptype="control_fullname"
                                           className="FITB-inptCont"><input type="text"
                                                                            className="form-textbox  validate[]"
                                                                            name="q21_input21[lastname-2]"
-                                                                           value={employee.surname ? employee.surname :''}
+                                                                           value={taskEmployees?.employee3?.surname ? taskEmployees.employee3.surname :''}
                                                                            id="21_lastname-2" /></span> <span
                                         style={{color:'#000000',backgroundColor:'transparent'}}>will act as an alternate if the above individual is unavailable.</span>
+                                    <Button onClick={selectSupervisor3} icon="pi pi-search" style={{borderColor:'#6366F1',height:'0px'}}
+                                            className="p-button-sm p-button-rounded p-button-text"/>
+                                    <Button onClick={selectEmployee3} icon="pi pi-search" style={{borderColor:'#6366F1',height:'0px'}}
+                                            className="p-button-sm p-button-rounded p-button-text"/>
                                 </p>
                             </div>
                         </div>
@@ -966,26 +1032,28 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                             className="FITB-inptCont"><input type="text"
                                                                              className="form-textbox  validate[]"
                                                                              name="q22_input22[firstname-1]"
-                                                                             value={employee.name ? employee.name:''}
+                                                                             value={taskEmployees?.employee4?.name ? taskEmployees.employee4.name:''}
                                                                              id="22_firstname-1" /></span> <span data-type="textbox"
-                                                                                             data-grouptype="control_fullname"
-                                                                                             className="FITB-inptCont"><input
-                                    value={employee.surname ? employee.surname :''}
+                                                                                                                 data-grouptype="control_fullname"
+                                                                                                                 className="FITB-inptCont"><input
+                                    value={taskEmployees?.employee4?.surname ? taskEmployees.employee4.surname :''}
                                     type="text" className="form-textbox  validate[]" name="q22_input22[lastname-1]"
                                     id="22_lastname-1" /></span>
                                     <span style={{color:'#000000',backgroundColor:'transparent'}}>  will meet and direct emergency services vehicles to the scene </span><span
                                         data-type="textbox" data-grouptype="control_fullname" className="FITB-inptCont"><input
-                                        value={employee.name ? employee.name:''}
+                                        value={taskEmployees?.employee4?.name ? taskEmployees.employee4.name:''}
                                         type="text" className="form-textbox  validate[]" name="q22_input22[firstname-2]"
                                         id="22_firstname-2" /></span>
                                     <span data-type="textbox" data-grouptype="control_fullname"
                                           className="FITB-inptCont"><input type="text"
                                                                            className="form-textbox  validate[]"
                                                                            name="q22_input22[lastname-2]"
-                                                                           value={employee.surname ? employee.surname :''}
+                                                                           value={taskEmployees?.employee4?.surname ? taskEmployees.employee4.surname :''}
                                                                            id="22_lastname-2" /></span> <span
                                         style={{color:'#000000',backgroundColor:'transparent'}}> will act as an alternate if the above individual is unavailable. </span>
                                 </p>
+                                <Button onClick={selectEmployee4} icon="pi pi-search" style={{borderColor:'#6366F1',height:'0px'}}
+                                        className="p-button-sm p-button-rounded p-button-text"/>
                             </div>
                         </div>
                     </li>
@@ -994,27 +1062,29 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                             <div id="FITB_23" className="FITB formRender">
                                 <p>5. <span data-type="textbox" data-grouptype="control_fullname"
                                             className="FITB-inptCont"><input type="text"
-                                                                             value={employee.name ? employee.name:''}
+                                                                             value={taskEmployees?.employee5?.name ? taskEmployees.employee5.name:''}
                                                                              className="form-textbox  validate[]"
                                                                              name="q23_input23[firstname-1]"
                                                                              id="23_firstname-1" /></span> <span data-type="textbox"
-                                                                                             data-grouptype="control_fullname"
-                                                                                             className="FITB-inptCont"><input
-                                    value={employee.surname ? employee.surname :''}
+                                                                                                                 data-grouptype="control_fullname"
+                                                                                                                 className="FITB-inptCont"><input
+                                    value={taskEmployees?.employee5?.surname ? taskEmployees.employee5.surname :''}
                                     type="text" className="form-textbox  validate[]" name="q23_input23[lastname-1]"
                                     id="23_lastname-1" /></span>
                                     <span style={{color:'#000000',backgroundColor:'transparent'}}>(name of worker, who is properly trained) will provide emergency traffic control. </span><span
                                         data-type="textbox" data-grouptype="control_fullname" className="FITB-inptCont"><input
                                         type="text" className="form-textbox  validate[]" name="q23_input23[firstname-2]"
-                                        value={employee.name ? employee.name:''}
+                                        value={taskEmployees?.employee5?.name ? taskEmployees.employee5.name:''}
                                         id="23_firstname-2" /></span>
                                     <span data-type="textbox" data-grouptype="control_fullname"
                                           className="FITB-inptCont"><input type="text"
                                                                            className="form-textbox  validate[]"
                                                                            name="q23_input23[lastname-2]"
-                                                                           value={employee.surname ? employee.surname :''}
+                                                                           value={taskEmployees?.employee5?.surname ? taskEmployees.employee5.surname :''}
                                                                            id="23_lastname-2" /></span> <span
                                         style={{color:'#000000',backgroundColor:'transparent'}}>  will act as an alternate if the above individual is unavailable. </span>
+                                    <Button onClick={selectEmployee5} icon="pi pi-search" style={{borderColor:'#6366F1',height:'0px'}}
+                                            className="p-button-sm p-button-rounded p-button-text"/>
                                 </p>
                             </div>
                         </div>
@@ -1026,25 +1096,27 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                             className="FITB-inptCont"><input type="text"
                                                                              className="form-textbox  validate[]"
                                                                              name="q24_input24[firstname-1]"
-                                                                             value={employee.name ? employee.name:''}
+                                                                             value={taskEmployees?.employee6?.name ? taskEmployees.employee6.name:''}
                                                                              id="24_firstname-1" /></span> <span data-type="textbox"
-                                                                                                    data-grouptype="control_fullname"
-                                                                                                    className="FITB-inptCont"><input
-                                    value={employee.surname ? employee.surname :''}
+                                                                                                                 data-grouptype="control_fullname"
+                                                                                                                 className="FITB-inptCont"><input
+                                    value={taskEmployees?.employee6?.surname ? taskEmployees.employee6.surname :''}
                                     type="text" className="form-textbox  validate[]" name="q24_input24[lastname-1]"
                                     id="24_lastname-1" /></span>
                                     <span style={{color:'#000000',backgroundColor:'transparent'}}> will make provisions for cordoning off the accident scene to protect workers. </span><span
                                         data-type="textbox" data-grouptype="control_fullname" className="FITB-inptCont"><input
-                                        value={employee.name ? employee.name:''}
+                                        value={taskEmployees?.employee6?.name ? taskEmployees.employee6.name:''}
                                         type="text" className="form-textbox  validate[]" name="q24_input24[firstname-2]"
                                         id="24_firstname-2" /></span>
                                     <span data-type="textbox" data-grouptype="control_fullname"
                                           className="FITB-inptCont"><input type="text"
                                                                            className="form-textbox  validate[]"
                                                                            name="q24_input24[lastname-2]"
-                                                                           value={employee.surname ? employee.surname :''}
+                                                                           value={taskEmployees?.employee6?.surname ? taskEmployees.employee6.surname :''}
                                                                            id="24_lastname-2" /></span> <span
                                         style={{color:'#000000',backgroundColor:'transparent'}}>  will act as an alternate if the above individual is unavailable. </span>
+                                    <Button onClick={selectEmployee6} icon="pi pi-search" style={{borderColor:'#6366F1',height:'0px'}}
+                                            className="p-button-sm p-button-rounded p-button-text"/>
                                 </p>
                             </div>
                         </div>
@@ -1055,26 +1127,28 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                 <p>7. <span data-type="textbox" data-grouptype="control_fullname"
                                             className="FITB-inptCont"><input type="text"
                                                                              className="form-textbox  validate[]"
-                                                                             value={employee.name ? employee.name:''}
+                                                                             value={taskEmployees?.employee7?.name ? taskEmployees.employee7.name:''}
                                                                              name="q25_input25[firstname-1]"
                                                                              id="25_firstname-1" /></span> <span data-type="textbox"
-                                                                                                    data-grouptype="control_fullname"
-                                                                                                    className="FITB-inptCont"><input
-                                    value={employee.surname ? employee.surname :''}
+                                                                                                                 data-grouptype="control_fullname"
+                                                                                                                 className="FITB-inptCont"><input
+                                    value={taskEmployees?.employee7?.surname ? taskEmployees.employee7.surname :''}
                                     type="text" className="form-textbox  validate[]" name="q25_input25[lastname-1]"
                                     id="25_lastname-1" /></span>
                                     <span style={{color:'#000000',backgroundColor:'transparent'}}>  will document where the injured worker has been taken. (Hospital, medical center etc.). </span><span
                                         data-type="textbox" data-grouptype="control_fullname" className="FITB-inptCont"><input
-                                        value={employee.name ? employee.name:''}
+                                        value={taskEmployees?.employee7?.name ? taskEmployees.employee7.name:''}
                                         type="text" className="form-textbox  validate[]" name="q25_input25[firstname-2]"
                                         id="25_firstname-2" /></span>
                                     <span data-type="textbox" data-grouptype="control_fullname"
                                           className="FITB-inptCont"><input type="text"
                                                                            className="form-textbox  validate[]"
                                                                            name="q25_input25[lastname-2]"
-                                                                           value={employee.surname ? employee.surname :''}
+                                                                           value={taskEmployees?.employee7?.surname ? taskEmployees.employee7.surname :''}
                                                                            id="25_lastname-2" /></span> <span
                                         style={{color:'#000000',backgroundColor:'transparent'}}>   will act as an alternate if the above individual is unavailable. </span>
+                                    <Button onClick={selectEmployee7} icon="pi pi-search" style={{borderColor:'#6366F1',height:'0px'}}
+                                            className="p-button-sm p-button-rounded p-button-text"/>
                                 </p>
                             </div>
                         </div>
@@ -1087,25 +1161,27 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                           className="FITB-inptCont"><input type="text"
                                                                            className="form-textbox  validate[]"
                                                                            name="q26_input26[firstname-1]"
-                                                                           value={employee.name ? employee.name:''}
+                                                                           value={taskEmployees?.employee8?.name ? taskEmployees.employee8.name:''}
                                                                            id="26_firstname-1" /></span> <span
                                         data-type="textbox" data-grouptype="control_fullname" className="FITB-inptCont"><input
-                                        value={employee.surname ? employee.surname :''}
+                                        value={taskEmployees?.employee8?.surname ? taskEmployees.employee8.surname :''}
                                         type="text" className="form-textbox  validate[]" name="q26_input26[lastname-1]"
                                         id="26_lastname-1" />
                                 </span> <span
                                         style={{color:'#000000',backgroundColor:'transparent'}}>  will supervise the site.  </span><span
                                         data-type="textbox" data-grouptype="control_fullname" className="FITB-inptCont"><input
-                                        value={employee.name ? employee.name:''}
+                                        value={taskEmployees?.employee8?.name ? taskEmployees.employee8.name:''}
                                         type="text" className="form-textbox  validate[]" name="q26_input26[firstname-2]"
                                         id="26_firstname-2" /></span>
                                     <span data-type="textbox" data-grouptype="control_fullname"
                                           className="FITB-inptCont"><input type="text"
                                                                            className="form-textbox  validate[]"
                                                                            name="q26_input26[lastname-2]"
-                                                                           value={employee.surname ? employee.surname :''}
+                                                                           value={taskEmployees?.employee8?.surname ? taskEmployees.employee8.surname :''}
                                                                            id="26_lastname-2" /></span> <span
                                         style={{color:'#000000',backgroundColor:'transparent'}}>will act as an alternate if the above individual is unavailable. </span>
+                                    <Button onClick={selectEmployee8} icon="pi pi-search" style={{borderColor:'#6366F1',height:'0px'}}
+                                            className="p-button-sm p-button-rounded p-button-text"/>
                                 </p>
                             </div>
                         </div>

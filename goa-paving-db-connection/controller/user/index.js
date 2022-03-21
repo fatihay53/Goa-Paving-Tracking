@@ -63,4 +63,20 @@ userRouter.post('/update', function (request, response) {
     });
 });
 
+userRouter.post('/changePassword', function (request, response) {
+    let userName = request.body.userName;
+    var sql = `UPDATE users set  password = ? where username = '${userName}'`;
+    let password = request.body.password;
+
+    connection.query(sql, [password], function (error, rows) {
+        if (error) throw error;
+
+        response.json({
+            ...rows
+        })
+
+        response.end();
+    });
+});
+
 module.exports = userRouter;

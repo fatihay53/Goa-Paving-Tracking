@@ -17,4 +17,9 @@ export default class UserService {
   findByUserName(data) {
     return axios.post(GeneralUtils.URL+'/user/findByUsername', data);
   }
+
+  changePassword(data) {
+    return axios.post(GeneralUtils.URL+'/user/changePassword', data);
+  }
+
 }
