@@ -114,17 +114,17 @@ export default function ExternalRentTable({selectedData,setExternalCostTotal,set
                 </tr>
                 <tr>
                     <td>Trucks</td>
-                    <td><input type="numeric" value={externalRent.ofUnitTrucks} onChange={onChangeOfUnitTrucks}/></td>
-                    <td><input type="numeric" value={externalRent.hoursTrucks} onChange={onChangeHoursTrucks}/></td>
-                    <td><input type="numeric" value={externalRent.rateTrucks} onChange={onChangeRateTrucks}/></td>
+                    <td><input type="number" value={externalRent.ofUnitTrucks} onChange={onChangeOfUnitTrucks}/></td>
+                    <td><input type="number" value={externalRent.hoursTrucks} onChange={onChangeHoursTrucks}/></td>
+                    <td><input type="number" value={externalRent.rateTrucks} onChange={onChangeRateTrucks}/></td>
                     <td>$ {GeneralUtils.numberFormatter((externalRent.ofUnitTrucks * externalRent.hoursTrucks * externalRent.rateTrucks).toFixed(2))}</td>
                 </tr>
                 <tr>
                     <td>Equipent</td>
-                    <td><input type="numeric" value={externalRent.ofUnitEquipent} onChange={onChangeOfUnitEquipent}/>
+                    <td><input type="number" value={externalRent.ofUnitEquipent} onChange={onChangeOfUnitEquipent}/>
                     </td>
-                    <td><input type="numeric" value={externalRent.hoursEquipent} onChange={onChangeHoursEquipent}/></td>
-                    <td><input type="numeric" value={externalRent.rateEquipent} onChange={onChangeRateEquipent}/></td>
+                    <td><input type="number" value={externalRent.hoursEquipent} onChange={onChangeHoursEquipent}/></td>
+                    <td><input type="number" value={externalRent.rateEquipent} onChange={onChangeRateEquipent}/></td>
                     <td>$ {GeneralUtils.numberFormatter((externalRent.ofUnitEquipent * externalRent.hoursEquipent * externalRent.rateEquipent).toFixed(2))}</td>
                 </tr>
             </table>

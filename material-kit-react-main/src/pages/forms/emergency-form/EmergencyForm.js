@@ -505,7 +505,7 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                     </li>
                     <li className="form-line jf-required" data-type="control_fullname" id="id_3">
                         <label className="form-label form-label-top form-label-auto" id="label_3" htmlFor="first_3">
-                            Project
+                            Job Number
                             <span className="form-required">
             *
           </span>
@@ -526,7 +526,7 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                 onClick={selectProject}
                                 className="form-submit-button-simple_orange submit-button jf-form-buttons jsTest-submitField"
                                 data-component="button" data-content="">
-                                Select Project
+                                Select Job Number
                             </button>
             </span>
                             </div>

@@ -54,14 +54,14 @@ export default function ColdMillingTable({selectedData,setColdMillingTotal,setCo
                 </tr>
                 <tr>
                     <td>Hours</td>
-                    <td><input type="numeric" value={coldMilling.quantityHours} onChange={onChangeQuantiyHours}/></td>
-                    <td><input type="numeric" value={coldMilling.rateHours} onChange={onChangeRateHours}/></td>
+                    <td><input type="number" value={coldMilling.quantityHours} onChange={onChangeQuantiyHours}/></td>
+                    <td><input type="number" value={coldMilling.rateHours} onChange={onChangeRateHours}/></td>
                     <td>$ {GeneralUtils.numberFormatter((coldMilling.quantityHours*coldMilling.rateHours).toFixed(2))}</td>
                 </tr>
                 <tr>
                     <td>Square Meters</td>
-                    <td><input type="numeric" value={coldMilling.quantitySquareMeters} onChange={onChangeQuantityM2}/></td>
-                    <td><input type="numeric" value={coldMilling.rateSquareMeters} onChange={onChangeRateM2}/></td>
+                    <td><input type="number" value={coldMilling.quantitySquareMeters} onChange={onChangeQuantityM2}/></td>
+                    <td><input type="number" value={coldMilling.rateSquareMeters} onChange={onChangeRateM2}/></td>
                     <td>$ {GeneralUtils.numberFormatter((coldMilling.quantitySquareMeters*coldMilling.rateSquareMeters).toFixed(2))}</td>
                 </tr>
             </table>

@@ -199,8 +199,9 @@ export default function CreateUser({isShow,selectedData,setShowSelectedData,find
                             ))}
                         </TextField>
                     </Stack>
-                    {getFieldProps('role').value==='ROLE_USER'&&<Stack direction={{xs: 'column', sm: 'row'}} spacing={2}>
+                    {(getFieldProps('role').value==='ROLE_USER'||getFieldProps('role').value==='ROLE_FOREMAN')&&<Stack direction={{xs: 'column', sm: 'row'}} spacing={2}>
                         <TextField
+                            type="number"
                             fullWidth
                             label="Hourly Cost"
                             {...getFieldProps('hourly_cost')}

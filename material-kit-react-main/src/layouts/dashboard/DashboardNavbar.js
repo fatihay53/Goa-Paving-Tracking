@@ -9,6 +9,7 @@ import {MHidden} from '../../components/@material-extend';
 //
 import AccountPopover from './AccountPopover';
 import NotificationsPopover from './NotificationsPopover';
+import CertificateUploadPopover from "./CertificateUploadPopover";
 
 // ----------------------------------------------------------------------
 
@@ -41,6 +42,7 @@ DashboardNavbar.propTypes = {
 };
 
 export default function DashboardNavbar({ onOpenSidebar }) {
+  let role = JSON.parse(localStorage.getItem("user"))?.role;
   return (
     <RootStyle>
       <ToolbarStyle>
@@ -59,9 +61,11 @@ export default function DashboardNavbar({ onOpenSidebar }) {
           {/*
           <LanguagePopover />
 */}
-          {
+          {role==='ROLE_USER'&&<CertificateUploadPopover />}
+
           <NotificationsPopover />
-  }
+
+
           <AccountPopover />
         </Stack>
       </ToolbarStyle>

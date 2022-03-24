@@ -5,6 +5,7 @@ import formIcon from '@iconify/icons-eva/file-fill';
 import personAddFill from '@iconify/icons-eva/person-add-fill';
 import alertTriangleFill from '@iconify/icons-eva/sun-fill';
 import timeCardIcon from '@iconify/icons-eva/calendar-fill';
+import certificatesIcon from '@iconify/icons-eva/file-fill';
 import {Icon} from '@iconify/react';
 
 export default class SideBarConfigService {
@@ -267,6 +268,11 @@ export default class SideBarConfigService {
               icon: getIcon(reportIcon)
             }
           ]
+        },
+        {
+          title: 'Certificates',
+          path: '/dashboard/certificates',
+          icon: getIcon(certificatesIcon)
         }
       ];
     }

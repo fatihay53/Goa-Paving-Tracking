@@ -98,10 +98,11 @@ export default function ProjectEstimateTemplateList() {
                 <Column header='Operations' body={renderActionBody} headerStyle={{width: '8em', textAlign: 'center'}}
                         bodyStyle={{textAlign: 'center', overflow: 'visible'}}></Column>
 
-                <Column field="project_name" header="Project Name"></Column>
+                <Column field="project_name" header="Job Number"></Column>
                 <Column field="date" header="Date Of Estimate"></Column>
                 <Column field="project_category_name" header="Category Name"></Column>
                 <Column field="estimate_project_hour" header="Estimate Project Hour"></Column>
+                <Column field="status" header="Project Status"></Column>
                 <Column field="profit" body={e => '$'+GeneralUtils.changeDecimalSeperator(''+e.profit,'.',',')} header="Profit"></Column>
             </DataTable>
             {renderDialog()}

@@ -352,7 +352,7 @@ export default function PreJobSafetyForm({selectedData, isShow}) {
                 </li>
                 <li className="form-line fixed-width jf-required" data-type="control_textbox" id="id_8">
                     <label className="form-label form-label-top form-label-auto" id="label_8" htmlFor="input_8">
-                        Job
+                        Job Number
                         <span className="form-required">
             *
           </span>

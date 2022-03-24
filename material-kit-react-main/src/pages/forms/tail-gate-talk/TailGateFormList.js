@@ -40,8 +40,8 @@ export default function TailGateTalkFormList() {
             >
                 <Column field="date" header="Date"></Column>
                 <Column field="location" header="Location"></Column>
-                <Column field="firstNameForeman" header="First Name Foreman"></Column>
-                <Column field="lastNameForeman" header="Last Name Foreman"></Column>
+                <Column field="foremanName" header="First Name Foreman"></Column>
+                <Column field="foremanSurname" header="Last Name Foreman"></Column>
             </DataTable>
         </div>
 

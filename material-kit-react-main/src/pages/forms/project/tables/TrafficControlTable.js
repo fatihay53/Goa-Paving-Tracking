@@ -52,9 +52,9 @@ export default function TrafficControlTable({selectedData,setTrafficControlTotal
                     <th>Rate</th>
                 </tr>
                 <tr>
-                    <td><input type="numeric" value={trafficControl.personel} onChange={onChangePersonel}/></td>
-                    <td><input type="numeric" value={trafficControl.hours} onChange={onChangeHours}/></td>
-                    <td><input type="numeric" value={trafficControl.rate} onChange={onChangeRate}/></td>
+                    <td><input type="number" value={trafficControl.personel} onChange={onChangePersonel}/></td>
+                    <td><input type="number" value={trafficControl.hours} onChange={onChangeHours}/></td>
+                    <td><input type="number" value={trafficControl.rate} onChange={onChangeRate}/></td>
                 </tr>
             </table>
 

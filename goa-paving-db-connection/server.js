@@ -21,6 +21,7 @@ const attachmentRouter = require('./controller/attachment');
 const hospitalRouter = require('./controller/hospital');
 const emergencyRouter = require('./controller/emergency_form');
 const commentsRouter = require('./controller/comments');
+const certificateRouter = require('./controller/certificate');
 
 var app = express();
 app.use(cors())
@@ -49,6 +50,7 @@ app.use('/attachment',attachmentRouter);
 app.use('/hospital',hospitalRouter);
 app.use('/emergency',emergencyRouter);
 app.use('/comments',commentsRouter);
+app.use('/certificate',certificateRouter);
 
 app.get('/', function(request, response) {
     response.sendFile(path.join(__dirname + '/login.html'));

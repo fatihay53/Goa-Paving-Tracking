@@ -58,7 +58,7 @@ export default function HomePage() {
                                          data-start="400"
                                          data-easing="easeInOutExpo"
                                          data-endspeed="450">
-                                        Experience the Difference
+                                        Quality and precision
                                     </div>
 
                                     <div className="tp-caption sub-heading sft"
@@ -68,7 +68,7 @@ export default function HomePage() {
                                          data-start="800"
                                          data-easing="easeOutExpo"
                                          data-endspeed="400">
-                                        makes quality
+                                        is our top priority
                                     </div>
 
                                     <div className="tp-caption sfb"

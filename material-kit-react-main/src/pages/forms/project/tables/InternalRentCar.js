@@ -29,7 +29,7 @@ export default function InternalRentCar({selectedData,estimateProjectHour,setInt
         if (estimateProjectHour === null || estimateProjectHour === undefined || estimateProjectHour === '') {
             return toast.warning("Please enter estimate project hour.")
         }
-        setInternalRent({internalRentValue:parseInt(e.target.value)});
+        setInternalRent({internalRentValue:parseFloat(e.target.value)});
     }
 
     return (

@@ -8,8 +8,8 @@ export default function SelectProject({setSelections, restriction}) {
     const [dtLoading, setDtLoading] = useState(true);
 
     const columns = [
-        {field: "project_name", header: "Project Name"},
-        {field: "date", header: "Project Date"}
+        {field: "project_name", header: "Job Number"},
+        {field: "date", header: "Job Date"}
     ]
 
     useEffect(() => {

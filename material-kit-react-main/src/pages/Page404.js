@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 import { Box, Button, Typography, Container } from '@mui/material';
 // components
 import Page from '../components/Page';
+import { MotionContainer, varBounceIn } from '../components/animate';
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +43,7 @@ export default function Page404() {
               />
             </motion.div>
 
-            <Button to="/" size="large" variant="contained" component={RouterLink}>
+            <Button to="/dashboard" size="large" variant="contained" component={RouterLink}>
               Go to Home
             </Button>
           </Box>

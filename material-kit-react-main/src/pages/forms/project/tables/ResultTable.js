@@ -81,7 +81,7 @@ export default function ResultTable({setProfit,subContractorTotal,materialsTotal
                     <td style={{color:'red'}}>${ totalAmount }</td>
                 </tr>
                 <tr>
-                    <td>Total Bid % <input value={bid} onChange={onChange}/></td>
+                    <td>Total Bid % <input type="number" value={bid} onChange={onChange}/></td>
                     <td>${ totalBidAmountM2}</td>
                     <td>${ totalBidAmountTonne }</td>
                     <td>${ totalBidAmount }</td>

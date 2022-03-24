@@ -47,12 +47,8 @@ export default function MaterialsTable({selectedData,setTotal,setMaterialsTotal,
     }
 
     const onChangeQuantityInput=(e,materialId)=>{
-        let value;
-        if (e.target.value === null || e.target.value === undefined || e.target.value === ''){
-            value = 0;
-        }else{
-            value = parseFloat(e.target.value);
-        }
+        let value =e.target.value;
+
         let material = materialsValues.get(materialId);
         let rateValue = material&&material.rateValue ? material.rateValue  : 0;
         setMaterialsValues(map => new Map(map.set(materialId,{id:materialId,quantityValue:value,rateValue,total: rateValue*value})));
@@ -86,8 +82,8 @@ export default function MaterialsTable({selectedData,setTotal,setMaterialsTotal,
                     materials.map(elem=>{
                         return <tr>
                             <td>{elem.name}</td>
-                            <td><input value={materialsValues.get(''+elem.id)? materialsValues.get(''+elem.id).quantityValue : 0} onChange={(e)=>onChangeQuantityInput(e,''+elem.id)} /></td>
-                            <td><input value={materialsValues.get(''+elem.id)? materialsValues.get(''+elem.id).rateValue : 0} onChange={(e)=>onChangeRateInput(e,''+elem.id)} /></td>
+                            <td><input type="number" value={materialsValues.get(''+elem.id)? materialsValues.get(''+elem.id).quantityValue : 0} onChange={(e)=>onChangeQuantityInput(e,''+elem.id)} /></td>
+                            <td><input type="number" value={materialsValues.get(''+elem.id)? materialsValues.get(''+elem.id).rateValue : 0} onChange={(e)=>onChangeRateInput(e,''+elem.id)} /></td>
                             <td>${materialsValues.get(''+elem.id)? GeneralUtils.numberFormatter((materialsValues.get(''+elem.id).total).toFixed(2)) : 0}</td>
                         </tr>
                     })

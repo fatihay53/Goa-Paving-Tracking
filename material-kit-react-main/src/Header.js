@@ -21,6 +21,7 @@ export default function Header() {
 
                         <div className="col-md-12">
                             <div className="right">
+
                                 <div className="social-icons-subnav">
                                     <div style={{color:"white",fontWeight: "bold"}}>Call Us : Tel: (613) 333-9222</div>
                                 </div>
@@ -78,6 +79,8 @@ export default function Header() {
 
                                     <li>
                                         <li><Link to="/careers">Careers</Link></li>
+                                    </li>
+                                    <li><Link to="/admin"><i className="fa fa-user fa-2x"></i></Link>
                                     </li>
                                 </ul>
                             </nav>

@@ -54,14 +54,14 @@ export default function SubContractorTable({selectedData,setSubContractorTotal,s
                 </tr>
                 <tr>
                     <td>Hours</td>
-                    <td><input type="numeric" value={subContractor.quantityHours} onChange={onChangeQuantiyHours}/></td>
-                    <td><input type="numeric" value={subContractor.rateHours} onChange={onChangeRateHours}/></td>
+                    <td><input type="number" value={subContractor.quantityHours} onChange={onChangeQuantiyHours}/></td>
+                    <td><input type="number" value={subContractor.rateHours} onChange={onChangeRateHours}/></td>
                     <td>$ {GeneralUtils.numberFormatter((subContractor.quantityHours*subContractor.rateHours).toFixed(2))}</td>
                 </tr>
                 <tr>
                     <td>M2</td>
-                    <td><input type="numeric" value={subContractor.quantityM2} onChange={onChangeQuantityM2}/></td>
-                    <td><input type="numeric" value={subContractor.rateM2} onChange={onChangeRateM2}/></td>
+                    <td><input type="number" value={subContractor.quantityM2} onChange={onChangeQuantityM2}/></td>
+                    <td><input type="number" value={subContractor.rateM2} onChange={onChangeRateM2}/></td>
                     <td>$ {GeneralUtils.numberFormatter((subContractor.quantityM2*subContractor.rateM2).toFixed(2))}</td>
                 </tr>
             </table>

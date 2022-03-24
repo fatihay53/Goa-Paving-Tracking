@@ -32,15 +32,10 @@ export default function TailGateTalkForm({selectedData, isShow}) {
     const refSignaturePad = useRef();
     const [touchedSignature, setTouchedSignature] = useState(false);
 
-    const refSignaturePadForeman = useRef();
-    const [touchedSignatureForeman, setTouchedSignatureForeman] = useState(false);
-
     let initialState = isShow ? selectedData : {
         date: new Date(),
         location: '',
-        firstNameForeman: '',
-        lastNameForeman: '',
-        signatureForeman: '',
+        foremanId: '',
         employeeSuggestions: '',
         signature: '',
         title: '',
@@ -48,6 +43,11 @@ export default function TailGateTalkForm({selectedData, isShow}) {
     };
 
     const [form, setForm] = useState(initialState);
+
+    const [foreman, setForeman] = useState(
+        !GeneralUtils.isNullOrEmpty(selectedData)&&!GeneralUtils.isNullOrEmpty(selectedData.foremanId) ?
+            {id:selectedData.foremanId,name:selectedData.foremanName,surname:selectedData.foremanSurname} : {}
+    );
 
     useEffect(() => {
         getAttendees();
@@ -66,24 +66,15 @@ export default function TailGateTalkForm({selectedData, isShow}) {
     }
 
     async function saveForm() {
-        //let signatureForeman = document.getElementById('input_7').value;
-        //const signature = document.getElementById('input_14').value;
 
         if ((GeneralUtils.isNullOrEmpty(form.date)) ||
-            //(signatureForeman === null || signatureForeman === '') ||
-            //(signature === null || signature === '') ||
-            (form.location === null || form.location === '') ||
-            (form.firstNameForeman === null || form.firstNameForeman === '') ||
-            (form.lastNameForeman === null || form.lastNameForeman === '') ||
+            (form.location === null || form.location === '' || form.location === undefined) ||
+            (form.foremanId === null || form.foremanId === '' || form.foremanId === undefined) ||
             (project.id === null || project.id === '' || project.id === undefined) ||
             (form.title === null || form.title === '') ||
             (subject.header === null || subject.header === '' || subject.header === undefined)
         ) {
             return toast.warning("Please check required fields!")
-        }
-
-        if (!touchedSignatureForeman){
-            return toast.warning("Please fill signature foreman.");
         }
 
         if (!touchedSignature){
@@ -95,12 +86,10 @@ export default function TailGateTalkForm({selectedData, isShow}) {
         }
 
         const signature = refSignaturePad.current.getSignature();
-        const signatureForeman = refSignaturePadForeman.current.getSignature();
 
         setSubmitted(true);
-        refSignaturePadForeman.current.clearSignature();
         refSignaturePad.current.clearSignature();
-        await tailGateTalkFormService.save({...form, signatureForeman: signatureForeman,signature:signature,subject:subject.header,estimateTemplateId: project.id,}).then(async res => {
+        await tailGateTalkFormService.save({...form,signature:signature,subject:subject.header,estimateTemplateId: project.id,}).then(async res => {
             if (res.status == 200) {
                 let insertId = res.data.insertId;
                 await attendeesService.save({attendees: attendees, formId: insertId,formType:'TAIL_GATE_TALK_FORM'}).then(res => {
@@ -115,9 +104,7 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                             setForm({
                                 date: new Date(),
                                 location: '',
-                                firstNameForeman: '',
-                                lastNameForeman: '',
-                                signatureForeman: '',
+                                foremanId:'',
                                 employeeSuggestions: '',
                                 signature: '',
                                 title: '',
@@ -132,48 +119,21 @@ export default function TailGateTalkForm({selectedData, isShow}) {
     }
 
     function onChangeLocation(e) {
-        //const signatureForeman = document.getElementById('input_7').value;
-        //const signature = document.getElementById('input_14').value;
         const signature = refSignaturePad.current.getSignature();
-        const signatureForeman = refSignaturePadForeman.current.getSignature();
 
-        setForm({...form, location: e.target.value, signatureForeman, signature});
-    }
-
-    function onChangeFirstNameForeman(e) {
-        //const signatureForeman = document.getElementById('input_7').value;
-        //const signature = document.getElementById('input_14').value;
-        const signature = refSignaturePad.current.getSignature();
-        const signatureForeman = refSignaturePadForeman.current.getSignature();
-
-        setForm({...form, firstNameForeman: e.target.value, signatureForeman, signature});
-    }
-
-    function onChangeLastNameForeman(e) {
-        //const signatureForeman = document.getElementById('input_7').value;
-        //const signature = document.getElementById('input_14').value;
-        const signature = refSignaturePad.current.getSignature();
-        const signatureForeman = refSignaturePadForeman.current.getSignature();
-
-        setForm({...form, lastNameForeman: e.target.value, signatureForeman, signature});
+        setForm({...form, location: e.target.value, signature});
     }
 
     function onChangeEmployeeSuggestions(e) {
-        //const signatureForeman = document.getElementById('input_7').value;
-        //const signature = document.getElementById('input_14').value;
         const signature = refSignaturePad.current.getSignature();
-        const signatureForeman = refSignaturePadForeman.current.getSignature();
 
-        setForm({...form, employeeSuggestions: e.target.value, signatureForeman, signature});
+        setForm({...form, employeeSuggestions: e.target.value, signature});
     }
 
     function onChangeTitle(e) {
-        //const signatureForeman = document.getElementById('input_7').value;
-        //const signature = document.getElementById('input_14').value;
         const signature = refSignaturePad.current.getSignature();
-        const signatureForeman = refSignaturePadForeman.current.getSignature();
 
-        setForm({...form, title: e.target.value, signatureForeman, signature});
+        setForm({...form, title: e.target.value, signature});
     }
 
     const selectProject = () => {
@@ -183,6 +143,12 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                                          setProject(selections);
                                          setShowDialog(false)
                                      }}/>);
+    }
+
+    const selectForeman = () => {
+        setShowDialog(true);
+        setShowedHtml(<SelectEmployee restriction="findAllForemans" selectionMode="single"
+                                      setSelections={(selections) => {setForm({...form,foremanId:selections.id}); setForeman({...selections}); setShowDialog(false);}}/>);
     }
 
     const addCrews = () => {
@@ -255,54 +221,45 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                                data-component="textbox" aria-labelledby="label_5" required=""/>
                     </div>
                 </li>
-                <li className="form-line form-line-column form-col-3 jf-required" data-type="control_fullname"
-                    id="id_6">
-                    <label className="form-label form-label-top form-label-auto" id="label_6" htmlFor="first_6">
+                <li className="form-line jf-required" data-type="control_fullname" id="id_3">
+                    <label className="form-label form-label-top form-label-auto" id="label_3" htmlFor="first_3">
                         Foreman
                         <span className="form-required">
             *
           </span>
                     </label>
-                    <div id="cid_6" className="form-input-wide jf-required" data-layout="full">
+                    <div id="cid_3" className="form-input-wide jf-required" data-layout="full">
                         <div data-wrapper-react="true">
-            <span className="form-sub-label-container" style={{verticalAlign: 'top'}} data-input-type="first">
-              <input type="text" id="first_6" name="q6_name[first]" className="form-textbox  "
-                     data-defaultvalue="" autoComplete="section-input_6 given-name" size="10"
-                     value={form.firstNameForeman}
-                     onChange={onChangeFirstNameForeman}
-                     data-component="first" aria-labelledby="label_6 sublabel_6_first" required=""/>
-              <label className="form-sub-label" htmlFor="first_6" id="sublabel_6_first" style={{minHeight: '13px'}}
+            <span className="form-sub-label-container" style={{verticalAlign:'top'}} data-input-type="first">
+              <input type="text" id="first_3" name="q3_name[first]" className="form-textbox  " disabled={true}
+                     data-defaultvalue="" autoComplete="section-input_3 given-name" size="10" value={foreman?.name ? foreman.name : ''}
+                     data-component="first" aria-labelledby="label_3 sublabel_3_first" required=""/>
+              <label className="form-sub-label" htmlFor="first_3" id="sublabel_3_first" style={{minHeight:'13px'}}
                      aria-hidden="false"> First Name </label>
             </span>
-                            <span className="form-sub-label-container" style={{verticalAlign: 'top'}}
+                            <span className="form-sub-label-container" style={{verticalAlign:'top'}}
                                   data-input-type="last">
-              <input type="text" id="last_6" name="q6_name[last]" className="form-textbox  "
-                     data-defaultvalue="" autoComplete="section-input_6 family-name" size="15"
-                     value={form.lastNameForeman}
-                     onChange={onChangeLastNameForeman}
-                     data-component="last" aria-labelledby="label_6 sublabel_6_last" required=""/>
-              <label className="form-sub-label" htmlFor="last_6" id="sublabel_6_last" style={{minHeight: '13px'}}
+              <input type="text" id="last_3" name="q3_name[last]" className="form-textbox  " disabled={true}
+                     data-defaultvalue="" autoComplete="section-input_3 family-name" size="15" value={foreman?.surname ? foreman?.surname :''}
+                     data-component="last" aria-labelledby="label_3 sublabel_3_last" required=""/>
+              <label className="form-sub-label" htmlFor="last_3" id="sublabel_3_last" style={{minHeight:'13px'}}
                      aria-hidden="false"> Last Name </label>
+            </span>
+                            <span className="form-sub-label-container" style={{verticalAlign:'top'}} data-input-type="first">
+
+                        <button id="input_10"
+                                onClick={selectForeman}
+                                className="form-submit-button-simple_orange submit-button jf-form-buttons jsTest-submitField"
+                                data-component="button" data-content="">
+                                Select Foreman
+                            </button>
             </span>
                         </div>
                     </div>
                 </li>
-                <li className="form-line form-line-column form-col-4 jf-required" data-type="control_signature"
-                    id="id_7">
-                    <label className="form-label form-label-top form-label-auto" id="label_7" htmlFor="input_7">
-                        Signature Foreman
-                        <span className="form-required">
-            *
-          </span>
-                    </label>
-                    {isShow ? <img src={GeneralUtils.arrayBufferToBase64(selectedData.signatureForeman.data)}/> :
-                        <div id="cid_7" className="form-input-wide jf-required" data-layout="half">
-                            <MSignaturePad ref={refSignaturePadForeman} setTouchedSignature={setTouchedSignatureForeman}/>
-                        </div>}
-                </li>
                 <li className="form-line fixed-width jf-required" data-type="control_textbox" id="id_8">
                     <label className="form-label form-label-top form-label-auto" id="label_8" htmlFor="input_8">
-                        Job #
+                        Job Number
                         <span className="form-required">
             *
           </span>

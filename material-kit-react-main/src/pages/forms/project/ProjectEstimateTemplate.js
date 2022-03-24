@@ -247,7 +247,7 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
                                     fullWidth
                                     style={{backgroundColor: 'white'}}
                                     multiline="true"
-                                    label="Project Name"
+                                    label="Job Number"
                                     onChange={(e) => setProject({...project, projectName: e.target.value})}
                                     value={project.projectName}
                                 />
@@ -271,7 +271,6 @@ export default function ProjectEstimateTemplate({selectedData, updateDt}) {
                                 <TextField
                                     fullWidth
                                     style={{backgroundColor: 'white'}}
-                                    multiline="true"
                                     type="number"
                                     label="Estimate Project Hour"
                                     onChange={(e) => setProject({...project, estimateProjectHour: e.target.value})}

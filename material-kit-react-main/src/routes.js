@@ -12,6 +12,7 @@ import SignatureConfirmPage from "./pages/forms/tail-gate-talk/SignatureConfirmP
 import TailGateTalkFormList from "./pages/forms/tail-gate-talk/TailGateFormList";
 import React from "react";
 import Talks from "./pages/forms/talks/Talks";
+import UploadCertificate from "./pages/upload/UploadCertificate";
 import CreateUser from "./pages/user-management/CreateUser";
 import ChangePassword from "./pages/user-management/ChangePassword";
 import TimeCard from "./pages/forms/time-card/TimeCard";
@@ -20,6 +21,7 @@ import ProjectEstimateTemplate from "./pages/forms/project/ProjectEstimateTempla
 import TimeCardReport from "./pages/reports/time-card-report/TimeCardReport";
 import ProjectEstimateTemplateList from "./pages/forms/project/ProjectEstimateTemplateList";
 import PavingMillingReport from "./pages/reports/paving-milling-report/PavingMillingReport";
+import Certificates from "./pages/Certificates";
 import HomePage from "./home-page/HomePage";
 import UserList from "./pages/user-management/UserList";
 import AboutUs from "./about-us/AboutUs";
@@ -53,6 +55,8 @@ export default function Router() {
       children: [
         { path: 'app', element: <DashboardApp /> },
         { path: 'talks', element: <Talks /> },
+        { path: 'uploadCertificate', element: <UploadCertificate /> },
+        { path: 'certificates', element: <Certificates /> },
       ]
     },
     {
