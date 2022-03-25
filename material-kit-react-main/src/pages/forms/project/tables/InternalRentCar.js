@@ -42,7 +42,7 @@ export default function InternalRentCar({selectedData,estimateProjectHour,setInt
                     <th>Value</th>
                 </tr>
                 <tr>
-                    <td><input type="numeric" value={internalRent.internalRentValue} onChange={onChange}/></td>
+                    <td><input type="number" value={internalRent.internalRentValue} onChange={onChange}/></td>
                 </tr>
             </table>
             <span style={{float: 'right'}}>Sum of Total Internal Rent : $ {GeneralUtils.numberFormatter(totalAmount.toFixed(2))}</span>
