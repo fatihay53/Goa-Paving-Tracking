@@ -47,6 +47,11 @@ export default function PreJobSafetyForm({selectedData, isShow}) {
         isShow ? JSON.parse(selectedData.hazardous_options) : new Array(HAZARDOUS_OPTIONS.length).fill(false)
     );
 
+    const [foreman, setForeman] = useState(
+        !GeneralUtils.isNullOrEmpty(selectedData)&&!GeneralUtils.isNullOrEmpty(selectedData.foremanId) ?
+            {id:selectedData.foremanId,name:selectedData.foremanName,surname:selectedData.foremanSurname} : {}
+    );
+
     const handleOnChangeGenerals = (position) => {
         const updatedCheckedState = checkedStateGenerals.map((item, index) =>
             index === position ? !item : item
@@ -108,6 +113,12 @@ export default function PreJobSafetyForm({selectedData, isShow}) {
                                      }}/>);
     }
 
+    const selectForeman = () => {
+        setShowDialog(true);
+        setShowedHtml(<SelectEmployee restriction="findAllForemans" selectionMode="single"
+                                      setSelections={(selections) => {setForm({...form,foremanId:selections.id}); setForeman({...selections}); setShowDialog(false);}}/>);
+    }
+
     const addNewTask = () => {
         setTasks(tasks => [...tasks, "Increment"]);
     }
@@ -136,25 +147,12 @@ export default function PreJobSafetyForm({selectedData, isShow}) {
     let initialState = isShow ? selectedData : {
         date: new Date(),
         location: '',
-        firstNameForeman: '',
-        lastNameForeman: '',
+        foremanId: '',
         signatureForeman: '',
         others: ''
     };
 
     const [form, setForm] = useState(initialState);
-
-    function onChangeFirstNameForeman(e) {
-        const signatureForeman = refSignaturePadForeman.current.getSignature();
-
-        setForm({...form, firstNameForeman: e.target.value, signatureForeman});
-    }
-
-    function onChangeLastNameForeman(e) {
-        const signatureForeman = refSignaturePadForeman.current.getSignature();
-
-        setForm({...form, lastNameForeman: e.target.value, signatureForeman});
-    }
 
     function onChangeLocation(e) {
         const signatureForeman = refSignaturePadForeman.current.getSignature();
@@ -171,8 +169,7 @@ export default function PreJobSafetyForm({selectedData, isShow}) {
     const saveForm = async () => {
         if ((GeneralUtils.isNullOrEmpty(form.date)) ||
             (form.location === null || form.location === '') ||
-            (form.firstNameForeman === null || form.firstNameForeman === '') ||
-            (form.lastNameForeman === null || form.lastNameForeman === '') ||
+            (form.foremanId === null || form.foremanId === '' || form.foremanId === undefined) ||
             (project.id === null || project.id === '' || project.id === undefined)
         ) {
             return toast.warning("Please check required fields!")
@@ -235,11 +232,11 @@ export default function PreJobSafetyForm({selectedData, isShow}) {
                             setSubmitted(false);
                             setAttendees([]);
                             setProject({});
+                            setForeman({});
                             setForm({
                                 date: new Date(),
                                 location: '',
-                                firstNameForeman: '',
-                                lastNameForeman: '',
+                                foremanId: '',
                                 signatureForeman: '',
                                 others: ''
                             });
@@ -304,34 +301,38 @@ export default function PreJobSafetyForm({selectedData, isShow}) {
                                data-component="textbox" aria-labelledby="label_5" required=""/>
                     </div>
                 </li>
-                <li className="form-line form-line-column form-col-3 jf-required" data-type="control_fullname"
-                    id="id_6">
-                    <label className="form-label form-label-top form-label-auto" id="label_6" htmlFor="first_6">
+                <li className="form-line jf-required" data-type="control_fullname" id="id_3">
+                    <label className="form-label form-label-top form-label-auto" id="label_3" htmlFor="first_3">
                         Foreman
                         <span className="form-required">
             *
           </span>
                     </label>
-                    <div id="cid_6" className="form-input-wide jf-required" data-layout="full">
+                    <div id="cid_3" className="form-input-wide jf-required" data-layout="full">
                         <div data-wrapper-react="true">
-            <span className="form-sub-label-container" style={{verticalAlign: 'top'}} data-input-type="first">
-              <input type="text" id="first_6" name="q6_name[first]" className="form-textbox  "
-                     data-defaultvalue="" autoComplete="section-input_6 given-name" size="10"
-                     value={form.firstNameForeman}
-                     onChange={onChangeFirstNameForeman}
-                     data-component="first" aria-labelledby="label_6 sublabel_6_first" required=""/>
-              <label className="form-sub-label" htmlFor="first_6" id="sublabel_6_first" style={{minHeight: '13px'}}
+            <span className="form-sub-label-container" style={{verticalAlign:'top'}} data-input-type="first">
+              <input type="text" id="first_3" name="q3_name[first]" className="form-textbox  " disabled={true}
+                     data-defaultvalue="" autoComplete="section-input_3 given-name" size="10" value={foreman?.name ? foreman.name : ''}
+                     data-component="first" aria-labelledby="label_3 sublabel_3_first" required=""/>
+              <label className="form-sub-label" htmlFor="first_3" id="sublabel_3_first" style={{minHeight:'13px'}}
                      aria-hidden="false"> First Name </label>
             </span>
-                            <span className="form-sub-label-container" style={{verticalAlign: 'top'}}
+                            <span className="form-sub-label-container" style={{verticalAlign:'top'}}
                                   data-input-type="last">
-              <input type="text" id="last_6" name="q6_name[last]" className="form-textbox  "
-                     data-defaultvalue="" autoComplete="section-input_6 family-name" size="15"
-                     value={form.lastNameForeman}
-                     onChange={onChangeLastNameForeman}
-                     data-component="last" aria-labelledby="label_6 sublabel_6_last" required=""/>
-              <label className="form-sub-label" htmlFor="last_6" id="sublabel_6_last" style={{minHeight: '13px'}}
+              <input type="text" id="last_3" name="q3_name[last]" className="form-textbox  " disabled={true}
+                     data-defaultvalue="" autoComplete="section-input_3 family-name" size="15" value={foreman?.surname ? foreman?.surname :''}
+                     data-component="last" aria-labelledby="label_3 sublabel_3_last" required=""/>
+              <label className="form-sub-label" htmlFor="last_3" id="sublabel_3_last" style={{minHeight:'13px'}}
                      aria-hidden="false"> Last Name </label>
+            </span>
+                            <span className="form-sub-label-container" style={{verticalAlign:'top'}} data-input-type="first">
+
+                        <button id="input_10"
+                                onClick={selectForeman}
+                                className="form-submit-button-simple_orange submit-button jf-form-buttons jsTest-submitField"
+                                data-component="button" data-content="">
+                                Select Foreman
+                            </button>
             </span>
                         </div>
                     </div>

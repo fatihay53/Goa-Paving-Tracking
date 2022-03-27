@@ -101,6 +101,7 @@ export default function TailGateTalkForm({selectedData, isShow}) {
                             setAttendees([]);
                             setSubject({});
                             setProject({});
+                            setForeman({})
                             setForm({
                                 date: new Date(),
                                 location: '',

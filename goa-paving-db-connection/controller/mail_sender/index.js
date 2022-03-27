@@ -7,8 +7,8 @@ const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
     auth: {
-        user: 'ozanboyukk@gmail.com',
-        pass: 'atgmBoyuk_9261',
+        user: 'greaterottawaareapaving@gmail.com',
+        pass: 'Teamwork1!',
     },
 });
 
@@ -26,7 +26,7 @@ mailRouter.post('/send', function(request, response) {
     let path = `<a href=${href}>Login App For Signature</a>`;
     attendees.map(elem=>{
         transporter.sendMail({
-            from: 'ozanboyukk@gmail.com',
+            from: 'greaterottawaareapaving@gmail.com',
             to: elem.email,
             subject: subject,
             text: "Please signature to attend form!",
