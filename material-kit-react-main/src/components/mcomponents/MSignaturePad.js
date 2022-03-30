@@ -21,7 +21,7 @@ const MSignaturePad = forwardRef(({setTouchedSignature,id}, ref) => {
 
     return(
         <div style={{border: '1px solid black'}}>
-            <div onClick={() => setTouchedSignature(true)}>
+            <div onTouchStart={() => setTouchedSignature(true)} onClick={() => setTouchedSignature(true)}>
             <SignaturePad
                 //width={300} height={175}
                 ref={refSignaturePad}

@@ -86,7 +86,7 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
 
     const [project,setProject] = useState(
         !GeneralUtils.isNullOrEmpty(selectedData)&&!GeneralUtils.isNullOrEmpty(selectedData.projectId) ?
-            {id:selectedData.projectId,name:selectedData.project_name} : {}
+            {id:selectedData.projectId,project_name:selectedData.project_name} : {}
     )
 
     const [supervisor, setSupervisor] = useState(
@@ -344,9 +344,17 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                 //setEmployee({});
                 setHospital({});
                 setProject({});
-                setProvincialGoverment({
-                    localHealthy:'',localEnvironment:'',localTransPortation:'',
-                    spillsHealthy:'',spillsEnvironment:'',spillsTransPortation:''
+
+                setTaskEmployees({
+                    employee1:{id:'',name:'',surname:''},
+                    employee2:{id:'',name:'',surname:''},
+                    employee3:{id:'',name:'',surname:''},
+                    supervisor3:{id:'',name:'',surname:''},
+                    employee4:{id:'',name:'',surname:''},
+                    employee5:{id:'',name:'',surname:''},
+                    employee6:{id:'',name:'',surname:''},
+                    employee7:{id:'',name:'',surname:''},
+                    employee8:{id:'',name:'',surname:''}
                 });
                 setForm({
                     supervisorId: '',
@@ -361,6 +369,10 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                     hour: '07:00',
                     amPm: '',
                     location: ''
+                });
+                setProvincialGoverment({
+                    localGoverment:'',spillsGoverment:'',healthGoverment:'',
+                    environmentGoverment:'',transportationGoverment:''
                 });
                 setResponseCheckList({
                     locationOfEmergency:'',firstAidKits:'',fireExtinguishers:'',
@@ -390,8 +402,8 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                 setHospital({});
                 setProject({});
                 setProvincialGoverment({
-                    localHealthy:'',localEnvironment:'',localTransPortation:'',
-                    spillsHealthy:'',spillsEnvironment:'',spillsTransPortation:''
+                    localGoverment:'',spillsGoverment:'',healthGoverment:'',
+                    environmentGoverment:'',transportationGoverment:''
                 });
                 setForm({
                     supervisorId: '',
@@ -406,6 +418,17 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                     hour: '07:00',
                     amPm: '',
                     location: ''
+                });
+                setTaskEmployees({
+                    employee1:{id:'',name:'',surname:''},
+                    employee2:{id:'',name:'',surname:''},
+                    employee3:{id:'',name:'',surname:''},
+                    supervisor3:{id:'',name:'',surname:''},
+                    employee4:{id:'',name:'',surname:''},
+                    employee5:{id:'',name:'',surname:''},
+                    employee6:{id:'',name:'',surname:''},
+                    employee7:{id:'',name:'',surname:''},
+                    employee8:{id:'',name:'',surname:''}
                 });
                 setResponseCheckList({
                     locationOfEmergency:'',firstAidKits:'',fireExtinguishers:'',
@@ -515,7 +538,7 @@ export default function EmergencyForm({selectedData, isShow,findAll,setShowSelec
                                 <span className="form-sub-label-container" style={{verticalAlign:'top'}}
                                       data-input-type="last">
               <input type="text" id="last_3" name="q3_name[last]" className="form-textbox  " disabled={true}
-                     data-defaultvalue="" autoComplete="section-input_3 family-name" size="15" value={project?.name ? project?.name :''}
+                     data-defaultvalue="" autoComplete="section-input_3 family-name" size="15" value={project?.project_name ? project?.project_name :''}
                      data-component="last" aria-labelledby="label_3 sublabel_3_last" required=""/>
               <label className="form-sub-label" htmlFor="last_3" id="sublabel_3_last" style={{minHeight:'13px'}}
                      aria-hidden="false">Name </label>

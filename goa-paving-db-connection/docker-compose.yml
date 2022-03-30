@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+
+  mysql:
+    container_name: mysqlcontainer
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: goa_paving
+      MYSQL_ROOT_PASSWORD: 123
+    ports:
+      - "3306:3306"
+    volumes:
+      - my-datavolume:/var/lib/mysql
+volumes:
+  my-datavolume:  

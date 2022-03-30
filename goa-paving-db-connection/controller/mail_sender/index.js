@@ -2,7 +2,8 @@
 const express = require('express');
 const mailRouter = express.Router();
 const nodemailer = require('nodemailer');
-const API_URL='http://localhost:3000';
+//const API_URL='http://localhost:3000';
+const API_URL='https://goapaving.ca';
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,

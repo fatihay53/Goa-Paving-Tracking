@@ -55,12 +55,8 @@ export default function MaterialsTable({selectedData,setTotal,setMaterialsTotal,
     }
 
     const onChangeRateInput=(e,materialId)=>{
-        let value;
-        if (e.target.value === null || e.target.value === undefined || e.target.value === ''){
-            value = 0;
-        }else{
-            value = parseFloat(e.target.value);
-        }
+        let value =e.target.value;
+
         let material = materialsValues.get(materialId);
         let quantityValue = material&&material.quantityValue ? material.quantityValue :0;
         setMaterialsValues(map => new Map(map.set(materialId,{id:materialId,rateValue:value,quantityValue,total: quantityValue*value})));

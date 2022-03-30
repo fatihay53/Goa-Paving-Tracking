@@ -8,6 +8,8 @@ import {Checkbox} from "primereact/checkbox";
 import MSignaturePad from "../../../components/mcomponents/MSignaturePad";
 import {Calendar} from "primereact/calendar";
 import GeneralUtils from "../../../utils/GeneralUtils";
+import LoadingScreen from "react-loading-screen";
+import logo from "../../../goa_logo.png";
 
 const START_HOUR_INITIAL= '07:00';
 const END_HOUR_INITIAL= '07:00';
@@ -27,6 +29,7 @@ export default function TimeCard() {
     const timeCardService = new TimeCardService();
     const refSignaturePad = useRef();
     const [touchedSignature, setTouchedSignature] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
 
     useEffect(() => {
         //JotFormConfig();
@@ -86,7 +89,7 @@ export default function TimeCard() {
         return hour + minute;
     }
 
-    const saveForm = () => {
+    async function saveForm () {
         if (form.totalHour === "" || form.totalHour === null || form.totalHour == 0) {
             return toast.warning("Please enter time.");
         }
@@ -121,10 +124,10 @@ export default function TimeCard() {
 
         const signature = refSignaturePad.current.getSignature();
         let totalHourDouble = getTotalHourDouble();
-
-        timeCardService.save({...form, signature,userId : user.userId,boardAllowance,totalHourDouble:totalHourDouble}).then(async res => {
+        setSubmitted(true);
+        refSignaturePad.current.clearSignature();
+        await timeCardService.save({...form, signature,userId : user.userId,boardAllowance,totalHourDouble:totalHourDouble}).then(async res => {
             if (res.status == 200) {
-                refSignaturePad.current.clearSignature();
                 setBoardAllowance(false);
                 setForm({
                     startHour: START_HOUR_INITIAL,
@@ -132,47 +135,47 @@ export default function TimeCard() {
                     totalHour: '',
                     date: new Date()
                 });
+                setSubmitted(false);
                 toast.success("Saved succesfully!");
             }
         })
-
+        setSubmitted(false);
     }
 
-    return (
-        <form onSubmit={(event) => event.preventDefault()} style={{backgroundColor:'#f3f3fe'}}>
-            <div role="main" className="form-all">
-                <ul className="form-section page-section">
+    let submittedForm = <form onSubmit={(event) => event.preventDefault()} style={{backgroundColor:'#f3f3fe'}}>
+        <div role="main" className="form-all">
+            <ul className="form-section page-section">
 
-                    <li id="cid_1" className="form-input-wide" data-type="control_head">
-                        <div className="form-header-group  header-large">
-                            <div className="header-text httac htvam">
-                                <h1 id="header_1" className="form-header" data-component="header">
-                                    Time Card
-                                </h1>
-                            </div>
+                <li id="cid_1" className="form-input-wide" data-type="control_head">
+                    <div className="form-header-group  header-large">
+                        <div className="header-text httac htvam">
+                            <h1 id="header_1" className="form-header" data-component="header">
+                                Time Card
+                            </h1>
                         </div>
-                    </li>
-                    <li className="form-line jf-required" data-type="control_datetime" id="id_5">
-                        <label className="form-label form-label-top form-label-auto" id="label_5" htmlFor="input_5">
-                            Date
-                            <span className="form-required">
+                    </div>
+                </li>
+                <li className="form-line jf-required" data-type="control_datetime" id="id_5">
+                    <label className="form-label form-label-top form-label-auto" id="label_5" htmlFor="input_5">
+                        Date
+                        <span className="form-required">
             *
           </span>
-                        </label>
-                        <div className="p-fluid grid formgrid">
-                            <Calendar id="icon" value={form.date} onChange={(e) => setForm({...form,date:e.value})}
-                                      dateFormat={GeneralUtils.DATE_FORMAT_CALENDAR}
-                                      showIcon/>
-                        </div>
-                    </li>
-                    <li id="cid_1" className="form-input-wide" data-type="control_head">
-                        <li className="form-line" data-type="control_fullname" id="id_3">
-                            <label className="form-label form-label-top form-label-auto" id="label_3"
-                                   htmlFor="first_3"> Time <span className="form-required">
+                    </label>
+                    <div className="p-fluid grid formgrid">
+                        <Calendar id="icon" value={form.date} onChange={(e) => setForm({...form,date:e.value})}
+                                  dateFormat={GeneralUtils.DATE_FORMAT_CALENDAR}
+                                  showIcon/>
+                    </div>
+                </li>
+                <li id="cid_1" className="form-input-wide" data-type="control_head">
+                    <li className="form-line" data-type="control_fullname" id="id_3">
+                        <label className="form-label form-label-top form-label-auto" id="label_3"
+                               htmlFor="first_3"> Time <span className="form-required">
             *
           </span> </label>
-                            <div id="cid_3" className="form-input-wide" data-layout="full">
-                                <div data-wrapper-react="true">
+                        <div id="cid_3" className="form-input-wide" data-layout="full">
+                            <div data-wrapper-react="true">
             <span className="form-sub-label-container" style={{verticalAlign: 'top'}} data-input-type="first">
              <TimePicker
                  disableClock={true}
@@ -182,8 +185,8 @@ export default function TimeCard() {
               <label className="form-sub-label" htmlFor="first_3" id="sublabel_3_first" style={{minHeight: '13px'}}
                      aria-hidden="false"> Start Time </label>
             </span>
-                                    <span className="form-sub-label-container" style={{verticalAlign: 'top'}}
-                                          data-input-type="last">
+                                <span className="form-sub-label-container" style={{verticalAlign: 'top'}}
+                                      data-input-type="last">
               <TimePicker
                   disableClock={true}
                   onChange={onChangeEndHour}
@@ -192,23 +195,23 @@ export default function TimeCard() {
               <label className="form-sub-label" htmlFor="last_3" id="sublabel_3_last" style={{minHeight: '13px'}}
                      aria-hidden="false"> End Time </label>
             </span>
-                                    <span className="form-sub-label-container" style={{verticalAlign: 'top'}}
-                                          data-input-type="first">
+                                <span className="form-sub-label-container" style={{verticalAlign: 'top'}}
+                                      data-input-type="first">
                   {form.totalHour}
-                                        {form.totalHour &&
+                                    {form.totalHour &&
                                         <label className="form-sub-label" htmlFor="first_3" id="sublabel_3_first"
                                                style={{minHeight: '13px'}}
                                                aria-hidden="false"> Total </label>}
             </span>
-                                </div>
                             </div>
-                        </li>
+                        </div>
                     </li>
-                    <li className="form-line" data-type="control_fullname" id="id_3">
-                        <label className="form-label form-label-top form-label-auto" id="label_3"
-                               htmlFor="first_3"> Name </label>
-                        <div id="cid_3" className="form-input-wide" data-layout="full">
-                            <div data-wrapper-react="true">
+                </li>
+                <li className="form-line" data-type="control_fullname" id="id_3">
+                    <label className="form-label form-label-top form-label-auto" id="label_3"
+                           htmlFor="first_3"> Name </label>
+                    <div id="cid_3" className="form-input-wide" data-layout="full">
+                        <div data-wrapper-react="true">
             <span className="form-sub-label-container" style={{verticalAlign: 'top'}} data-input-type="first">
               <input type="text" id="first_3" name="q3_name[first]" className="form-textbox" data-defaultvalue=""
                      autoComplete="section-input_3 given-name" size="10" disabled={true} value={user.name}
@@ -217,8 +220,8 @@ export default function TimeCard() {
               <label className="form-sub-label" htmlFor="first_3" id="sublabel_3_first" style={{minHeight: '13px'}}
                      aria-hidden="false"> First Name </label>
             </span>
-                                <span className="form-sub-label-container" style={{verticalAlign: 'top'}}
-                                      data-input-type="last">
+                            <span className="form-sub-label-container" style={{verticalAlign: 'top'}}
+                                  data-input-type="last">
               <input type="text" id="last_3" name="q3_name[last]" className="form-textbox" data-defaultvalue=""
                      autoComplete="section-input_3 family-name" size="15" disabled={true} value={user.surname}
                      data-component="last"
@@ -226,39 +229,51 @@ export default function TimeCard() {
               <label className="form-sub-label" htmlFor="last_3" id="sublabel_3_last" style={{minHeight: '13px'}}
                      aria-hidden="false"> Last Name </label>
             </span>
-                            </div>
                         </div>
-                    </li>
-                    <li className="form-input-wide jf-required" data-type="control_signature">
-                        <div className="p-field-checkbox">
-                            <Checkbox inputId="binary" checked={boardAllowance} onChange={e => setBoardAllowance(e.checked)} />
-                            <label htmlFor="binary">Board Allowance</label>
+                    </div>
+                </li>
+                <li className="form-input-wide jf-required" data-type="control_signature">
+                    <div className="p-field-checkbox">
+                        <Checkbox inputId="binary" checked={boardAllowance} onChange={e => setBoardAllowance(e.checked)} />
+                        <label htmlFor="binary">Board Allowance</label>
+                    </div>
+                </li>
+                <li className="form-line" data-type="control_signature" id="id_6">
+                    <label className="form-label form-label-top form-label-auto" id="label_6"
+                           htmlFor="input_6"> Signature </label>
+                    <MSignaturePad ref={refSignaturePad} setTouchedSignature={setTouchedSignature}/>
+                </li>
+                <li className="form-line" data-type="control_button" id="id_2">
+                    <div id="cid_2" className="form-input-wide" data-layout="full">
+                        <div data-align="auto"
+                             className="form-buttons-wrapper form-buttons-auto   jsTest-button-wrapperField">
+                            <button id="input_2" type="submit"
+                                    onClick={saveForm}
+                                    className="form-submit-button submit-button jf-form-buttons jsTest-submitField"
+                                    data-component="button" data-content="">
+                                Submit
+                            </button>
                         </div>
-                    </li>
-                    <li className="form-line" data-type="control_signature" id="id_6">
-                        <label className="form-label form-label-top form-label-auto" id="label_6"
-                               htmlFor="input_6"> Signature </label>
-                        <MSignaturePad ref={refSignaturePad} setTouchedSignature={setTouchedSignature}/>
-                    </li>
-                    <li className="form-line" data-type="control_button" id="id_2">
-                        <div id="cid_2" className="form-input-wide" data-layout="full">
-                            <div data-align="auto"
-                                 className="form-buttons-wrapper form-buttons-auto   jsTest-button-wrapperField">
-                                <button id="input_2" type="submit"
-                                        onClick={saveForm}
-                                        className="form-submit-button submit-button jf-form-buttons jsTest-submitField"
-                                        data-component="button" data-content="">
-                                    Submit
-                                </button>
-                            </div>
-                        </div>
-                    </li>
-                    <li style={{display: 'none'}}>
-                        Should be Empty:
-                        <input type="text" name="website" value=""/>
-                    </li>
-                </ul>
-            </div>
-        </form>
-    )
+                    </div>
+                </li>
+                <li style={{display: 'none'}}>
+                    Should be Empty:
+                    <input type="text" name="website" value=""/>
+                </li>
+            </ul>
+        </div>
+    </form>;
+
+
+    let loading =
+        <LoadingScreen
+            loading={true}
+            bgColor='#f1f1f1'
+            spinnerColor='#9ee5f8'
+            textColor='#676767'
+            logoSrc={logo}
+            text='Please wait. Form is saving.'
+        />;
+
+    return (submitted === true ? loading : submittedForm);
 }

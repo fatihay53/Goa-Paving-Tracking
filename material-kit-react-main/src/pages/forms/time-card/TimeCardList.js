@@ -18,7 +18,8 @@ export default function TimeCardList() {
         {field: "date", header: "Date","formatDate": "true","dateFormatNumber": "3","dateSeperator": "-"},
         {field: "start_hour", header: "Start Hour"},
         {field: "end_hour", header: "End Hour"},
-        {field: "total_hour", header: "Total Hour"},
+        {field: "total_hour_double", header: "Total Hour"},
+        {field: "time_deserve", header: "Time Deserve"},
         {field: "is_approved", header: "Is Approved", body: (row) =>  isApprovedBody(row.is_approved)},
         {field: "name", header: "Employee Name"},
         {field: "surname", header: "Employee Surname"}
