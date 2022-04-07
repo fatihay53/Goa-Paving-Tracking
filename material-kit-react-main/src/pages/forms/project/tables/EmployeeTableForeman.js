@@ -77,7 +77,9 @@ export default function EmployeeTableForeman({selectedData,updateDt}) {
         let total=0;
         employees.map((elem, index) => {
             let empl= employeeValues.get(''+elem.id);
-            total += empl.hourlyCost * (empl.employeeHour+empl.timeDeserve);
+            if (!GeneralUtils.isNullOrEmpty(empl)){
+                total += empl.hourlyCost * (empl.employeeHour+empl.timeDeserve);
+            }
         })
         setTotalAmount(total);
     }
@@ -112,7 +114,7 @@ export default function EmployeeTableForeman({selectedData,updateDt}) {
                             <td>{elem.id}</td>
                             <td>{elem.name}</td>
                             <td>{elem.surname}</td>
-                            {role === 'ROLE_SUPERVISOR'&&<td>${elem.hourlyCost}</td>}
+                            {role === 'ROLE_SUPERVISOR'&&<td>${elem?.hourlyCost}</td>}
                             <td>{elem.estimateProjectHour}</td>
                             <td><input disabled={role !== 'ROLE_FOREMAN'} value={employeeValues.get(''+elem.id)? employeeValues.get(''+elem.id).employeeHour : 0} onChange={(e)=>onChangeInput(e,''+elem.id,employeeValues.get(''+elem.id)?.timeDeserve)} /></td>
                             <td><input disabled={role !== 'ROLE_FOREMAN'} value={employeeValues.get(''+elem.id)? employeeValues.get(''+elem.id).timeDeserve : 0} onChange={(e)=>onChangeInputTimeDeserve(e,''+elem.id,employeeValues.get(''+elem.id)?.employeeHour)} /></td>

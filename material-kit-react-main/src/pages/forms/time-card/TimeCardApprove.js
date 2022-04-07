@@ -48,7 +48,7 @@ export default function TimeCardApprove({selectedRow, setShowDialog, updateDt}) 
                         let projectName = data.project_name;
                         let dataMap = new Map();
                         dataMap.set("foremanData", new Map(Object.entries(JSON.parse(foremanData))));
-                        dataMap.set("employeeData", ...JSON.parse(employeeData));
+                        dataMap.set("employeeData", ...JSON.parse(employeeData).filter(s => s.id == selectedRow.id));
                         dataMap.set("projectName", projectName);
                         dataArr.push(dataMap);
                     })
@@ -90,7 +90,11 @@ export default function TimeCardApprove({selectedRow, setShowDialog, updateDt}) 
             let empDat = pData.get('employeeData');
 
             totalApprovedHour += parseFloat(GeneralUtils.changeDecimalSeperator(pData.get('foremanData').get('' + empDat.id).employeeHour,",","."));
-            totalApprovedTimeDeserve += parseFloat(GeneralUtils.changeDecimalSeperator(pData.get('foremanData').get('' + empDat.id).timeDeserve,",","."));
+            if (!GeneralUtils.isNullOrEmpty(pData.get('foremanData').get('' + empDat.id).timeDeserve)){
+                totalApprovedTimeDeserve += parseFloat(GeneralUtils.changeDecimalSeperator(pData.get('foremanData').get('' + empDat.id).timeDeserve,",","."));
+            }else{
+                totalApprovedTimeDeserve = 0;
+            }
         });
 
         timeCardService.approveTimeCard({
